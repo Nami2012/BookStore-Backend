@@ -1,0 +1,16 @@
+USE BookStoreDB
+GO
+CREATE TABLE Coupon 
+(
+	CouponId NVARCHAR(10) PRIMARY KEY,
+	Discount DECIMAL NOT NULL,
+	Status BIT NOT NULL
+)
+GO
+CREATE TABLE Coupon_Validation
+(
+	CouponId NVARCHAR(10) FOREIGN KEY REFERENCES Coupon,
+	UId INT FOREIGN KEY REFERENCES User_Credentials,
+	CONSTRAINT Pk_Coupon_Validation PRIMARY KEY(CouponId, UId)
+)
+GO

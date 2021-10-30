@@ -1,0 +1,17 @@
+USE BookStoreDB
+GO
+CREATE TABLE OrderItems
+(
+	OrderId NVARCHAR(10),
+	BId INT FOREIGN KEY REFERENCES Book,
+	UId INT FOREIGN KEY REFERENCES User_Credentials,
+	CONSTRAINT Pk_Order PRIMARY KEY (BId, UId)
+)
+GO
+CREATE TABLE OrderInvoiceDetails
+(
+	OrderId NVARCHAR(10) PRIMARY KEY,
+	Amount MONEY,
+	ShippingAddress NVARCHAR(100)
+)
+GO
