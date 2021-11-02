@@ -14,7 +14,7 @@ namespace BookStore.Controllers
 {
     public class CartsController : ApiController
     {
-        private BookStoreDBEntities db = new BookStoreDBEntities();
+        private BookStoreEntities db = new BookStoreEntities();
 
         // GET: api/Carts
         public IQueryable<Cart> GetCarts()

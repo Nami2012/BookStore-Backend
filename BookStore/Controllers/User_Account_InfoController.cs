@@ -15,7 +15,7 @@ namespace BookStore.Controllers
 {
     public class User_Account_InfoController : ApiController
     {
-        private BookStoreDBEntities db = new BookStoreDBEntities();
+        private BookStoreEntities db = new BookStoreEntities();
 
         // GET: api/User_Account_Info
         [AuthenticationFilter]
@@ -26,7 +26,7 @@ namespace BookStore.Controllers
         }
 
         // GET: api/User_Account_Info/5
-        [AuthenticationFilter]    
+        [AuthenticationFilter]
         [ResponseType(typeof(User_Account_Info))]
         public IHttpActionResult GetUser_Account_Info(int id)
         {

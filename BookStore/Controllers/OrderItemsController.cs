@@ -12,44 +12,44 @@ using BookStore.Models;
 
 namespace BookStore.Controllers
 {
-    public class CouponsController : ApiController
+    public class OrderItemsController : ApiController
     {
         private BookStoreEntities db = new BookStoreEntities();
 
-        // GET: api/Coupons
-        public IQueryable<Coupon> GetCoupons()
+        // GET: api/OrderItems
+        public IQueryable<OrderItem> GetOrderItems()
         {
-            return db.Coupons;
+            return db.OrderItems;
         }
 
-        // GET: api/Coupons/5
-        [ResponseType(typeof(Coupon))]
-        public IHttpActionResult GetCoupon(string id)
+        // GET: api/OrderItems/5
+        [ResponseType(typeof(OrderItem))]
+        public IHttpActionResult GetOrderItem(string id)
         {
-            Coupon coupon = db.Coupons.Find(id);
-            if (coupon == null)
+            OrderItem orderItem = db.OrderItems.Find(id);
+            if (orderItem == null)
             {
                 return NotFound();
             }
 
-            return Ok(coupon);
+            return Ok(orderItem);
         }
 
-        // PUT: api/Coupons/5
+        // PUT: api/OrderItems/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCoupon(string id, Coupon coupon)
+        public IHttpActionResult PutOrderItem(string id, OrderItem orderItem)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != coupon.CouponId)
+            if (id != orderItem.OrderId)
             {
                 return BadRequest();
             }
 
-            db.Entry(coupon).State = EntityState.Modified;
+            db.Entry(orderItem).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace BookStore.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CouponExists(id))
+                if (!OrderItemExists(id))
                 {
                     return NotFound();
                 }
@@ -70,16 +70,16 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Coupons
-        [ResponseType(typeof(Coupon))]
-        public IHttpActionResult PostCoupon(Coupon coupon)
+        // POST: api/OrderItems
+        [ResponseType(typeof(OrderItem))]
+        public IHttpActionResult PostOrderItem(OrderItem orderItem)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Coupons.Add(coupon);
+            db.OrderItems.Add(orderItem);
 
             try
             {
@@ -87,7 +87,7 @@ namespace BookStore.Controllers
             }
             catch (DbUpdateException)
             {
-                if (CouponExists(coupon.CouponId))
+                if (OrderItemExists(orderItem.OrderId))
                 {
                     return Conflict();
                 }
@@ -97,23 +97,23 @@ namespace BookStore.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = coupon.CouponId }, coupon);
+            return CreatedAtRoute("DefaultApi", new { id = orderItem.OrderId }, orderItem);
         }
 
-        // DELETE: api/Coupons/5
-        [ResponseType(typeof(Coupon))]
-        public IHttpActionResult DeleteCoupon(string id)
+        // DELETE: api/OrderItems/5
+        [ResponseType(typeof(OrderItem))]
+        public IHttpActionResult DeleteOrderItem(string id)
         {
-            Coupon coupon = db.Coupons.Find(id);
-            if (coupon == null)
+            OrderItem orderItem = db.OrderItems.Find(id);
+            if (orderItem == null)
             {
                 return NotFound();
             }
 
-            db.Coupons.Remove(coupon);
+            db.OrderItems.Remove(orderItem);
             db.SaveChanges();
 
-            return Ok(coupon);
+            return Ok(orderItem);
         }
 
         protected override void Dispose(bool disposing)
@@ -125,9 +125,9 @@ namespace BookStore.Controllers
             base.Dispose(disposing);
         }
 
-        private bool CouponExists(string id)
+        private bool OrderItemExists(string id)
         {
-            return db.Coupons.Count(e => e.CouponId == id) > 0;
+            return db.OrderItems.Count(e => e.OrderId == id) > 0;
         }
     }
 }

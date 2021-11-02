@@ -12,44 +12,44 @@ using BookStore.Models;
 
 namespace BookStore.Controllers
 {
-    public class CouponsController : ApiController
+    public class OrderInvoiceDetailsController : ApiController
     {
         private BookStoreEntities db = new BookStoreEntities();
 
-        // GET: api/Coupons
-        public IQueryable<Coupon> GetCoupons()
+        // GET: api/OrderInvoiceDetails
+        public IQueryable<OrderInvoiceDetail> GetOrderInvoiceDetails()
         {
-            return db.Coupons;
+            return db.OrderInvoiceDetails;
         }
 
-        // GET: api/Coupons/5
-        [ResponseType(typeof(Coupon))]
-        public IHttpActionResult GetCoupon(string id)
+        // GET: api/OrderInvoiceDetails/5
+        [ResponseType(typeof(OrderInvoiceDetail))]
+        public IHttpActionResult GetOrderInvoiceDetail(string id)
         {
-            Coupon coupon = db.Coupons.Find(id);
-            if (coupon == null)
+            OrderInvoiceDetail orderInvoiceDetail = db.OrderInvoiceDetails.Find(id);
+            if (orderInvoiceDetail == null)
             {
                 return NotFound();
             }
 
-            return Ok(coupon);
+            return Ok(orderInvoiceDetail);
         }
 
-        // PUT: api/Coupons/5
+        // PUT: api/OrderInvoiceDetails/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCoupon(string id, Coupon coupon)
+        public IHttpActionResult PutOrderInvoiceDetail(string id, OrderInvoiceDetail orderInvoiceDetail)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != coupon.CouponId)
+            if (id != orderInvoiceDetail.OrderId)
             {
                 return BadRequest();
             }
 
-            db.Entry(coupon).State = EntityState.Modified;
+            db.Entry(orderInvoiceDetail).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace BookStore.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CouponExists(id))
+                if (!OrderInvoiceDetailExists(id))
                 {
                     return NotFound();
                 }
@@ -70,16 +70,16 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Coupons
-        [ResponseType(typeof(Coupon))]
-        public IHttpActionResult PostCoupon(Coupon coupon)
+        // POST: api/OrderInvoiceDetails
+        [ResponseType(typeof(OrderInvoiceDetail))]
+        public IHttpActionResult PostOrderInvoiceDetail(OrderInvoiceDetail orderInvoiceDetail)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Coupons.Add(coupon);
+            db.OrderInvoiceDetails.Add(orderInvoiceDetail);
 
             try
             {
@@ -87,7 +87,7 @@ namespace BookStore.Controllers
             }
             catch (DbUpdateException)
             {
-                if (CouponExists(coupon.CouponId))
+                if (OrderInvoiceDetailExists(orderInvoiceDetail.OrderId))
                 {
                     return Conflict();
                 }
@@ -97,23 +97,23 @@ namespace BookStore.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = coupon.CouponId }, coupon);
+            return CreatedAtRoute("DefaultApi", new { id = orderInvoiceDetail.OrderId }, orderInvoiceDetail);
         }
 
-        // DELETE: api/Coupons/5
-        [ResponseType(typeof(Coupon))]
-        public IHttpActionResult DeleteCoupon(string id)
+        // DELETE: api/OrderInvoiceDetails/5
+        [ResponseType(typeof(OrderInvoiceDetail))]
+        public IHttpActionResult DeleteOrderInvoiceDetail(string id)
         {
-            Coupon coupon = db.Coupons.Find(id);
-            if (coupon == null)
+            OrderInvoiceDetail orderInvoiceDetail = db.OrderInvoiceDetails.Find(id);
+            if (orderInvoiceDetail == null)
             {
                 return NotFound();
             }
 
-            db.Coupons.Remove(coupon);
+            db.OrderInvoiceDetails.Remove(orderInvoiceDetail);
             db.SaveChanges();
 
-            return Ok(coupon);
+            return Ok(orderInvoiceDetail);
         }
 
         protected override void Dispose(bool disposing)
@@ -125,9 +125,9 @@ namespace BookStore.Controllers
             base.Dispose(disposing);
         }
 
-        private bool CouponExists(string id)
+        private bool OrderInvoiceDetailExists(string id)
         {
-            return db.Coupons.Count(e => e.CouponId == id) > 0;
+            return db.OrderInvoiceDetails.Count(e => e.OrderId == id) > 0;
         }
     }
 }

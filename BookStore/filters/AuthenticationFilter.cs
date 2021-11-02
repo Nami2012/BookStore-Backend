@@ -15,17 +15,17 @@ using System.Web.Mvc.Filters;
 using BookStore.Controllers;
 namespace BookStore.filters
 {
-    public class AuthenticationFilterAttribute: AuthorizationFilterAttribute
+    public class AuthenticationFilterAttribute : AuthorizationFilterAttribute
     {
         private const string Realm = "Realm";
         public override void OnAuthorization(HttpActionContext actionContext)
-        {   
-            if(actionContext.Request.Headers.Authorization == null)
+        {
+            if (actionContext.Request.Headers.Authorization == null)
             {
                 actionContext.Response = actionContext.Request
                     .CreateResponse(HttpStatusCode.Unauthorized);
 
-                if(actionContext.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (actionContext.Response.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     actionContext.Response.Headers.Add("WWW-Authenticate",
                         string.Format("Basic realm=\"{0}\"", Realm));
@@ -42,14 +42,15 @@ namespace BookStore.filters
                 {
                     var identity = new GenericIdentity(username);
                     string[] role = { "Admin" }; // refactor code to directly include in principal constructor
-                    IPrincipal principal = new GenericPrincipal(identity,  role );
-                    
+                    IPrincipal principal = new GenericPrincipal(identity, role);
+
                     if (HttpContext.Current != null)
                     {
                         HttpContext.Current.User = principal;
                     }
                 }
-                else if(User_CredentialsController.Validate(username,password)){
+                else if (User_CredentialsController.Validate(username, password))
+                {
                     var identity = new GenericIdentity(username);
                     IPrincipal principal = new GenericPrincipal(identity, null);
                     if (HttpContext.Current != null)
@@ -62,7 +63,7 @@ namespace BookStore.filters
                     actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
                 }
             }
-            
+
         }
     }
 }

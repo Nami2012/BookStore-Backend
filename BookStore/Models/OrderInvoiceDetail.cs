@@ -25,6 +25,6 @@ namespace BookStore.Models
         public string ShippingAddress { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public  ICollection<OrderItem> OrderItems { get; set; }
     }
 }

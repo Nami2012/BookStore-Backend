@@ -25,6 +25,6 @@ namespace BookStore.Models
         public bool Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User_Credentials> User_Credentials { get; set; }
+        public  ICollection<User_Credentials> User_Credentials { get; set; }
     }
 }

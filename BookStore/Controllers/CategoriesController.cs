@@ -15,14 +15,13 @@ namespace BookStore.Controllers
 {
     public class CategoriesController : ApiController
     {
-        private BookStoreDBEntities db = new BookStoreDBEntities();
+        private BookStoreEntities db = new BookStoreEntities();
 
         // GET: api/Categories
-        public IQueryable<Category> GetCategories()
+        public IQueryable<Category> GetCategories() //return only active categories
         {
             return db.Categories;
         }
-
         // GET: api/Categories/5
         [ResponseType(typeof(Category))]
         public IHttpActionResult GetCategory(int id)
@@ -34,6 +33,54 @@ namespace BookStore.Controllers
             }
 
             return Ok(category);
+        }
+
+        [Route("api/Category/Names")]
+        public IQueryable<string> GetCategoryNames()
+        {
+            List<string> CategoryNames = new List<string>();
+            foreach(var category in db.Categories)
+            {
+                CategoryNames.Add(category.CName);
+            }
+            return CategoryNames.AsQueryable();
+        }
+
+        [ResponseType(typeof(void))]
+        [AuthenticationFilter]
+        [Authorize(Roles = "Admin")]
+        [Route("api/Category/Edit/ActiveStatus/{id}")]
+        public IHttpActionResult PutCategory(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            Category category = db.Categories.Find(id);
+            if (category==null)
+            {
+                return BadRequest();
+            }
+            category.CStatus = !category.CStatus;
+            db.Entry(category).Property(c=>c.CStatus).IsModified = true;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CategoryExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
         // PUT: api/Categories/5
@@ -74,10 +121,9 @@ namespace BookStore.Controllers
         }
 
         // POST: api/Categories
-        [ResponseType(typeof(Category))]
         [AuthenticationFilter]
         [Authorize(Roles = "Admin")]
-
+        [ResponseType(typeof(Category))]
         public IHttpActionResult PostCategory(Category category)
         {
             if (!ModelState.IsValid)
@@ -107,9 +153,9 @@ namespace BookStore.Controllers
         }
 
         // DELETE: api/Categories/5
-        [ResponseType(typeof(Category))]
         [AuthenticationFilter]
         [Authorize(Roles = "Admin")]
+        [ResponseType(typeof(Category))]
         public IHttpActionResult DeleteCategory(int id)
         {
             Category category = db.Categories.Find(id);

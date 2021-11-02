@@ -1,0 +1,731 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BookStoreDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="BId" />
+          </Key>
+          <Property Name="BId" Type="int" Nullable="false" />
+          <Property Name="CId" Type="int" />
+          <Property Name="BTitle" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="BAuthor" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="BISBN" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BYEAR" Type="date" Nullable="false" />
+          <Property Name="BPrice" Type="money" Nullable="false" />
+          <Property Name="BDescription" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="BPosition" Type="int" Nullable="false" />
+          <Property Name="BStatus" Type="bit" Nullable="false" />
+          <Property Name="BImage" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="UId" />
+            <PropertyRef Name="BId" />
+          </Key>
+          <Property Name="UId" Type="int" Nullable="false" />
+          <Property Name="BId" Type="int" Nullable="false" />
+          <Property Name="Count" Type="int" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CId" />
+          </Key>
+          <Property Name="CId" Type="int" Nullable="false" />
+          <Property Name="CName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CDescription" Type="nvarchar" MaxLength="500" />
+          <Property Name="CImage" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="CStatus" Type="bit" Nullable="false" />
+          <Property Name="CPosition" Type="int" Nullable="false" />
+          <Property Name="CCreatedAt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Coupon">
+          <Key>
+            <PropertyRef Name="CouponId" />
+          </Key>
+          <Property Name="CouponId" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Discount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Coupon_Validation">
+          <Key>
+            <PropertyRef Name="CouponId" />
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="CouponId" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="UId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderInvoiceDetails">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Amount" Type="money" />
+          <Property Name="ShippingAddress" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="OrderItems">
+          <Key>
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="BId" />
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="OrderId" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="BId" Type="int" Nullable="false" />
+          <Property Name="UId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User_Account_Info">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="PhoneNo" Type="nvarchar" MaxLength="10" />
+          <Property Name="ShippingAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="ActiveStatus" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User_Credentials">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Wishlist">
+          <Key>
+            <PropertyRef Name="UId" />
+            <PropertyRef Name="BId" />
+          </Key>
+          <Property Name="UId" Type="int" Nullable="false" />
+          <Property Name="BId" Type="int" Nullable="false" />
+          <Property Name="Count" Type="int" />
+        </EntityType>
+        <Association Name="FK__Book__CId__4AB81AF0">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CId" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="CId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cart__BId__59FA5E80">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BId" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="BId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cart__UId__59063A47">
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Credentials">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="UId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Coupon_Va__Coupo__6477ECF3">
+          <End Role="Coupon" Type="Self.Coupon" Multiplicity="1" />
+          <End Role="Coupon_Validation" Type="Self.Coupon_Validation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coupon">
+              <PropertyRef Name="CouponId" />
+            </Principal>
+            <Dependent Role="Coupon_Validation">
+              <PropertyRef Name="CouponId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Coupon_Vali__UId__656C112C">
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="Coupon_Validation" Type="Self.Coupon_Validation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Credentials">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="Coupon_Validation">
+              <PropertyRef Name="UId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItem__Order__75A278F5">
+          <End Role="OrderInvoiceDetails" Type="Self.OrderInvoiceDetails" Multiplicity="1" />
+          <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderInvoiceDetails">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItems__BId__76969D2E">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="BId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItems__UId__778AC167">
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Credentials">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="UId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__User_Accoun__UId__5629CD9C">
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="User_Account_Info" Type="Self.User_Account_Info" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User_Credentials">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="User_Account_Info">
+              <PropertyRef Name="UId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wishlist__BId__01142BA1">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="Wishlist" Type="Self.Wishlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BId" />
+            </Principal>
+            <Dependent Role="Wishlist">
+              <PropertyRef Name="BId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wishlist__UId__00200768">
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="Wishlist" Type="Self.Wishlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Credentials">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="Wishlist">
+              <PropertyRef Name="UId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BookStoreDBModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Coupon" EntityType="Self.Coupon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Coupon_Validation" EntityType="Self.Coupon_Validation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderInvoiceDetails" EntityType="Self.OrderInvoiceDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderItems" EntityType="Self.OrderItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Account_Info" EntityType="Self.User_Account_Info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Credentials" EntityType="Self.User_Credentials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wishlist" EntityType="Self.Wishlist" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Book__CId__4AB81AF0" Association="Self.FK__Book__CId__4AB81AF0">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cart__BId__59FA5E80" Association="Self.FK__Cart__BId__59FA5E80">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cart__UId__59063A47" Association="Self.FK__Cart__UId__59063A47">
+            <End Role="User_Credentials" EntitySet="User_Credentials" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Coupon_Va__Coupo__6477ECF3" Association="Self.FK__Coupon_Va__Coupo__6477ECF3">
+            <End Role="Coupon" EntitySet="Coupon" />
+            <End Role="Coupon_Validation" EntitySet="Coupon_Validation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Coupon_Vali__UId__656C112C" Association="Self.FK__Coupon_Vali__UId__656C112C">
+            <End Role="User_Credentials" EntitySet="User_Credentials" />
+            <End Role="Coupon_Validation" EntitySet="Coupon_Validation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItem__Order__75A278F5" Association="Self.FK__OrderItem__Order__75A278F5">
+            <End Role="OrderInvoiceDetails" EntitySet="OrderInvoiceDetails" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItems__BId__76969D2E" Association="Self.FK__OrderItems__BId__76969D2E">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItems__UId__778AC167" Association="Self.FK__OrderItems__UId__778AC167">
+            <End Role="User_Credentials" EntitySet="User_Credentials" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User_Accoun__UId__5629CD9C" Association="Self.FK__User_Accoun__UId__5629CD9C">
+            <End Role="User_Credentials" EntitySet="User_Credentials" />
+            <End Role="User_Account_Info" EntitySet="User_Account_Info" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wishlist__BId__01142BA1" Association="Self.FK__Wishlist__BId__01142BA1">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="Wishlist" EntitySet="Wishlist" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wishlist__UId__00200768" Association="Self.FK__Wishlist__UId__00200768">
+            <End Role="User_Credentials" EntitySet="User_Credentials" />
+            <End Role="Wishlist" EntitySet="Wishlist" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BookStoreDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="BId" />
+          </Key>
+          <Property Name="BId" Type="Int32" Nullable="false" />
+          <Property Name="CId" Type="Int32" />
+          <Property Name="BTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BAuthor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BISBN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BYEAR" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="BDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BPosition" Type="Int32" Nullable="false" />
+          <Property Name="BStatus" Type="Boolean" Nullable="false" />
+          <Property Name="BImage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK__Book__CId__4AB81AF0" FromRole="Book" ToRole="Category" />
+          <NavigationProperty Name="Carts" Relationship="Self.FK__Cart__BId__59FA5E80" FromRole="Book" ToRole="Cart" />
+          <NavigationProperty Name="OrderItems" Relationship="Self.FK__OrderItems__BId__76969D2E" FromRole="Book" ToRole="OrderItems" />
+          <NavigationProperty Name="Wishlists" Relationship="Self.FK__Wishlist__BId__01142BA1" FromRole="Book" ToRole="Wishlist" />
+        </EntityType>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="UId" />
+            <PropertyRef Name="BId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" />
+          <Property Name="BId" Type="Int32" Nullable="false" />
+          <Property Name="Count" Type="Int32" />
+          <NavigationProperty Name="Book" Relationship="Self.FK__Cart__BId__59FA5E80" FromRole="Cart" ToRole="Book" />
+          <NavigationProperty Name="User_Credentials" Relationship="Self.FK__Cart__UId__59063A47" FromRole="Cart" ToRole="User_Credentials" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CId" />
+          </Key>
+          <Property Name="CId" Type="Int32" Nullable="false" />
+          <Property Name="CName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CImage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CStatus" Type="Boolean" Nullable="false" />
+          <Property Name="CPosition" Type="Int32" Nullable="false" />
+          <Property Name="CCreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Books" Relationship="Self.FK__Book__CId__4AB81AF0" FromRole="Category" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="Coupon">
+          <Key>
+            <PropertyRef Name="CouponId" />
+          </Key>
+          <Property Name="CouponId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Discount" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User_Credentials" Relationship="Self.Coupon_Validation" FromRole="Coupon" ToRole="User_Credentials" />
+        </EntityType>
+        <EntityType Name="OrderInvoiceDetail">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ShippingAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderItems" Relationship="Self.FK__OrderItem__Order__75A278F5" FromRole="OrderInvoiceDetails" ToRole="OrderItems" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="BId" />
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="OrderId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BId" Type="Int32" Nullable="false" />
+          <Property Name="UId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Book" Relationship="Self.FK__OrderItems__BId__76969D2E" FromRole="OrderItems" ToRole="Book" />
+          <NavigationProperty Name="OrderInvoiceDetail" Relationship="Self.FK__OrderItem__Order__75A278F5" FromRole="OrderItems" ToRole="OrderInvoiceDetails" />
+          <NavigationProperty Name="User_Credentials" Relationship="Self.FK__OrderItems__UId__778AC167" FromRole="OrderItems" ToRole="User_Credentials" />
+        </EntityType>
+        <EntityType Name="User_Account_Info">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ShippingAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ActiveStatus" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User_Credentials" Relationship="Self.FK__User_Accoun__UId__5629CD9C" FromRole="User_Account_Info" ToRole="User_Credentials" />
+        </EntityType>
+        <EntityType Name="User_Credentials">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Carts" Relationship="Self.FK__Cart__UId__59063A47" FromRole="User_Credentials" ToRole="Cart" />
+          <NavigationProperty Name="OrderItems" Relationship="Self.FK__OrderItems__UId__778AC167" FromRole="User_Credentials" ToRole="OrderItems" />
+          <NavigationProperty Name="User_Account_Info" Relationship="Self.FK__User_Accoun__UId__5629CD9C" FromRole="User_Credentials" ToRole="User_Account_Info" />
+          <NavigationProperty Name="Wishlists" Relationship="Self.FK__Wishlist__UId__00200768" FromRole="User_Credentials" ToRole="Wishlist" />
+          <NavigationProperty Name="Coupons" Relationship="Self.Coupon_Validation" FromRole="User_Credentials" ToRole="Coupon" />
+        </EntityType>
+        <EntityType Name="Wishlist">
+          <Key>
+            <PropertyRef Name="UId" />
+            <PropertyRef Name="BId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" />
+          <Property Name="BId" Type="Int32" Nullable="false" />
+          <Property Name="Count" Type="Int32" />
+          <NavigationProperty Name="Book" Relationship="Self.FK__Wishlist__BId__01142BA1" FromRole="Wishlist" ToRole="Book" />
+          <NavigationProperty Name="User_Credentials" Relationship="Self.FK__Wishlist__UId__00200768" FromRole="Wishlist" ToRole="User_Credentials" />
+        </EntityType>
+        <Association Name="FK__Book__CId__4AB81AF0">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CId" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="CId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cart__BId__59FA5E80">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BId" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="BId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItems__BId__76969D2E">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="OrderItems" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="BId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wishlist__BId__01142BA1">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="Wishlist" Type="Self.Wishlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BId" />
+            </Principal>
+            <Dependent Role="Wishlist">
+              <PropertyRef Name="BId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cart__UId__59063A47">
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Credentials">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="UId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItem__Order__75A278F5">
+          <End Role="OrderInvoiceDetails" Type="Self.OrderInvoiceDetail" Multiplicity="1" />
+          <End Role="OrderItems" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderInvoiceDetails">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItems__UId__778AC167">
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="OrderItems" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Credentials">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="UId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__User_Accoun__UId__5629CD9C">
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="User_Account_Info" Type="Self.User_Account_Info" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User_Credentials">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="User_Account_Info">
+              <PropertyRef Name="UId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wishlist__UId__00200768">
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="Wishlist" Type="Self.Wishlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Credentials">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="Wishlist">
+              <PropertyRef Name="UId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Coupon_Validation">
+          <End Role="Coupon" Type="Self.Coupon" Multiplicity="*" />
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="BookStoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="Books" EntityType="Self.Book" />
+          <EntitySet Name="Carts" EntityType="Self.Cart" />
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Coupons" EntityType="Self.Coupon" />
+          <EntitySet Name="OrderInvoiceDetails" EntityType="Self.OrderInvoiceDetail" />
+          <EntitySet Name="OrderItems" EntityType="Self.OrderItem" />
+          <EntitySet Name="User_Account_Info" EntityType="Self.User_Account_Info" />
+          <EntitySet Name="User_Credentials" EntityType="Self.User_Credentials" />
+          <EntitySet Name="Wishlists" EntityType="Self.Wishlist" />
+          <AssociationSet Name="FK__Book__CId__4AB81AF0" Association="Self.FK__Book__CId__4AB81AF0">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Book" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cart__BId__59FA5E80" Association="Self.FK__Cart__BId__59FA5E80">
+            <End Role="Book" EntitySet="Books" />
+            <End Role="Cart" EntitySet="Carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItems__BId__76969D2E" Association="Self.FK__OrderItems__BId__76969D2E">
+            <End Role="Book" EntitySet="Books" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wishlist__BId__01142BA1" Association="Self.FK__Wishlist__BId__01142BA1">
+            <End Role="Book" EntitySet="Books" />
+            <End Role="Wishlist" EntitySet="Wishlists" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cart__UId__59063A47" Association="Self.FK__Cart__UId__59063A47">
+            <End Role="User_Credentials" EntitySet="User_Credentials" />
+            <End Role="Cart" EntitySet="Carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItem__Order__75A278F5" Association="Self.FK__OrderItem__Order__75A278F5">
+            <End Role="OrderInvoiceDetails" EntitySet="OrderInvoiceDetails" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItems__UId__778AC167" Association="Self.FK__OrderItems__UId__778AC167">
+            <End Role="User_Credentials" EntitySet="User_Credentials" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User_Accoun__UId__5629CD9C" Association="Self.FK__User_Accoun__UId__5629CD9C">
+            <End Role="User_Credentials" EntitySet="User_Credentials" />
+            <End Role="User_Account_Info" EntitySet="User_Account_Info" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wishlist__UId__00200768" Association="Self.FK__Wishlist__UId__00200768">
+            <End Role="User_Credentials" EntitySet="User_Credentials" />
+            <End Role="Wishlist" EntitySet="Wishlists" />
+          </AssociationSet>
+          <AssociationSet Name="Coupon_Validation" Association="Self.Coupon_Validation">
+            <End Role="Coupon" EntitySet="Coupons" />
+            <End Role="User_Credentials" EntitySet="User_Credentials" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BookStoreDBModelStoreContainer" CdmEntityContainer="BookStoreEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="BookStoreDBModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="BookStoreDBModel.Book">
+              <MappingFragment StoreEntitySet="Book">
+                <ScalarProperty Name="BId" ColumnName="BId" />
+                <ScalarProperty Name="CId" ColumnName="CId" />
+                <ScalarProperty Name="BTitle" ColumnName="BTitle" />
+                <ScalarProperty Name="BAuthor" ColumnName="BAuthor" />
+                <ScalarProperty Name="BISBN" ColumnName="BISBN" />
+                <ScalarProperty Name="BYEAR" ColumnName="BYEAR" />
+                <ScalarProperty Name="BPrice" ColumnName="BPrice" />
+                <ScalarProperty Name="BDescription" ColumnName="BDescription" />
+                <ScalarProperty Name="BPosition" ColumnName="BPosition" />
+                <ScalarProperty Name="BStatus" ColumnName="BStatus" />
+                <ScalarProperty Name="BImage" ColumnName="BImage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Carts">
+            <EntityTypeMapping TypeName="BookStoreDBModel.Cart">
+              <MappingFragment StoreEntitySet="Cart">
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="BId" ColumnName="BId" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="BookStoreDBModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="CId" ColumnName="CId" />
+                <ScalarProperty Name="CName" ColumnName="CName" />
+                <ScalarProperty Name="CDescription" ColumnName="CDescription" />
+                <ScalarProperty Name="CImage" ColumnName="CImage" />
+                <ScalarProperty Name="CStatus" ColumnName="CStatus" />
+                <ScalarProperty Name="CPosition" ColumnName="CPosition" />
+                <ScalarProperty Name="CCreatedAt" ColumnName="CCreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Coupons">
+            <EntityTypeMapping TypeName="BookStoreDBModel.Coupon">
+              <MappingFragment StoreEntitySet="Coupon">
+                <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderInvoiceDetails">
+            <EntityTypeMapping TypeName="BookStoreDBModel.OrderInvoiceDetail">
+              <MappingFragment StoreEntitySet="OrderInvoiceDetails">
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderItems">
+            <EntityTypeMapping TypeName="BookStoreDBModel.OrderItem">
+              <MappingFragment StoreEntitySet="OrderItems">
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="BId" ColumnName="BId" />
+                <ScalarProperty Name="UId" ColumnName="UId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Account_Info">
+            <EntityTypeMapping TypeName="BookStoreDBModel.User_Account_Info">
+              <MappingFragment StoreEntitySet="User_Account_Info">
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Credentials">
+            <EntityTypeMapping TypeName="BookStoreDBModel.User_Credentials">
+              <MappingFragment StoreEntitySet="User_Credentials">
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wishlists">
+            <EntityTypeMapping TypeName="BookStoreDBModel.Wishlist">
+              <MappingFragment StoreEntitySet="Wishlist">
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="BId" ColumnName="BId" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Coupon_Validation" TypeName="BookStoreDBModel.Coupon_Validation" StoreEntitySet="Coupon_Validation">
+            <EndProperty Name="Coupon">
+              <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+            </EndProperty>
+            <EndProperty Name="User_Credentials">
+              <ScalarProperty Name="UId" ColumnName="UId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

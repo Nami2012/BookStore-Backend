@@ -12,44 +12,44 @@ using BookStore.Models;
 
 namespace BookStore.Controllers
 {
-    public class CouponsController : ApiController
+    public class WishlistsController : ApiController
     {
         private BookStoreEntities db = new BookStoreEntities();
 
-        // GET: api/Coupons
-        public IQueryable<Coupon> GetCoupons()
+        // GET: api/Wishlists
+        public IQueryable<Wishlist> GetWishlists()
         {
-            return db.Coupons;
+            return db.Wishlists;
         }
 
-        // GET: api/Coupons/5
-        [ResponseType(typeof(Coupon))]
-        public IHttpActionResult GetCoupon(string id)
+        // GET: api/Wishlists/5
+        [ResponseType(typeof(Wishlist))]
+        public IHttpActionResult GetWishlist(int id)
         {
-            Coupon coupon = db.Coupons.Find(id);
-            if (coupon == null)
+            Wishlist wishlist = db.Wishlists.Find(id);
+            if (wishlist == null)
             {
                 return NotFound();
             }
 
-            return Ok(coupon);
+            return Ok(wishlist);
         }
 
-        // PUT: api/Coupons/5
+        // PUT: api/Wishlists/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCoupon(string id, Coupon coupon)
+        public IHttpActionResult PutWishlist(int id, Wishlist wishlist)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != coupon.CouponId)
+            if (id != wishlist.UId)
             {
                 return BadRequest();
             }
 
-            db.Entry(coupon).State = EntityState.Modified;
+            db.Entry(wishlist).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace BookStore.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CouponExists(id))
+                if (!WishlistExists(id))
                 {
                     return NotFound();
                 }
@@ -70,16 +70,16 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Coupons
-        [ResponseType(typeof(Coupon))]
-        public IHttpActionResult PostCoupon(Coupon coupon)
+        // POST: api/Wishlists
+        [ResponseType(typeof(Wishlist))]
+        public IHttpActionResult PostWishlist(Wishlist wishlist)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Coupons.Add(coupon);
+            db.Wishlists.Add(wishlist);
 
             try
             {
@@ -87,7 +87,7 @@ namespace BookStore.Controllers
             }
             catch (DbUpdateException)
             {
-                if (CouponExists(coupon.CouponId))
+                if (WishlistExists(wishlist.UId))
                 {
                     return Conflict();
                 }
@@ -97,23 +97,23 @@ namespace BookStore.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = coupon.CouponId }, coupon);
+            return CreatedAtRoute("DefaultApi", new { id = wishlist.UId }, wishlist);
         }
 
-        // DELETE: api/Coupons/5
-        [ResponseType(typeof(Coupon))]
-        public IHttpActionResult DeleteCoupon(string id)
+        // DELETE: api/Wishlists/5
+        [ResponseType(typeof(Wishlist))]
+        public IHttpActionResult DeleteWishlist(int id)
         {
-            Coupon coupon = db.Coupons.Find(id);
-            if (coupon == null)
+            Wishlist wishlist = db.Wishlists.Find(id);
+            if (wishlist == null)
             {
                 return NotFound();
             }
 
-            db.Coupons.Remove(coupon);
+            db.Wishlists.Remove(wishlist);
             db.SaveChanges();
 
-            return Ok(coupon);
+            return Ok(wishlist);
         }
 
         protected override void Dispose(bool disposing)
@@ -125,9 +125,9 @@ namespace BookStore.Controllers
             base.Dispose(disposing);
         }
 
-        private bool CouponExists(string id)
+        private bool WishlistExists(int id)
         {
-            return db.Coupons.Count(e => e.CouponId == id) > 0;
+            return db.Wishlists.Count(e => e.UId == id) > 0;
         }
     }
 }

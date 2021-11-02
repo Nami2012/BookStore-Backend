@@ -16,14 +16,14 @@ namespace BookStore.Controllers
 {
     public class AdminsController : ApiController
     {
-        private static BookStoreDBEntities db = new BookStoreDBEntities();
+        private static BookStoreEntities db = new BookStoreEntities();
 
         //Authenticates admin
-        public static bool Validate(string username,string password)
+        public static bool Validate(string username, string password)
         {
             Admin admin = db.Admins.Find(username);
-            
-            if( admin!=null && admin.Username == username && admin.Password == password)
+
+            if (admin != null && admin.Username == username && admin.Password == password)
             {
                 return true;
             }
@@ -43,7 +43,7 @@ namespace BookStore.Controllers
         //        var principal = new GenericPrincipal(identity, null);
         //        HttpContext.Current.User = principal;
         //        return Ok("Logged In");
-                
+
         //    }
 
         //    return NotFound();

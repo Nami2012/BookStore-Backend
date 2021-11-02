@@ -12,7 +12,7 @@ namespace BookStore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Cart
+    public partial class Wishlist
     {
         public int UId { get; set; }
         public int BId { get; set; }

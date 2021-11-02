@@ -14,6 +14,14 @@ namespace BookStore.Models
     
     public partial class Book
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Book()
+        {
+            this.Carts = new HashSet<Cart>();
+            this.OrderItems = new HashSet<OrderItem>();
+            this.Wishlists = new HashSet<Wishlist>();
+        }
+    
         public int BId { get; set; }
         public Nullable<int> CId { get; set; }
         public string BTitle { get; set; }
@@ -27,5 +35,11 @@ namespace BookStore.Models
         public string BImage { get; set; }
     
         public  Category Category { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public  ICollection<Cart> Carts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public  ICollection<OrderItem> OrderItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public  ICollection<Wishlist> Wishlists { get; set; }
     }
 }

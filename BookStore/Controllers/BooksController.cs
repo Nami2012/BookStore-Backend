@@ -11,15 +11,15 @@ using System.Web.Http.Description;
 using System.Web.Security;
 using BookStore.filters;
 using BookStore.Models;
-using System.Security.Claims;
+//using System.Security.Claims;
 
 namespace BookStore.Controllers
 {
     public class BooksController : ApiController
     {
-        private BookStoreDBEntities db = new BookStoreDBEntities();
+        private BookStoreEntities db = new BookStoreEntities();
 
-        
+
         // GET: api/Books
         public IQueryable<Book> GetBooks()
         {
@@ -79,7 +79,7 @@ namespace BookStore.Controllers
         // POST: api/Books
         [ResponseType(typeof(Book))]
         [AuthenticationFilter]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult PostBook(Book book)
         {
             if (!ModelState.IsValid)
