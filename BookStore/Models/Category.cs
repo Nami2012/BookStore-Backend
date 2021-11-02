@@ -19,7 +19,7 @@ namespace BookStore.Models
         {
             this.Books = new HashSet<Book>();
         }
-        
+    
         public int CId { get; set; }
         public string CName { get; set; }
         public string CDescription { get; set; }

@@ -18,10 +18,12 @@ namespace BookStore.Controllers
     {
         private static BookStoreDBEntities db = new BookStoreDBEntities();
 
+        //Authenticates admin
         public static bool Validate(string username,string password)
         {
             Admin admin = db.Admins.Find(username);
-            if(admin.Username == username && admin.Password == password)
+            
+            if( admin!=null && admin.Username == username && admin.Password == password)
             {
                 return true;
             }

@@ -13,46 +13,48 @@ using BookStore.Models;
 
 namespace BookStore.Controllers
 {
-    public class CategoriesController : ApiController
+    public class User_Account_InfoController : ApiController
     {
         private BookStoreDBEntities db = new BookStoreDBEntities();
 
-        // GET: api/Categories
-        public IQueryable<Category> GetCategories()
+        // GET: api/User_Account_Info
+        [AuthenticationFilter]
+        [Authorize(Roles = "Admin")]
+        public IQueryable<User_Account_Info> GetUser_Account_Info()
         {
-            return db.Categories;
+            return db.User_Account_Info;
         }
 
-        // GET: api/Categories/5
-        [ResponseType(typeof(Category))]
-        public IHttpActionResult GetCategory(int id)
+        // GET: api/User_Account_Info/5
+        [AuthenticationFilter]    
+        [ResponseType(typeof(User_Account_Info))]
+        public IHttpActionResult GetUser_Account_Info(int id)
         {
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            User_Account_Info user_Account_Info = db.User_Account_Info.Find(id);
+            if (user_Account_Info == null)
             {
                 return NotFound();
             }
 
-            return Ok(category);
+            return Ok(user_Account_Info);
         }
 
-        // PUT: api/Categories/5
-        [ResponseType(typeof(void))]
+        // PUT: api/User_Account_Info/5
         [AuthenticationFilter]
-        [Authorize(Roles = "Admin")]
-        public IHttpActionResult PutCategory(int id, Category category)
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutUser_Account_Info(int id, User_Account_Info user_Account_Info)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != category.CId)
+            if (id != user_Account_Info.UId)
             {
                 return BadRequest();
             }
 
-            db.Entry(category).State = EntityState.Modified;
+            db.Entry(user_Account_Info).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +62,7 @@ namespace BookStore.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryExists(id))
+                if (!User_Account_InfoExists(id))
                 {
                     return NotFound();
                 }
@@ -73,19 +75,16 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Categories
-        [ResponseType(typeof(Category))]
-        [AuthenticationFilter]
-        [Authorize(Roles = "Admin")]
-
-        public IHttpActionResult PostCategory(Category category)
+        // POST: api/User_Account_Info //change to api/register
+        [ResponseType(typeof(User_Account_Info))]
+        public IHttpActionResult PostUser_Account_Info(User_Account_Info user_Account_Info)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Categories.Add(category);
+            db.User_Account_Info.Add(user_Account_Info);
 
             try
             {
@@ -93,7 +92,7 @@ namespace BookStore.Controllers
             }
             catch (DbUpdateException)
             {
-                if (CategoryExists(category.CId))
+                if (User_Account_InfoExists(user_Account_Info.UId))
                 {
                     return Conflict();
                 }
@@ -103,25 +102,25 @@ namespace BookStore.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = category.CId }, category);
+            return CreatedAtRoute("DefaultApi", new { id = user_Account_Info.UId }, user_Account_Info);
         }
 
-        // DELETE: api/Categories/5
-        [ResponseType(typeof(Category))]
+        // DELETE: api/User_Account_Info/5
         [AuthenticationFilter]
         [Authorize(Roles = "Admin")]
-        public IHttpActionResult DeleteCategory(int id)
+        [ResponseType(typeof(User_Account_Info))]
+        public IHttpActionResult DeleteUser_Account_Info(int id)
         {
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            User_Account_Info user_Account_Info = db.User_Account_Info.Find(id);
+            if (user_Account_Info == null)
             {
                 return NotFound();
             }
 
-            db.Categories.Remove(category);
+            db.User_Account_Info.Remove(user_Account_Info);
             db.SaveChanges();
 
-            return Ok(category);
+            return Ok(user_Account_Info);
         }
 
         protected override void Dispose(bool disposing)
@@ -133,9 +132,9 @@ namespace BookStore.Controllers
             base.Dispose(disposing);
         }
 
-        private bool CategoryExists(int id)
+        private bool User_Account_InfoExists(int id)
         {
-            return db.Categories.Count(e => e.CId == id) > 0;
+            return db.User_Account_Info.Count(e => e.UId == id) > 0;
         }
     }
 }

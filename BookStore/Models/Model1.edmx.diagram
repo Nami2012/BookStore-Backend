@@ -9,6 +9,9 @@
         <EntityTypeShape EntityType="BookStoreDBModel.Book" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreDBModel.Category" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
         <AssociationConnector Association="BookStoreDBModel.FK__Book__CId__4AB81AF0" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BookStoreDBModel.User_Account_Info" Width="1.5" PointX="3" PointY="5.875" />
+        <EntityTypeShape EntityType="BookStoreDBModel.User_Credentials" Width="1.5" PointX="0.75" PointY="6.125" />
+        <AssociationConnector Association="BookStoreDBModel.FK__User_Accoun__UId__5629CD9C" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -26,6 +26,6 @@ namespace BookStore.Models
         public bool BStatus { get; set; }
         public string BImage { get; set; }
     
-        public  Category Category { get; set; } //add virtuall keyword here in case we want to load category details associated with book
+        public  Category Category { get; set; }
     }
 }

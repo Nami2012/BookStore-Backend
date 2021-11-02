@@ -28,5 +28,7 @@ namespace BookStore.Models
         public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<User_Account_Info> User_Account_Info { get; set; }
+        public virtual DbSet<User_Credentials> User_Credentials { get; set; }
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookStoreDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookStoreDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Admin">
           <Key>
             <PropertyRef Name="Username" />
@@ -41,6 +41,24 @@
           <Property Name="CPosition" Type="int" Nullable="false" />
           <Property Name="CCreatedAt" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="User_Account_Info">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="PhoneNo" Type="nvarchar" MaxLength="10" />
+          <Property Name="ShippingAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="ActiveStatus" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User_Credentials">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <Association Name="FK__Book__CId__4AB81AF0">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="Book" Type="Self.Book" Multiplicity="*" />
@@ -53,17 +71,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__User_Accoun__UId__5629CD9C">
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="User_Account_Info" Type="Self.User_Account_Info" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User_Credentials">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="User_Account_Info">
+              <PropertyRef Name="UId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="BookStoreDBModelStoreContainer">
           <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Account_Info" EntityType="Self.User_Account_Info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Credentials" EntityType="Self.User_Credentials" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Book__CId__4AB81AF0" Association="Self.FK__Book__CId__4AB81AF0">
             <End Role="Category" EntitySet="Category" />
             <End Role="Book" EntitySet="Book" />
           </AssociationSet>
+          <AssociationSet Name="FK__User_Accoun__UId__5629CD9C" Association="Self.FK__User_Accoun__UId__5629CD9C">
+            <End Role="User_Credentials" EntitySet="User_Credentials" />
+            <End Role="User_Account_Info" EntitySet="User_Account_Info" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookStoreDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -125,7 +160,45 @@
             <End Role="Category" EntitySet="Categories" />
             <End Role="Book" EntitySet="Books" />
           </AssociationSet>
+          <EntitySet Name="User_Account_Info" EntityType="BookStoreDBModel.User_Account_Info" />
+          <EntitySet Name="User_Credentials" EntityType="BookStoreDBModel.User_Credentials" />
+          <AssociationSet Name="FK__User_Accoun__UId__5629CD9C" Association="BookStoreDBModel.FK__User_Accoun__UId__5629CD9C">
+            <End Role="User_Credentials" EntitySet="User_Credentials" />
+            <End Role="User_Account_Info" EntitySet="User_Account_Info" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="User_Account_Info">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ShippingAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ActiveStatus" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User_Credentials" Relationship="BookStoreDBModel.FK__User_Accoun__UId__5629CD9C" FromRole="User_Account_Info" ToRole="User_Credentials" />
+        </EntityType>
+        <EntityType Name="User_Credentials">
+          <Key>
+            <PropertyRef Name="UId" />
+          </Key>
+          <Property Name="UId" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User_Account_Info" Relationship="BookStoreDBModel.FK__User_Accoun__UId__5629CD9C" FromRole="User_Credentials" ToRole="User_Account_Info" />
+        </EntityType>
+        <Association Name="FK__User_Accoun__UId__5629CD9C">
+          <End Type="BookStoreDBModel.User_Credentials" Role="User_Credentials" Multiplicity="1" />
+          <End Type="BookStoreDBModel.User_Account_Info" Role="User_Account_Info" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User_Credentials">
+              <PropertyRef Name="UId" />
+            </Principal>
+            <Dependent Role="User_Account_Info">
+              <PropertyRef Name="UId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -168,6 +241,26 @@
                 <ScalarProperty Name="CStatus" ColumnName="CStatus" />
                 <ScalarProperty Name="CPosition" ColumnName="CPosition" />
                 <ScalarProperty Name="CCreatedAt" ColumnName="CCreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Account_Info">
+            <EntityTypeMapping TypeName="BookStoreDBModel.User_Account_Info">
+              <MappingFragment StoreEntitySet="User_Account_Info">
+                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
+                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UId" ColumnName="UId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Credentials">
+            <EntityTypeMapping TypeName="BookStoreDBModel.User_Credentials">
+              <MappingFragment StoreEntitySet="User_Credentials">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="UId" ColumnName="UId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

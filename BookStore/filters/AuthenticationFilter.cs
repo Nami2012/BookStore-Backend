@@ -17,7 +17,7 @@ namespace BookStore.filters
 {
     public class AuthenticationFilterAttribute: AuthorizationFilterAttribute
     {
-        private const string Realm = "My Realm";
+        private const string Realm = "Realm";
         public override void OnAuthorization(HttpActionContext actionContext)
         {   
             if(actionContext.Request.Headers.Authorization == null)
@@ -40,6 +40,16 @@ namespace BookStore.filters
                 string password = usernamePasswordArray[1];
                 if (AdminsController.Validate(username, password))
                 {
+                    var identity = new GenericIdentity(username);
+                    string[] role = { "Admin" }; // refactor code to directly include in principal constructor
+                    IPrincipal principal = new GenericPrincipal(identity,  role );
+                    
+                    if (HttpContext.Current != null)
+                    {
+                        HttpContext.Current.User = principal;
+                    }
+                }
+                else if(User_CredentialsController.Validate(username,password)){
                     var identity = new GenericIdentity(username);
                     IPrincipal principal = new GenericPrincipal(identity, null);
                     if (HttpContext.Current != null)
