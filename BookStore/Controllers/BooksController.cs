@@ -39,6 +39,30 @@ namespace BookStore.Controllers
             return Ok(book);
         }
 
+        //GET Books With Category ID
+        [Route("api/Category/Books/")]
+        public IQueryable<Book> GetBooksByCategory(int cid)
+        {   
+            
+            IQueryable<Book> Books = db.Books.Where(b => b.CId == cid).AsQueryable();
+             return Books;
+            
+            
+        }
+
+        //Search books 
+        [Route("api/Search/Books/")]
+        [HttpGet]
+        public IQueryable<Book> SearchBooks(string searchterm)
+        {   
+            
+            //can build where clause separately
+            IQueryable<Book> Books = db.Books.Where(b => b.BTitle.Contains(searchterm)).AsQueryable();
+            return Books;
+
+
+        }
+
         // PUT: api/Books/5
         [ResponseType(typeof(void))]
         [AuthenticationFilter]
