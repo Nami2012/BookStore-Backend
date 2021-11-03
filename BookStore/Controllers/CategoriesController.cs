@@ -11,9 +11,8 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using BookStore.filters;
 using BookStore.Models;
-
 namespace BookStore.Controllers
-{
+{   
     public class CategoriesController : ApiController
     {
         private BookStoreEntities db = new BookStoreEntities();
@@ -21,13 +20,19 @@ namespace BookStore.Controllers
         // GET: api/Categories //sorted according to position
         public IQueryable<Category> GetCategories() //return only active categories
         {
-            IQueryable<Category> categories = db.Categories.Where(category =>category.CStatus==true);
-            if (HttpContext.Current.User!=null && HttpContext.Current.User.IsInRole("admin"))
-            {
-               categories = db.Categories;
-            }
+            IQueryable<Category> categories = db.Categories.Where(category => category.CStatus == true);
             categories = categories.OrderBy(category => category.CPosition);
-            return db.Categories;
+            return categories;
+        }
+        //GET: api/Categories/Admin
+        [AuthenticationFilter]
+        [Authorize(Roles = "Admin")]
+        [Route("api/Categories/Admin")]
+        public IQueryable<Category> GetCategoriesForAdmin() //return all categories
+        {
+            IQueryable<Category> categories = db.Categories;
+            categories = categories.OrderBy(category => category.CPosition);
+            return categories;
         }
         // GET: api/Categories/5
         [ResponseType(typeof(Category))]
