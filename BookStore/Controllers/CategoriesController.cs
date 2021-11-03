@@ -17,7 +17,6 @@ namespace BookStore.Controllers
         private BookStoreDBEntities db = new BookStoreDBEntities();
 
         // GET: api/Categories //sorted according to position
-        [Authorize(Roles ="Admin,User")]
         public IQueryable<Category> GetCategories() //return only active categories
         {
             IQueryable<Category> categories = db.Categories.Where(category => category.CStatus == true);
