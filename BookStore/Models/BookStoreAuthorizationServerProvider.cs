@@ -24,7 +24,8 @@ namespace BookStore.Models.Auth
                 var admin = _repo.ValidateAdmin(context.UserName, context.Password);
                 if(user == null && admin == null)
                 {
-                    context.SetError("invalid_grant", "provided username and password is incorrect");
+                    context.SetError("invalid_grant", "Either your  username and password is incorrect " +
+                        "or your account have been deactivated.Contact Administrator");
                     return;
                 }
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
