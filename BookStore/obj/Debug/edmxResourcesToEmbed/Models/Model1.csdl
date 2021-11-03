@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BookStoreDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="BId" />
+    </Key>
+    <Property Name="BId" Type="Int32" Nullable="false" />
+    <Property Name="CId" Type="Int32" />
+    <Property Name="BTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BAuthor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BISBN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BYEAR" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="BPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="BDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BPosition" Type="Int32" Nullable="false" />
+    <Property Name="BStatus" Type="Boolean" Nullable="false" />
+    <Property Name="BImage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="Self.FK__Book__CId__4AB81AF0" FromRole="Book" ToRole="Category" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CId" />
+    </Key>
+    <Property Name="CId" Type="Int32" Nullable="false" />
+    <Property Name="CName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CImage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CStatus" Type="Boolean" Nullable="false" />
+    <Property Name="CPosition" Type="Int32" Nullable="false" />
+    <Property Name="CCreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Books" Relationship="Self.FK__Book__CId__4AB81AF0" FromRole="Category" ToRole="Book" />
+  </EntityType>
+  <Association Name="FK__Book__CId__4AB81AF0">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Book" Type="Self.Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CId" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="CId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BookStoreDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="Self.Admin" />
+    <EntitySet Name="Books" EntityType="Self.Book" />
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <AssociationSet Name="FK__Book__CId__4AB81AF0" Association="Self.FK__Book__CId__4AB81AF0">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Book" EntitySet="Books" />
+    </AssociationSet>
+    <EntitySet Name="User_Account_Info" EntityType="BookStoreDBModel.User_Account_Info" />
+    <EntitySet Name="User_Credentials" EntityType="BookStoreDBModel.User_Credentials" />
+    <AssociationSet Name="FK__User_Accoun__UId__5629CD9C" Association="BookStoreDBModel.FK__User_Accoun__UId__5629CD9C">
+      <End Role="User_Credentials" EntitySet="User_Credentials" />
+      <End Role="User_Account_Info" EntitySet="User_Account_Info" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="User_Account_Info">
+    <Key>
+      <PropertyRef Name="UId" />
+    </Key>
+    <Property Name="UId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="ShippingAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ActiveStatus" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="User_Credentials" Relationship="BookStoreDBModel.FK__User_Accoun__UId__5629CD9C" FromRole="User_Account_Info" ToRole="User_Credentials" />
+  </EntityType>
+  <EntityType Name="User_Credentials">
+    <Key>
+      <PropertyRef Name="UId" />
+    </Key>
+    <Property Name="UId" Type="Int32" Nullable="false" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User_Account_Info" Relationship="BookStoreDBModel.FK__User_Accoun__UId__5629CD9C" FromRole="User_Credentials" ToRole="User_Account_Info" />
+  </EntityType>
+  <Association Name="FK__User_Accoun__UId__5629CD9C">
+    <End Type="BookStoreDBModel.User_Credentials" Role="User_Credentials" Multiplicity="1" />
+    <End Type="BookStoreDBModel.User_Account_Info" Role="User_Account_Info" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User_Credentials">
+        <PropertyRef Name="UId" />
+      </Principal>
+      <Dependent Role="User_Account_Info">
+        <PropertyRef Name="UId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
