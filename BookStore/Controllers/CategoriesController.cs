@@ -9,15 +9,15 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
-using BookStore.filters;
 using BookStore.Models;
 namespace BookStore.Controllers
 {   
     public class CategoriesController : ApiController
     {
-        private BookStoreEntities db = new BookStoreEntities();
+        private BookStoreDBEntities db = new BookStoreDBEntities();
 
         // GET: api/Categories //sorted according to position
+        [Authorize(Roles ="Admin,User")]
         public IQueryable<Category> GetCategories() //return only active categories
         {
             IQueryable<Category> categories = db.Categories.Where(category => category.CStatus == true);
@@ -26,7 +26,6 @@ namespace BookStore.Controllers
         }
 
         //GET: api/Categories/Admin
-        [AuthenticationFilter]
         [Authorize(Roles = "Admin")]
         [Route("api/Categories/Admin")]
         public IQueryable<Category> GetCategoriesForAdmin() //return all categories
@@ -61,7 +60,7 @@ namespace BookStore.Controllers
         }
 
         [ResponseType(typeof(void))]
-        [AuthenticationFilter]
+       
         [Authorize(Roles = "Admin")]
         [Route("api/Category/Edit/ActiveStatus/{id}")]
         public IHttpActionResult PutCategory(int id)
@@ -98,7 +97,7 @@ namespace BookStore.Controllers
 
         // PUT: api/Categories/5
         [ResponseType(typeof(void))]
-        [AuthenticationFilter]
+    
         [Authorize(Roles = "Admin")]
         public IHttpActionResult PutCategory(int id, Category category)
         {
@@ -134,7 +133,7 @@ namespace BookStore.Controllers
         }
 
         // POST: api/Categories
-        [AuthenticationFilter]
+    
         [Authorize(Roles = "Admin")]
         [ResponseType(typeof(Category))]
         public IHttpActionResult PostCategory(Category category)
@@ -166,7 +165,7 @@ namespace BookStore.Controllers
         }
 
         // DELETE: api/Categories/5
-        [AuthenticationFilter]
+
         [Authorize(Roles = "Admin")]
         [ResponseType(typeof(Category))]
         public IHttpActionResult DeleteCategory(int id)

@@ -155,4 +155,15 @@ C:\Users\ns\source\BookStore-Backend\BookStore\bin\zh-Hant\System.Spatial.resour
 C:\Users\ns\source\BookStore-Backend\BookStore\obj\Debug\BookStore.csproj.CopyComplete
 C:\Users\ns\source\BookStore-Backend\BookStore\obj\Debug\BookStore.dll
 C:\Users\ns\source\BookStore-Backend\BookStore\obj\Debug\BookStore.pdb
+C:\Users\ns\source\BookStore-Backend\BookStore\bin\Microsoft.Owin.Cors.dll
+C:\Users\ns\source\BookStore-Backend\BookStore\bin\Microsoft.Owin.dll
+C:\Users\ns\source\BookStore-Backend\BookStore\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\ns\source\BookStore-Backend\BookStore\bin\Microsoft.Owin.Security.dll
+C:\Users\ns\source\BookStore-Backend\BookStore\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\ns\source\BookStore-Backend\BookStore\bin\Owin.dll
+C:\Users\ns\source\BookStore-Backend\BookStore\bin\Microsoft.Owin.xml
+C:\Users\ns\source\BookStore-Backend\BookStore\bin\Microsoft.Owin.Cors.xml
+C:\Users\ns\source\BookStore-Backend\BookStore\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\ns\source\BookStore-Backend\BookStore\bin\Microsoft.Owin.Security.xml
+C:\Users\ns\source\BookStore-Backend\BookStore\bin\Microsoft.Owin.Security.OAuth.xml
 C:\Users\ns\source\BookStore-Backend\BookStore\obj\Debug\BookStore.csproj.AssemblyReference.cache

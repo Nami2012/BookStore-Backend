@@ -13,12 +13,11 @@ namespace BookStore.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class BookStoreEntities : DbContext
+    public partial class BookStoreDBEntities : DbContext
     {
-        public BookStoreEntities()
-            : base("name=BookStoreEntities")
+        public BookStoreDBEntities()
+            : base("name=BookStoreDBEntities")
         {
-            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -535,7 +535,7 @@
           <End Role="Coupon" Type="Self.Coupon" Multiplicity="*" />
           <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="BookStoreEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="BookStoreDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Admins" EntityType="Self.Admin" />
           <EntitySet Name="Books" EntityType="Self.Book" />
           <EntitySet Name="Carts" EntityType="Self.Cart" />
@@ -592,7 +592,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BookStoreDBModelStoreContainer" CdmEntityContainer="BookStoreEntities">
+        <EntityContainerMapping StorageEntityContainer="BookStoreDBModelStoreContainer" CdmEntityContainer="BookStoreDBEntities">
           <EntitySetMapping Name="Admins">
             <EntityTypeMapping TypeName="BookStoreDBModel.Admin">
               <MappingFragment StoreEntitySet="Admin">

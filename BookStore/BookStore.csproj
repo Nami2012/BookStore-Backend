@@ -88,6 +88,27 @@
     <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.4.2.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Cors, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.Cors.4.2.0\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.Host.SystemWeb.4.2.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.Security.4.2.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.Security.OAuth.4.2.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
@@ -138,9 +159,6 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
     </Reference>
@@ -229,64 +247,58 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
-    <Compile Include="Controllers\CartsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
-    <Compile Include="Controllers\CouponsController.cs" />
-    <Compile Include="Controllers\OrderInvoiceDetailsController.cs" />
-    <Compile Include="Controllers\OrderItemsController.cs" />
-    <Compile Include="Controllers\User_Account_InfoController.cs" />
-    <Compile Include="Controllers\User_CredentialsController.cs" />
-    <Compile Include="Controllers\WishlistsController.cs" />
-    <Compile Include="filters\AuthenticationFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Admin.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Book.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookDBEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BookStoreModel.Context.cs">
+    <Compile Include="Models\BookDBEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BookStoreModel.Context.tt</DependentUpon>
+      <DependentUpon>BookDBEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BookStoreModel.cs">
+    <Compile Include="Models\BookDBEntities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookDBEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BookStoreModel.Designer.cs">
+    <Compile Include="Models\BookDBEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BookStoreModel.edmx</DependentUpon>
+      <DependentUpon>BookDBEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\BookStoreAuthorizationServerProvider.cs" />
     <Compile Include="Models\Cart.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Coupon.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrderInvoiceDetail.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrderItem.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User_Account_Info.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User_Credentials.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookDBEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ValidationRepository.cs" />
+    <Compile Include="App_Start\OAuthServerConfig.cs" />
     <Compile Include="Models\Wishlist.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -299,15 +311,15 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\BookStoreModel.Context.tt">
+    <Content Include="Models\BookDBEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BookStoreModel.edmx</DependentUpon>
-      <LastGenOutput>BookStoreModel.Context.cs</LastGenOutput>
+      <DependentUpon>BookDBEntities.edmx</DependentUpon>
+      <LastGenOutput>BookDBEntities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\BookStoreModel.tt">
+    <Content Include="Models\BookDBEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BookStoreModel.edmx</DependentUpon>
-      <LastGenOutput>BookStoreModel.cs</LastGenOutput>
+      <DependentUpon>BookDBEntities.edmx</DependentUpon>
+      <LastGenOutput>BookDBEntities.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -330,12 +342,12 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <EntityDeploy Include="Models\BookStoreModel.edmx">
+    <EntityDeploy Include="Models\BookDBEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BookStoreModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>BookDBEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\BookStoreModel.edmx.diagram">
-      <DependentUpon>BookStoreModel.edmx</DependentUpon>
+    <Content Include="Models\BookDBEntities.edmx.diagram">
+      <DependentUpon>BookDBEntities.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

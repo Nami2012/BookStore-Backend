@@ -9,7 +9,6 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Security;
-using BookStore.filters;
 using BookStore.Models;
 //using System.Security.Claims;
 
@@ -17,7 +16,7 @@ namespace BookStore.Controllers
 {
     public class BooksController : ApiController
     {
-        private BookStoreEntities db = new BookStoreEntities();
+        private BookStoreDBEntities db = new BookStoreDBEntities();
 
 
         // GET: api/Books
@@ -67,7 +66,7 @@ namespace BookStore.Controllers
 
         // PUT: api/Books/5
         [ResponseType(typeof(void))]
-        [AuthenticationFilter]
+       
         [Authorize(Roles = "Admin")]
         public IHttpActionResult PutBook(int id, Book book)
         {
@@ -105,7 +104,7 @@ namespace BookStore.Controllers
         //PUT:api/Book/edit/ActiveStatus
         [Route("api/Book/edit/ActiveStatus/{id}")]
         [ResponseType(typeof(void))]
-        [AuthenticationFilter]
+       
         [Authorize(Roles = "Admin")]
         public IHttpActionResult PutCategory(int id)
         {
@@ -140,7 +139,7 @@ namespace BookStore.Controllers
 
         // POST: api/Books
         [ResponseType(typeof(Book))]
-        [AuthenticationFilter]
+ 
         [Authorize(Roles = "Admin")]
         public IHttpActionResult PostBook(Book book)
         {
@@ -172,7 +171,7 @@ namespace BookStore.Controllers
 
         // DELETE: api/Books/5
         [ResponseType(typeof(Book))]
-        [AuthenticationFilter]
+
         [Authorize(Roles = "Admin")]
         public IHttpActionResult DeleteBook(int id)
         {
