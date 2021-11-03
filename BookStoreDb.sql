@@ -172,11 +172,13 @@ CREATE TABLE Cart
 	CONSTRAINT Pk_Cart PRIMARY KEY(UId, BId)
 )
 GO
+drop table wishlist
 --wishlist
 CREATE TABLE Wishlist
 (
 	UId INT FOREIGN KEY REFERENCES User_Credentials,
 	BId INT FOREIGN KEY REFERENCES Book,
+	Count int
 	CONSTRAINT Pk_Wishlist PRIMARY KEY(UId, BId)
 )
 GO
@@ -215,6 +217,7 @@ CREATE TABLE OrderItems
 	OrderId NVARCHAR(10) FOREIGN KEY REFERENCES OrderInvoiceDetails,
 	BId INT FOREIGN KEY REFERENCES Book,
 	UId INT FOREIGN KEY REFERENCES User_Credentials,
+	COUNT INT,
 	CONSTRAINT Pk_Order PRIMARY KEY (BId, UId,OrderId)
 )
 GO
@@ -228,3 +231,4 @@ CREATE TABLE OrderInvoiceDetails
 GO
 ---======================================END OF Section:Orders========================================================---------------------
 
+select * from Category
