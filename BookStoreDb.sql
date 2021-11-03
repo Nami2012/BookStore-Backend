@@ -228,4 +228,3 @@ CREATE TABLE OrderInvoiceDetails
 GO
 ---======================================END OF Section:Orders========================================================---------------------
 
-select * from Category
