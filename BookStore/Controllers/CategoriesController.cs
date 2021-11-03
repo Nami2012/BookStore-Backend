@@ -24,6 +24,7 @@ namespace BookStore.Controllers
             categories = categories.OrderBy(category => category.CPosition);
             return categories;
         }
+
         //GET: api/Categories/Admin
         [AuthenticationFilter]
         [Authorize(Roles = "Admin")]
@@ -34,6 +35,7 @@ namespace BookStore.Controllers
             categories = categories.OrderBy(category => category.CPosition);
             return categories;
         }
+
         // GET: api/Categories/5
         [ResponseType(typeof(Category))]
         public IHttpActionResult GetCategory(int id)
@@ -75,7 +77,6 @@ namespace BookStore.Controllers
             }
             category.CStatus = !category.CStatus;
             db.Entry(category).Property(c=>c.CStatus).IsModified = true;
-
             try
             {
                 db.SaveChanges();

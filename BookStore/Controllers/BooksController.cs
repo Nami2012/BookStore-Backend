@@ -100,6 +100,42 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        //PUT:api/Book/edit/ActiveStatus
+        [Route("api/Book/edit/ActiveStatus/{id}")]
+        [ResponseType(typeof(void))]
+        [AuthenticationFilter]
+        [Authorize(Roles = "Admin")]
+        public IHttpActionResult PutCategory(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            Book book = db.Books.Find(id);
+            if(book == null)   
+            {
+                return BadRequest();
+            }
+            book.BStatus = !book.BStatus;
+            db.Entry(book).Property(b => b.BStatus).IsModified = true;
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BookExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         // POST: api/Books
         [ResponseType(typeof(Book))]
         [AuthenticationFilter]
