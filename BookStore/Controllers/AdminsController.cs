@@ -11,9 +11,12 @@ using System.Web.Http.Description;
 using BookStore.Models;
 using System.Web;
 using System.Security.Principal;
+using System.Web.Http.Cors;
 
 namespace BookStore.Controllers
 {
+    
+
     public class AdminsController : ApiController
     {
         private static BookStoreEntities db = new BookStoreEntities();

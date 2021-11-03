@@ -11,7 +11,7 @@ namespace BookStore
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            EnableCorsAttribute cors = new EnableCorsAttribute("http://localhost:3000/SampleApp/Form1.aspx", "*", "GET,POST"); 
+            EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "GET,POST"); 
             config.EnableCors(cors);
             // Web API routes
             config.MapHttpAttributeRoutes();

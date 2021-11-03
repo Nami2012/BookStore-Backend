@@ -50,10 +50,12 @@ namespace BookStore.Controllers
             
         }
 
-        //Search books 
-        [Route("api/Search/Books/")]
+       
+
+    //Search books 
+    [Route("api/Search/Books/")]
         [HttpGet]
-        public IQueryable<Book> SearchBooks(string searchterm)
+        public IQueryable<Book> SearchBooks(int id,string searchterm)
         {   
             
             //can build where clause separately

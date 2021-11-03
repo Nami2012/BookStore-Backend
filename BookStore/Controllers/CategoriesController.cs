@@ -50,7 +50,7 @@ namespace BookStore.Controllers
         }
 
         [Route("api/Category/Names")]
-        public IQueryable<string> GetCategoryNames()
+        public IQueryable<string> GetCategoryNamesAndID() //id
         {
             List<string> CategoryNames = new List<string>();
             foreach(var category in db.Categories)
