@@ -17,9 +17,11 @@ namespace BookStore.Controllers
     {
         private BookStoreEntities db = new BookStoreEntities();
 
-        // GET: api/Categories
+        // GET: api/Categories //sorted according to position
         public IQueryable<Category> GetCategories() //return only active categories
         {
+            IQueryable<Category> categories = db.Categories.Where(category =>category.CStatus==true);
+            categories = categories.OrderBy(category => category.CPosition);
             return db.Categories;
         }
         // GET: api/Categories/5
