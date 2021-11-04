@@ -16,11 +16,9 @@ namespace BookStore.Models
     {
         public string OrderId { get; set; }
         public int BId { get; set; }
-        public int UId { get; set; }
         public Nullable<int> COUNT { get; set; }
     
-        public  Book Book { get; set; }
-        public  OrderInvoiceDetail OrderInvoiceDetail { get; set; }
-        public  User_Credentials User_Credentials { get; set; }
+        public virtual Book Book { get; set; }
+        public virtual OrderInvoiceDetail OrderInvoiceDetail { get; set; }
     }
 }

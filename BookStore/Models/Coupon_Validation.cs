@@ -18,7 +18,7 @@ namespace BookStore.Models
         public int UId { get; set; }
         public Nullable<bool> CouponValid { get; set; }
     
-        public  Coupon Coupon { get; set; }
-        public  User_Credentials User_Credentials { get; set; }
+        public virtual Coupon Coupon { get; set; }
+        public virtual User_Credentials User_Credentials { get; set; }
     }
 }

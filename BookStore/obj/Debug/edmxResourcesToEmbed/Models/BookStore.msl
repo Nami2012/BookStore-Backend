@@ -71,6 +71,7 @@
       <EntityTypeMapping TypeName="BookStoreDBModel.OrderInvoiceDetail">
         <MappingFragment StoreEntitySet="OrderInvoiceDetails">
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="UId" ColumnName="UId" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
         </MappingFragment>
@@ -81,7 +82,6 @@
         <MappingFragment StoreEntitySet="OrderItems">
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
           <ScalarProperty Name="BId" ColumnName="BId" />
-          <ScalarProperty Name="UId" ColumnName="UId" />
           <ScalarProperty Name="COUNT" ColumnName="COUNT" />
         </MappingFragment>
       </EntityTypeMapping>

@@ -19,7 +19,7 @@ namespace BookStore.Models
         {
             this.Carts = new HashSet<Cart>();
             this.Coupon_Validation = new HashSet<Coupon_Validation>();
-            this.OrderItems = new HashSet<OrderItem>();
+            this.OrderInvoiceDetails = new HashSet<OrderInvoiceDetail>();
             this.Wishlists = new HashSet<Wishlist>();
         }
     
@@ -28,13 +28,13 @@ namespace BookStore.Models
         public string Password { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public  ICollection<Cart> Carts { get; set; }
+        public virtual ICollection<Cart> Carts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public  ICollection<Coupon_Validation> Coupon_Validation { get; set; }
+        public virtual ICollection<Coupon_Validation> Coupon_Validation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public  ICollection<OrderItem> OrderItems { get; set; }
-        public  User_Account_Info User_Account_Info { get; set; }
+        public virtual ICollection<OrderInvoiceDetail> OrderInvoiceDetails { get; set; }
+        public virtual User_Account_Info User_Account_Info { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public  ICollection<Wishlist> Wishlists { get; set; }
+        public virtual ICollection<Wishlist> Wishlists { get; set; }
     }
 }

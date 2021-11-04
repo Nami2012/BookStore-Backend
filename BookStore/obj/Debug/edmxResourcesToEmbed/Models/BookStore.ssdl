@@ -67,6 +67,7 @@
       <PropertyRef Name="OrderId" />
     </Key>
     <Property Name="OrderId" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="UId" Type="int" />
     <Property Name="Amount" Type="money" />
     <Property Name="ShippingAddress" Type="nvarchar" MaxLength="100" />
   </EntityType>
@@ -74,11 +75,9 @@
     <Key>
       <PropertyRef Name="OrderId" />
       <PropertyRef Name="BId" />
-      <PropertyRef Name="UId" />
     </Key>
     <Property Name="OrderId" Type="nvarchar" MaxLength="10" Nullable="false" />
     <Property Name="BId" Type="int" Nullable="false" />
-    <Property Name="UId" Type="int" Nullable="false" />
     <Property Name="COUNT" Type="int" />
   </EntityType>
   <EntityType Name="User_Account_Info">
@@ -168,7 +167,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__OrderItem__Order__04E4BC85">
+  <Association Name="FK__OrderInvoic__UId__10566F31">
+    <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="0..1" />
+    <End Role="OrderInvoiceDetails" Type="Self.OrderInvoiceDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_Credentials">
+        <PropertyRef Name="UId" />
+      </Principal>
+      <Dependent Role="OrderInvoiceDetails">
+        <PropertyRef Name="UId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OrderItem__Order__1332DBDC">
     <End Role="OrderInvoiceDetails" Type="Self.OrderInvoiceDetails" Multiplicity="1" />
     <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
     <ReferentialConstraint>
@@ -180,7 +191,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__OrderItems__BId__05D8E0BE">
+  <Association Name="FK__OrderItems__BId__14270015">
     <End Role="Book" Type="Self.Book" Multiplicity="1" />
     <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
     <ReferentialConstraint>
@@ -189,18 +200,6 @@
       </Principal>
       <Dependent Role="OrderItems">
         <PropertyRef Name="BId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__OrderItems__UId__06CD04F7">
-    <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
-    <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="User_Credentials">
-        <PropertyRef Name="UId" />
-      </Principal>
-      <Dependent Role="OrderItems">
-        <PropertyRef Name="UId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -272,16 +271,16 @@
       <End Role="User_Credentials" EntitySet="User_Credentials" />
       <End Role="Coupon_Validation" EntitySet="Coupon_Validation" />
     </AssociationSet>
-    <AssociationSet Name="FK__OrderItem__Order__04E4BC85" Association="Self.FK__OrderItem__Order__04E4BC85">
+    <AssociationSet Name="FK__OrderInvoic__UId__10566F31" Association="Self.FK__OrderInvoic__UId__10566F31">
+      <End Role="User_Credentials" EntitySet="User_Credentials" />
+      <End Role="OrderInvoiceDetails" EntitySet="OrderInvoiceDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OrderItem__Order__1332DBDC" Association="Self.FK__OrderItem__Order__1332DBDC">
       <End Role="OrderInvoiceDetails" EntitySet="OrderInvoiceDetails" />
       <End Role="OrderItems" EntitySet="OrderItems" />
     </AssociationSet>
-    <AssociationSet Name="FK__OrderItems__BId__05D8E0BE" Association="Self.FK__OrderItems__BId__05D8E0BE">
+    <AssociationSet Name="FK__OrderItems__BId__14270015" Association="Self.FK__OrderItems__BId__14270015">
       <End Role="Book" EntitySet="Book" />
-      <End Role="OrderItems" EntitySet="OrderItems" />
-    </AssociationSet>
-    <AssociationSet Name="FK__OrderItems__UId__06CD04F7" Association="Self.FK__OrderItems__UId__06CD04F7">
-      <End Role="User_Credentials" EntitySet="User_Credentials" />
       <End Role="OrderItems" EntitySet="OrderItems" />
     </AssociationSet>
     <AssociationSet Name="FK__User_Accoun__UId__5629CD9C" Association="Self.FK__User_Accoun__UId__5629CD9C">

@@ -250,6 +250,7 @@
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CouponsController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\WishListsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
