@@ -58,6 +58,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Coupon_Validation">
+      <EntityTypeMapping TypeName="BookStoreDBModel.Coupon_Validation">
+        <MappingFragment StoreEntitySet="Coupon_Validation">
+          <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+          <ScalarProperty Name="UId" ColumnName="UId" />
+          <ScalarProperty Name="CouponValid" ColumnName="CouponValid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="OrderInvoiceDetails">
       <EntityTypeMapping TypeName="BookStoreDBModel.OrderInvoiceDetail">
         <MappingFragment StoreEntitySet="OrderInvoiceDetails">
@@ -70,10 +79,10 @@
     <EntitySetMapping Name="OrderItems">
       <EntityTypeMapping TypeName="BookStoreDBModel.OrderItem">
         <MappingFragment StoreEntitySet="OrderItems">
-          <ScalarProperty Name="COUNT" ColumnName="COUNT" />
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
           <ScalarProperty Name="BId" ColumnName="BId" />
           <ScalarProperty Name="UId" ColumnName="UId" />
+          <ScalarProperty Name="COUNT" ColumnName="COUNT" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -106,13 +115,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="Coupon_Validation" TypeName="BookStoreDBModel.Coupon_Validation" StoreEntitySet="Coupon_Validation">
-      <EndProperty Name="Coupon">
-        <ScalarProperty Name="CouponId" ColumnName="CouponId" />
-      </EndProperty>
-      <EndProperty Name="User_Credentials">
-        <ScalarProperty Name="UId" ColumnName="UId" />
-      </EndProperty>
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

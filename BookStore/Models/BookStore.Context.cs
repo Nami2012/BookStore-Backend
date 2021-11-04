@@ -18,7 +18,6 @@ namespace BookStore.Models
         public BookStoreDBEntities()
             : base("name=BookStoreDBEntities")
         {
-          //  this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -31,6 +30,7 @@ namespace BookStore.Models
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Coupon> Coupons { get; set; }
+        public virtual DbSet<Coupon_Validation> Coupon_Validation { get; set; }
         public virtual DbSet<OrderInvoiceDetail> OrderInvoiceDetails { get; set; }
         public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<User_Account_Info> User_Account_Info { get; set; }

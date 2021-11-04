@@ -249,57 +249,61 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CouponsController.cs" />
     <Compile Include="Controllers\WishListsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Admin.cs">
-      <DependentUpon>BookDBEntities.tt</DependentUpon>
+      <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Book.cs">
-      <DependentUpon>BookDBEntities.tt</DependentUpon>
+      <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BookDBEntities.Context.cs">
+    <Compile Include="Models\BookStore.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BookDBEntities.Context.tt</DependentUpon>
+      <DependentUpon>BookStore.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BookDBEntities.cs">
+    <Compile Include="Models\BookStore.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BookDBEntities.tt</DependentUpon>
+      <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BookDBEntities.Designer.cs">
+    <Compile Include="Models\BookStore.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BookDBEntities.edmx</DependentUpon>
+      <DependentUpon>BookStore.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\BookStoreAuthorizationServerProvider.cs" />
     <Compile Include="Models\Cart.cs">
-      <DependentUpon>BookDBEntities.tt</DependentUpon>
+      <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs">
-      <DependentUpon>BookDBEntities.tt</DependentUpon>
+      <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Coupon.cs">
-      <DependentUpon>BookDBEntities.tt</DependentUpon>
+      <DependentUpon>BookStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Coupon_Validation.cs">
+      <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrderInvoiceDetail.cs">
-      <DependentUpon>BookDBEntities.tt</DependentUpon>
+      <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrderItem.cs">
-      <DependentUpon>BookDBEntities.tt</DependentUpon>
+      <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User_Account_Info.cs">
-      <DependentUpon>BookDBEntities.tt</DependentUpon>
+      <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User_Credentials.cs">
-      <DependentUpon>BookDBEntities.tt</DependentUpon>
+      <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ValidationRepository.cs" />
     <Compile Include="App_Start\OAuthServerConfig.cs" />
     <Compile Include="Models\Wishlist.cs">
-      <DependentUpon>BookDBEntities.tt</DependentUpon>
+      <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -312,15 +316,15 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\BookDBEntities.Context.tt">
+    <Content Include="Models\BookStore.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BookDBEntities.edmx</DependentUpon>
-      <LastGenOutput>BookDBEntities.Context.cs</LastGenOutput>
+      <DependentUpon>BookStore.edmx</DependentUpon>
+      <LastGenOutput>BookStore.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\BookDBEntities.tt">
+    <Content Include="Models\BookStore.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BookDBEntities.edmx</DependentUpon>
-      <LastGenOutput>BookDBEntities.cs</LastGenOutput>
+      <DependentUpon>BookStore.edmx</DependentUpon>
+      <LastGenOutput>BookStore.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -343,12 +347,12 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <EntityDeploy Include="Models\BookDBEntities.edmx">
+    <EntityDeploy Include="Models\BookStore.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BookDBEntities.Designer.cs</LastGenOutput>
+      <LastGenOutput>BookStore.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\BookDBEntities.edmx.diagram">
-      <DependentUpon>BookDBEntities.edmx</DependentUpon>
+    <Content Include="Models\BookStore.edmx.diagram">
+      <DependentUpon>BookStore.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

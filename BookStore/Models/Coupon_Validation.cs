@@ -12,19 +12,13 @@ namespace BookStore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Coupon
+    public partial class Coupon_Validation
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Coupon()
-        {
-            this.Coupon_Validation = new HashSet<Coupon_Validation>();
-        }
-    
         public string CouponId { get; set; }
-        public decimal Discount { get; set; }
-        public bool Status { get; set; }
+        public int UId { get; set; }
+        public Nullable<bool> CouponValid { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public  ICollection<Coupon_Validation> Coupon_Validation { get; set; }
+        public  Coupon Coupon { get; set; }
+        public  User_Credentials User_Credentials { get; set; }
     }
 }
