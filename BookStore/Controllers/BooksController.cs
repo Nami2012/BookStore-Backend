@@ -19,6 +19,15 @@ namespace BookStore.Controllers
         private BookStoreDBEntities db = new BookStoreDBEntities();
 
 
+        /*[HttpGet]
+        [Route("api/user/details/")]
+        [Authorize]
+        public IHttpActionResult GetUserDetails()
+        {
+            
+        }*/
+
+
         // GET: api/Books
         public IQueryable<Book> GetBooks()
         {
@@ -51,8 +60,8 @@ namespace BookStore.Controllers
 
        
 
-    //Search books 
-    [Route("api/Search/Books/")]
+        //Search books 
+        [Route("api/Search/Books/")]
         [HttpGet]
         public IQueryable<Book> SearchBooks(int id,string searchterm)
         {   

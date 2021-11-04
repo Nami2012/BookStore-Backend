@@ -32,6 +32,7 @@ namespace BookStore.Models.Auth
             {
                 identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
+                identity.AddClaim(new Claim("UId", user.UId.ToString()));
             }
             else
             {

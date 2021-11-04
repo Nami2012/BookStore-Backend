@@ -18,7 +18,8 @@ namespace BookStore
             // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             OAuthAuthorizationServerOptions options = new OAuthAuthorizationServerOptions
-            { AllowInsecureHttp = true,
+            { 
+                AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = new BookStoreAuthorizationServerProvider()
