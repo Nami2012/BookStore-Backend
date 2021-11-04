@@ -18,7 +18,7 @@ namespace BookStore.Models
         public BookStoreDBEntities()
             : base("name=BookStoreDBEntities")
         {
-            this.Configuration.LazyLoadingEnabled = false;
+          //  this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
