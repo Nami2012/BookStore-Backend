@@ -130,7 +130,6 @@ CREATE TABLE User_Credentials
 )
 GO
 
-
 --User_details
 CREATE TABLE User_Account_Info
 (
@@ -155,7 +154,7 @@ GO
 --user details
 insert into User_Account_Info values
 (1,'Martin','9876543210','Kochi',1),
-(2,'John Doe','9876654321','Mumbai',2)
+(2,'John Doe','9876654321','Mumbai',0)
 
 ----=====================================================================END OF SECTION: Accounts==========================================----------------------------
 
@@ -172,7 +171,6 @@ CREATE TABLE Cart
 	CONSTRAINT Pk_Cart PRIMARY KEY(UId, BId)
 )
 GO
-drop table wishlist
 --wishlist
 CREATE TABLE Wishlist
 (
@@ -197,12 +195,12 @@ CREATE TABLE Coupon
 	Status BIT NOT NULL
 )
 GO
-
 --CouponValidation
 CREATE TABLE Coupon_Validation
 (
 	CouponId NVARCHAR(10) FOREIGN KEY REFERENCES Coupon,
 	UId INT FOREIGN KEY REFERENCES User_Credentials,
+	CouponValid Bit,
 	CONSTRAINT Pk_Coupon_Validation PRIMARY KEY(CouponId, UId)
 )
 GO
@@ -216,19 +214,18 @@ CREATE TABLE OrderItems
 (
 	OrderId NVARCHAR(10) FOREIGN KEY REFERENCES OrderInvoiceDetails,
 	BId INT FOREIGN KEY REFERENCES Book,
-	UId INT FOREIGN KEY REFERENCES User_Credentials,
 	COUNT INT,
-	CONSTRAINT Pk_Order PRIMARY KEY (BId, UId,OrderId)
+	CONSTRAINT Pk_Order PRIMARY KEY (BId,OrderId)
 )
 GO
 --OrderInvoice
 CREATE TABLE OrderInvoiceDetails
 (
 	OrderId NVARCHAR(10) PRIMARY KEY,
+	UId INT FOREIGN KEY REFERENCES User_Credentials,
 	Amount MONEY,
 	ShippingAddress NVARCHAR(100)
 )
 GO
 ---======================================END OF Section:Orders========================================================---------------------
 
-select * from Category
