@@ -77,16 +77,16 @@ namespace BookStore.Controllers
         
         // private function apply coupon => return percentage of total value to be reduced and adds its to the coupon validation table
         //untested
-        private float applyCoupon(string couponid, int userid)
-        {
-            Coupon_Validation coupon = db.Coupon_Validation.SingleOrDefault(c => c.CouponId == couponid && c.UId == userid);
-            if (coupon != null || coupon.CouponValid == false)
-            {
-                return -1;
-            }
-            Coupon applied_coupon = db.Coupons.SingleOrDefault(c => c.CouponId == couponid);
-            return (float)applied_coupon.Discount;
-        }
+        //public static float applyCoupon(string couponid, int userid)
+        //{
+        //    Coupon_Validation coupon = db.Coupon_Validation.SingleOrDefault(c => c.CouponId == couponid && c.UId == userid);
+        //    if (coupon != null || coupon.CouponValid == false)
+        //    {
+        //        return -1;
+        //    }
+        //    Coupon applied_coupon = db.Coupons.SingleOrDefault(c => c.CouponId == couponid);
+        //    return (float)applied_coupon.Discount;
+        //}
         
         
         private bool CouponExists(string id)

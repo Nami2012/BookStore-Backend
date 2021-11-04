@@ -23,7 +23,7 @@ namespace BookStore.Controllers
         int getUserId()
         {
             var identity = (ClaimsIdentity)User.Identity;
-            User_Credentials user = db.User_Credentials.SingleOrDefault(u => u.Username == identity.Name);
+            User_Account_Info user = db.User_Account_Info.SingleOrDefault(u => u.UId == int.Parse(identity.Name));
             if (user == null)
             {
                 return -1;
