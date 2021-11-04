@@ -25,7 +25,7 @@ namespace BookStore.Controllers
         }
 
         //GET: api/Categories/Admin
-        [Authorize(Roles = "Admin")]
+      //  [Authorize(Roles = "Admin")]
         [Route("api/Categories/Admin")]
         public IQueryable<Category> GetCategoriesForAdmin() //return all categories
         {
@@ -60,7 +60,7 @@ namespace BookStore.Controllers
 
         [ResponseType(typeof(void))]
        
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [Route("api/Category/Edit/ActiveStatus/{id}")]
         public IHttpActionResult PutCategory(int id)
         {
@@ -97,7 +97,7 @@ namespace BookStore.Controllers
         // PUT: api/Categories/5
         [ResponseType(typeof(void))]
     
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IHttpActionResult PutCategory(int id, Category category)
         {
             if (!ModelState.IsValid)
@@ -133,7 +133,7 @@ namespace BookStore.Controllers
 
         // POST: api/Categories
     
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [ResponseType(typeof(Category))]
         public IHttpActionResult PostCategory(Category category)
         {
@@ -165,7 +165,7 @@ namespace BookStore.Controllers
 
         // DELETE: api/Categories/5
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [ResponseType(typeof(Category))]
         public IHttpActionResult DeleteCategory(int id)
         {

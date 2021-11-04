@@ -20,6 +20,6 @@ namespace BookStore.Models
         public string ShippingAddress { get; set; }
         public bool ActiveStatus { get; set; }
     
-        public virtual User_Credentials User_Credentials { get; set; }
+        public  User_Credentials User_Credentials { get; set; }
     }
 }

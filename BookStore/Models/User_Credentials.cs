@@ -28,13 +28,13 @@ namespace BookStore.Models
         public string Password { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cart> Carts { get; set; }
+        public  ICollection<Cart> Carts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Coupon_Validation> Coupon_Validation { get; set; }
+        public  ICollection<Coupon_Validation> Coupon_Validation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderInvoiceDetail> OrderInvoiceDetails { get; set; }
-        public virtual User_Account_Info User_Account_Info { get; set; }
+        public  ICollection<OrderInvoiceDetail> OrderInvoiceDetails { get; set; }
+        public  User_Account_Info User_Account_Info { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Wishlist> Wishlists { get; set; }
+        public  ICollection<Wishlist> Wishlists { get; set; }
     }
 }

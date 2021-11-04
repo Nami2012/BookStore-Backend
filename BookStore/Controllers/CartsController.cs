@@ -63,7 +63,7 @@ namespace BookStore.Controllers
         // Add Item to Cart
         // UId of the current user is taken
         [ResponseType(typeof(Cart))]
-        [Authorize(Roles = "User")]
+       // [Authorize(Roles = "User")]
         public IHttpActionResult PostCart(Cart cart)
         {
             if (!ModelState.IsValid)

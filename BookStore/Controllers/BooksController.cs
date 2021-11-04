@@ -67,7 +67,7 @@ namespace BookStore.Controllers
         // PUT: api/Books/5
         [ResponseType(typeof(void))]
        
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public IHttpActionResult PutBook(int id, Book book)
         {
             if (!ModelState.IsValid)
@@ -105,7 +105,7 @@ namespace BookStore.Controllers
         [Route("api/Book/edit/ActiveStatus/{id}")]
         [ResponseType(typeof(void))]
        
-        [Authorize(Roles = "Admin")]
+     //   [Authorize(Roles = "Admin")]
         public IHttpActionResult PutCategory(int id)
         {
             if (!ModelState.IsValid)
@@ -140,7 +140,7 @@ namespace BookStore.Controllers
         // POST: api/Books
         [ResponseType(typeof(Book))]
  
-        [Authorize(Roles = "Admin")]
+      //  [Authorize(Roles = "Admin")]
         public IHttpActionResult PostBook(Book book)
         {
             if (!ModelState.IsValid)
@@ -172,7 +172,7 @@ namespace BookStore.Controllers
         // DELETE: api/Books/5
         [ResponseType(typeof(Book))]
 
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public IHttpActionResult DeleteBook(int id)
         {
             Book book = db.Books.Find(id);
