@@ -101,10 +101,21 @@ namespace BookStore.Controllers
         private decimal applyCoupon(string couponid, int userid)
         {
             Coupon_Validation coupon = db.Coupon_Validation.SingleOrDefault(c => c.CouponId == couponid && c.UId == userid);
+            
+            //if coupon already applied
             if (coupon != null)
             {
                 return 0; //raise exception if time permits
             }
+            //insert applied coupon details into coupon validation table so that the user wont use it again
+            coupon = new Coupon_Validation()
+            {
+                CouponId = couponid,
+                UId = userid,
+                CouponValid = true //ambiguous
+            };
+            db.Coupon_Validation.Add(coupon);
+            db.SaveChanges();
             //task add to coupon validation
             Coupon applied_coupon = db.Coupons.SingleOrDefault(c => c.CouponId == couponid);
             return applied_coupon.Discount;
