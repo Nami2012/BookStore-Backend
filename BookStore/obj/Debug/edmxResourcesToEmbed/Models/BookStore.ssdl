@@ -107,7 +107,7 @@
     <Property Name="BId" Type="int" Nullable="false" />
     <Property Name="Count" Type="int" />
   </EntityType>
-  <Association Name="FK__Book__CId__38996AB5">
+  <Association Name="FK__Book__CId__4AB81AF0">
     <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
     <End Role="Book" Type="Self.Book" Multiplicity="*" />
     <ReferentialConstraint>
@@ -119,7 +119,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Cart__BId__4316F928">
+  <Association Name="FK__Cart__BId__59FA5E80">
     <End Role="Book" Type="Self.Book" Multiplicity="1" />
     <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
     <ReferentialConstraint>
@@ -131,7 +131,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Cart__UId__4222D4EF">
+  <Association Name="FK__Cart__UId__59063A47">
     <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
     <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
     <ReferentialConstraint>
@@ -143,7 +143,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Coupon_Va__Coupo__4BAC3F29">
+  <Association Name="FK__Coupon_Va__Coupo__09A971A2">
     <End Role="Coupon" Type="Self.Coupon" Multiplicity="1" />
     <End Role="Coupon_Validation" Type="Self.Coupon_Validation" Multiplicity="*" />
     <ReferentialConstraint>
@@ -155,7 +155,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Coupon_Vali__UId__4CA06362">
+  <Association Name="FK__Coupon_Vali__UId__0A9D95DB">
     <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
     <End Role="Coupon_Validation" Type="Self.Coupon_Validation" Multiplicity="*" />
     <ReferentialConstraint>
@@ -167,7 +167,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__OrderInvoic__UId__4F7CD00D">
+  <Association Name="FK__OrderInvoic__UId__10566F31">
     <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="0..1" />
     <End Role="OrderInvoiceDetails" Type="Self.OrderInvoiceDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -179,7 +179,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__OrderItem__Order__52593CB8">
+  <Association Name="FK__OrderItem__Order__1332DBDC">
     <End Role="OrderInvoiceDetails" Type="Self.OrderInvoiceDetails" Multiplicity="1" />
     <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
     <ReferentialConstraint>
@@ -191,7 +191,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__OrderItems__BId__534D60F1">
+  <Association Name="FK__OrderItems__BId__14270015">
     <End Role="Book" Type="Self.Book" Multiplicity="1" />
     <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
     <ReferentialConstraint>
@@ -203,7 +203,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__User_Accoun__UId__3F466844">
+  <Association Name="FK__User_Accoun__UId__5629CD9C">
     <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
     <End Role="User_Account_Info" Type="Self.User_Account_Info" Multiplicity="0..1" />
     <ReferentialConstraint>
@@ -215,7 +215,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Wishlist__BId__46E78A0C">
+  <Association Name="FK__Wishlist__BId__01142BA1">
     <End Role="Book" Type="Self.Book" Multiplicity="1" />
     <End Role="Wishlist" Type="Self.Wishlist" Multiplicity="*" />
     <ReferentialConstraint>
@@ -227,7 +227,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Wishlist__UId__45F365D3">
+  <Association Name="FK__Wishlist__UId__00200768">
     <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
     <End Role="Wishlist" Type="Self.Wishlist" Multiplicity="*" />
     <ReferentialConstraint>
@@ -242,6 +242,18 @@
   <Function Name="usp_books_by_category" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="CId" Type="int" Mode="In" />
   </Function>
+  <Function Name="usp_get_active_categories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="usp_get_categories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="usp_get_top_books" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rowCount" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_get_top_books_by_category" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rowCount" Type="int" Mode="In" />
+    <Parameter Name="CId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_get_user_details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="int" Mode="In" />
+  </Function>
   <EntityContainer Name="BookStoreDBModelStoreContainer">
     <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
@@ -254,47 +266,47 @@
     <EntitySet Name="User_Account_Info" EntityType="Self.User_Account_Info" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User_Credentials" EntityType="Self.User_Credentials" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Wishlist" EntityType="Self.Wishlist" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__Book__CId__38996AB5" Association="Self.FK__Book__CId__38996AB5">
+    <AssociationSet Name="FK__Book__CId__4AB81AF0" Association="Self.FK__Book__CId__4AB81AF0">
       <End Role="Category" EntitySet="Category" />
       <End Role="Book" EntitySet="Book" />
     </AssociationSet>
-    <AssociationSet Name="FK__Cart__BId__4316F928" Association="Self.FK__Cart__BId__4316F928">
+    <AssociationSet Name="FK__Cart__BId__59FA5E80" Association="Self.FK__Cart__BId__59FA5E80">
       <End Role="Book" EntitySet="Book" />
       <End Role="Cart" EntitySet="Cart" />
     </AssociationSet>
-    <AssociationSet Name="FK__Cart__UId__4222D4EF" Association="Self.FK__Cart__UId__4222D4EF">
+    <AssociationSet Name="FK__Cart__UId__59063A47" Association="Self.FK__Cart__UId__59063A47">
       <End Role="User_Credentials" EntitySet="User_Credentials" />
       <End Role="Cart" EntitySet="Cart" />
     </AssociationSet>
-    <AssociationSet Name="FK__Coupon_Va__Coupo__4BAC3F29" Association="Self.FK__Coupon_Va__Coupo__4BAC3F29">
+    <AssociationSet Name="FK__Coupon_Va__Coupo__09A971A2" Association="Self.FK__Coupon_Va__Coupo__09A971A2">
       <End Role="Coupon" EntitySet="Coupon" />
       <End Role="Coupon_Validation" EntitySet="Coupon_Validation" />
     </AssociationSet>
-    <AssociationSet Name="FK__Coupon_Vali__UId__4CA06362" Association="Self.FK__Coupon_Vali__UId__4CA06362">
+    <AssociationSet Name="FK__Coupon_Vali__UId__0A9D95DB" Association="Self.FK__Coupon_Vali__UId__0A9D95DB">
       <End Role="User_Credentials" EntitySet="User_Credentials" />
       <End Role="Coupon_Validation" EntitySet="Coupon_Validation" />
     </AssociationSet>
-    <AssociationSet Name="FK__OrderInvoic__UId__4F7CD00D" Association="Self.FK__OrderInvoic__UId__4F7CD00D">
+    <AssociationSet Name="FK__OrderInvoic__UId__10566F31" Association="Self.FK__OrderInvoic__UId__10566F31">
       <End Role="User_Credentials" EntitySet="User_Credentials" />
       <End Role="OrderInvoiceDetails" EntitySet="OrderInvoiceDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__OrderItem__Order__52593CB8" Association="Self.FK__OrderItem__Order__52593CB8">
+    <AssociationSet Name="FK__OrderItem__Order__1332DBDC" Association="Self.FK__OrderItem__Order__1332DBDC">
       <End Role="OrderInvoiceDetails" EntitySet="OrderInvoiceDetails" />
       <End Role="OrderItems" EntitySet="OrderItems" />
     </AssociationSet>
-    <AssociationSet Name="FK__OrderItems__BId__534D60F1" Association="Self.FK__OrderItems__BId__534D60F1">
+    <AssociationSet Name="FK__OrderItems__BId__14270015" Association="Self.FK__OrderItems__BId__14270015">
       <End Role="Book" EntitySet="Book" />
       <End Role="OrderItems" EntitySet="OrderItems" />
     </AssociationSet>
-    <AssociationSet Name="FK__User_Accoun__UId__3F466844" Association="Self.FK__User_Accoun__UId__3F466844">
+    <AssociationSet Name="FK__User_Accoun__UId__5629CD9C" Association="Self.FK__User_Accoun__UId__5629CD9C">
       <End Role="User_Credentials" EntitySet="User_Credentials" />
       <End Role="User_Account_Info" EntitySet="User_Account_Info" />
     </AssociationSet>
-    <AssociationSet Name="FK__Wishlist__BId__46E78A0C" Association="Self.FK__Wishlist__BId__46E78A0C">
+    <AssociationSet Name="FK__Wishlist__BId__01142BA1" Association="Self.FK__Wishlist__BId__01142BA1">
       <End Role="Book" EntitySet="Book" />
       <End Role="Wishlist" EntitySet="Wishlist" />
     </AssociationSet>
-    <AssociationSet Name="FK__Wishlist__UId__45F365D3" Association="Self.FK__Wishlist__UId__45F365D3">
+    <AssociationSet Name="FK__Wishlist__UId__00200768" Association="Self.FK__Wishlist__UId__00200768">
       <End Role="User_Credentials" EntitySet="User_Credentials" />
       <End Role="Wishlist" EntitySet="Wishlist" />
     </AssociationSet>

@@ -18,19 +18,26 @@ namespace BookStore.Controllers
 
         // GET: api/User_Account_Info
         // admin only
-
+        //works fine
         [HttpGet]
         [Route("api/userlist")]
-        public IQueryable<User_Account_Info> GetAllUsers()
+        public IHttpActionResult GetAllUsers()
         {
-            return db.User_Account_Info;
+            var userlist = db.User_Account_Info.Select(u => new
+            {
+                u.UId,
+                u.Name,
+                u.ActiveStatus
+            });
+            return Ok(userlist);
         }
 
         // GET: api/User_Account_Info/5
         //admin only
+        //works
         [HttpGet]
         [Route("api/userdetails")]
-        [ResponseType(typeof(User_Account_Info))]
+        //[ResponseType(typeof(User_Account_Info))]
         public IHttpActionResult GetUserDetails(int id)
         {
             User_Account_Info user_Account_Info = db.User_Account_Info.Find(id);
@@ -38,8 +45,7 @@ namespace BookStore.Controllers
             {
                 return NotFound();
             }
-
-            return Ok(user_Account_Info);
+            return Ok(db.usp_get_user_details(user_Account_Info.UId));
         }
 
         // GET: api/user/{UserId}/activestatus
@@ -95,7 +101,7 @@ namespace BookStore.Controllers
         // PUT: api/User_Account_Info/5
         //both admin and users
         [HttpPut]
-        [Route("api/user/edit")]
+        [Route("api/userInfo/edit")]
         [ResponseType(typeof(void))]
         public IHttpActionResult EditUserDetails(int id, User_Account_Info user_Account_Info)
         {
@@ -130,7 +136,43 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        //separate api for password change required
+
+        //separate api for password change and credential change required
+        [HttpPut]
+        [Route("api/userCred/edit")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult EditUserDetails(int id, User_Credentials user_credentials)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != user_credentials.UId)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(user_credentials).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!User_CredentialsExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
 
         // POST: api/User_Account_Info
         //create user
@@ -138,20 +180,21 @@ namespace BookStore.Controllers
         [Route("api/register")]
         [ResponseType(typeof(User_Account_Info))]
         //change api to register into user credentials table too
-        public IHttpActionResult CreateNewUser(User_Account_Info user_Account_Info)
+        public IHttpActionResult CreateNewUser(User_Credentials user_Credentials,User_Account_Info user_info)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            db.User_Account_Info.Add(user_Account_Info);
+            db.User_Credentials.Add(user_Credentials);
+            db.User_Account_Info.Add(user_info);
             try
             {
                 db.SaveChanges();
             }
             catch (DbUpdateException)
             {
-                if (User_Account_InfoExists(user_Account_Info.UId))
+                if (User_Account_InfoExists(user_info.UId) || User_CredentialsExists(user_info.UId))
                 {
                     return Conflict();
                 }
@@ -160,27 +203,30 @@ namespace BookStore.Controllers
                     throw;
                 }
             }
-            return CreatedAtRoute("DefaultApi", new { id = user_Account_Info.UId }, user_Account_Info);
+            return CreatedAtRoute("DefaultApi", new { id = user_info.UId }, user_info);
         }
 
-        //// DELETE: api/User_Account_Info/5
-        ////change api to remove creds from user credentials table too
-        //[HttpDelete]
-        //[Route("api/user/delete")]
-        //[ResponseType(typeof(User_Account_Info))]
-        //public IHttpActionResult DeleteUser(int id)
-        //{
-        //    User_Account_Info user_Account_Info = db.User_Account_Info.Find(id);
-        //    if (user_Account_Info == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    db.User_Account_Info.Remove(user_Account_Info);
-        //    db.SaveChanges();
+        // DELETE: api/User_Account_Info/5
+        //change api to remove creds from user credentials table too
+        [HttpDelete]
+        [Route("api/user/delete")]
+        [ResponseType(typeof(User_Account_Info))]
+        public IHttpActionResult DeleteUser(int id)
+        {
+            User_Account_Info user_Account_Info = db.User_Account_Info.Find(id);
+            User_Credentials user_Credentials = db.User_Credentials.Find(id);
+            if (user_Account_Info == null || user_Credentials==null)
+            {
+                return NotFound();
+            }
+            db.User_Account_Info.Remove(user_Account_Info);
+            db.User_Credentials.Remove(user_Credentials);
+            db.SaveChanges();
 
-        //    return Ok(user_Account_Info);
-        //}
+            return Ok(user_Account_Info);
+        }
 
+       
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -193,6 +239,10 @@ namespace BookStore.Controllers
         private bool User_Account_InfoExists(int id)
         {
             return db.User_Account_Info.Count(e => e.UId == id) > 0;
+        }
+        private bool User_CredentialsExists(int id)
+        {
+            return db.User_Credentials.Count(u => u.UId == id) > 0;
         }
     }
 }

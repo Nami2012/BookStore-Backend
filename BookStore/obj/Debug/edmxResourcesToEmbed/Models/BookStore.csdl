@@ -320,6 +320,18 @@
     <FunctionImport Name="usp_books_by_category" ReturnType="Collection(BookStoreDBModel.usp_books_by_category_Result)">
       <Parameter Name="CId" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="usp_get_active_categories" ReturnType="Collection(BookStoreDBModel.usp_get_active_categories_Result)" />
+    <FunctionImport Name="usp_get_categories" ReturnType="Collection(BookStoreDBModel.usp_get_categories_Result)" />
+    <FunctionImport Name="usp_get_top_books" ReturnType="Collection(BookStoreDBModel.usp_get_top_books_Result)">
+      <Parameter Name="rowCount" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="usp_get_top_books_by_category" ReturnType="Collection(BookStoreDBModel.usp_get_top_books_by_category_Result)">
+      <Parameter Name="rowCount" Mode="In" Type="Int32" />
+      <Parameter Name="CId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="usp_get_user_details" ReturnType="Collection(BookStoreDBModel.usp_get_user_details_Result)">
+      <Parameter Name="userid" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="usp_books_by_category_Result">
     <Property Type="String" Name="BDescription" Nullable="false" MaxLength="1000" />
@@ -330,5 +342,57 @@
     <Property Type="String" Name="BTitle" Nullable="false" MaxLength="500" />
     <Property Type="DateTime" Name="BYEAR" Nullable="false" />
     <Property Type="String" Name="CName" Nullable="false" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="usp_get_active_categories_Result">
+    <Property Type="Int32" Name="CId" Nullable="false" />
+    <Property Type="String" Name="CName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="CDescription" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="CImage" Nullable="false" MaxLength="500" />
+    <Property Type="Boolean" Name="CStatus" Nullable="false" />
+    <Property Type="Int32" Name="CPosition" Nullable="false" />
+    <Property Type="DateTime" Name="CCreatedAt" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="usp_get_categories_Result">
+    <Property Type="Int32" Name="CId" Nullable="false" />
+    <Property Type="String" Name="CName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="CDescription" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="CImage" Nullable="false" MaxLength="500" />
+    <Property Type="Boolean" Name="CStatus" Nullable="false" />
+    <Property Type="Int32" Name="CPosition" Nullable="false" />
+    <Property Type="DateTime" Name="CCreatedAt" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="usp_get_top_books_Result">
+    <Property Type="Int32" Name="BId" Nullable="false" />
+    <Property Type="Int32" Name="CId" Nullable="true" />
+    <Property Type="String" Name="BTitle" Nullable="false" MaxLength="500" />
+    <Property Type="String" Name="BAuthor" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="BISBN" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="BYEAR" Nullable="false" />
+    <Property Type="Decimal" Name="BPrice" Nullable="false" Precision="19" />
+    <Property Type="String" Name="BDescription" Nullable="false" MaxLength="1000" />
+    <Property Type="Int32" Name="BPosition" Nullable="false" />
+    <Property Type="Boolean" Name="BStatus" Nullable="false" />
+    <Property Type="String" Name="BImage" Nullable="false" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="usp_get_top_books_by_category_Result">
+    <Property Type="Int32" Name="BId" Nullable="false" />
+    <Property Type="Int32" Name="CId" Nullable="true" />
+    <Property Type="String" Name="BTitle" Nullable="false" MaxLength="500" />
+    <Property Type="String" Name="BAuthor" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="BISBN" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="BYEAR" Nullable="false" />
+    <Property Type="Decimal" Name="BPrice" Nullable="false" Precision="19" />
+    <Property Type="String" Name="BDescription" Nullable="false" MaxLength="1000" />
+    <Property Type="Int32" Name="BPosition" Nullable="false" />
+    <Property Type="Boolean" Name="BStatus" Nullable="false" />
+    <Property Type="String" Name="BImage" Nullable="false" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="usp_get_user_details_Result">
+    <Property Type="String" Name="Username" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PhoneNo" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="ShippingAddress" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="ActiveStatus" Nullable="false" />
   </ComplexType>
 </Schema>

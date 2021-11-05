@@ -48,5 +48,46 @@ namespace BookStore.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_books_by_category_Result>("usp_books_by_category", cIdParameter);
         }
+    
+        public virtual ObjectResult<usp_get_active_categories_Result> usp_get_active_categories()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_active_categories_Result>("usp_get_active_categories");
+        }
+    
+        public virtual ObjectResult<usp_get_categories_Result> usp_get_categories()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_categories_Result>("usp_get_categories");
+        }
+    
+        public virtual ObjectResult<usp_get_top_books_Result> usp_get_top_books(Nullable<int> rowCount)
+        {
+            var rowCountParameter = rowCount.HasValue ?
+                new ObjectParameter("rowCount", rowCount) :
+                new ObjectParameter("rowCount", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_top_books_Result>("usp_get_top_books", rowCountParameter);
+        }
+    
+        public virtual ObjectResult<usp_get_top_books_by_category_Result> usp_get_top_books_by_category(Nullable<int> rowCount, Nullable<int> cId)
+        {
+            var rowCountParameter = rowCount.HasValue ?
+                new ObjectParameter("rowCount", rowCount) :
+                new ObjectParameter("rowCount", typeof(int));
+    
+            var cIdParameter = cId.HasValue ?
+                new ObjectParameter("CId", cId) :
+                new ObjectParameter("CId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_top_books_by_category_Result>("usp_get_top_books_by_category", rowCountParameter, cIdParameter);
+        }
+    
+        public virtual ObjectResult<usp_get_user_details_Result> usp_get_user_details(Nullable<int> userid)
+        {
+            var useridParameter = userid.HasValue ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_user_details_Result>("usp_get_user_details", useridParameter);
+        }
     }
 }

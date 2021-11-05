@@ -306,6 +306,21 @@
     <Compile Include="Models\usp_books_by_category_Result.cs">
       <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\usp_get_active_categories_Result.cs">
+      <DependentUpon>BookStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_get_categories_Result.cs">
+      <DependentUpon>BookStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_get_top_books_by_category_Result.cs">
+      <DependentUpon>BookStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_get_top_books_Result.cs">
+      <DependentUpon>BookStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_get_user_details_Result.cs">
+      <DependentUpon>BookStore.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ValidationRepository.cs" />
     <Compile Include="App_Start\OAuthServerConfig.cs" />
     <Compile Include="Models\Wishlist.cs">
