@@ -52,13 +52,14 @@ namespace BookStore.Controllers
 
         //GET Books With Category ID
         [Route("api/BooksByCategory/{cid}")]
+        [ResponseType(typeof(List<Book>))]
         public IHttpActionResult GetBooksByCategory(int cid)
         {
 
-            /*IQueryable<Book> Books = db.Books
+            IQueryable<Book> Books = db.Books
                 .Where(b => b.CId == cid).AsQueryable();
-             return Books;*/
-            return Ok(db.usp_books_by_category(cid));            
+             return Ok(Books);
+           // return Ok(db.usp_books_by_category(cid));            
             
         }
 
@@ -119,7 +120,7 @@ namespace BookStore.Controllers
         [Route("api/Book/edit/ActiveStatus/{id}")]
         [ResponseType(typeof(void))]
         // [Authorize(Roles = "Admin")]
-        public IHttpActionResult PutCategory(int id)
+        public IHttpActionResult PutBookStatus(int id)
         {
             if (!ModelState.IsValid)
             {
