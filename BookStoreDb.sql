@@ -267,6 +267,7 @@ AS
 BEGIN
 SELECT B.BDescription, B.BISBN, B.BId, B.BImage, B.BPrice, B.BTitle, B.BYEAR,
 C.CName FROM Book B JOIN CATEGORY C ON B.CId = C.CId WHERE C.CId = @CId AND B.BStatus = 1
+END 
 
 GO
 
@@ -290,7 +291,11 @@ END
 
 GO
 
-
-
-
+--Get all user details from both user account info and user credentials table
+CREATE OR ALTER PROCEDURE usp_get_user_details (@userid AS INT)
+AS
+BEGIN
+SELECT User_Credentials.Username, User_Credentials.Password, User_Account_Info.Name,User_Account_Info.PhoneNo,User_Account_Info.ShippingAddress,
+User_Account_Info.ActiveStatus FROM User_Credentials JOIN User_Account_Info ON User_Account_Info.UId=User_Credentials.UId WHERE User_Account_Info.UId=@userid
+END
 
