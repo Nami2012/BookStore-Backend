@@ -45,7 +45,7 @@ insert into Category values
 'For those who like having  the dialogue presented in the tell-tale word balloons next to the respective characters.',
 '../../assets/images/CategoryImages/GraphicNovel.jpg',1,3,'11-09-2021'),
 ( 4,'"Detective and Mystery',
-'The plot always revolves around a crime of sorts that must be solvedóor foiledóby the protagonists.',
+'The plot always revolves around a crime of sorts that must be solved‚Äîor foiled‚Äîby the protagonists.',
 '../../assets/images/CategoryImages/DetectiveAndMystery.jpg',1,2,'11-08-2021'),
 ( 5,'Science Fiction (Sci-Fi)',
 'Heavy Themes of technology and future science',
@@ -58,7 +58,7 @@ insert into Book values
 1,1,'../../assets/BookDetails/ActionAndAdventure/TreasureIsland.jpg'),
 (2,1,'The Count of Monte Cristo','Alexandre Dumas','978-1853267338','1997',250,'the victim of a miscarriage of justice, Edmund Dantes is fired by a desire for retribution and empowered by a stroke of Providence. In his campaign of vengeance, he becomes an anonymous agent of fate.',
 2,1,'../../assets/BookDetails/ActionAndAdventure/CountOfMonteCristo.jpg'),
-(3,1,'The Three Musketeers','Alexandre Dumas','978-8172344696','2013',270,'17th century France: Young D''Artagnan leaves his home and travels to Paris with dreams of joining The Musketeers of Guardóthe glamourous and gallant group of men who guard Louis XIII, the King of France. There he meets Athos, Porthos and Aramis, the three best musketeers and inseparable friends who believe with all their heart in the words ''all for one, one for all.What the young and gallant D''Artagnan does not realise is that he has, inadvertently, landed himself in the very centre of one of the foulest conspiracies in monarchist France.',
+(3,1,'The Three Musketeers','Alexandre Dumas','978-8172344696','2013',270,'17th century France: Young D''Artagnan leaves his home and travels to Paris with dreams of joining The Musketeers of Guard‚Äîthe glamourous and gallant group of men who guard Louis XIII, the King of France. There he meets Athos, Porthos and Aramis, the three best musketeers and inseparable friends who believe with all their heart in the words ''all for one, one for all.What the young and gallant D''Artagnan does not realise is that he has, inadvertently, landed himself in the very centre of one of the foulest conspiracies in monarchist France.',
 3,1,'../../assets/BookDetails/ActionAndAdventure/TheThreeMusketeers.jpg'),
 (4,1,'Twenty Thousand Leagues Under the Sea','Jules Verne','978-1853260315','1992',300,'Professor Aronnax, his faithful servant, Conseil, and the Canadian harpooner, Ned Land, begin a hazardous voyage to rid the seas of a little-known and terrifying sea monster. However, the ''monster'' turns out to be a giant submarine, commanded by the mysterious Captain Nemo, by whom they are soon held captive.',
 4,1,'../../assets/BookDetails/ActionAndAdventure/Twenty Thousand Leagues Under the Sea.jpg'),
@@ -68,9 +68,9 @@ insert into Book values
 6,1,''),
 (7,2,'The Catcher in the Rye','J. D. Salinger','978-7543321724','1991',750,'The hero-narrator of The Catcher in the Rye is an ancient child of sixteen, a native New Yorker named Holden Caufield. Through circumstances that tend to preclude adult, secondhand description, he leaves his prep school in Pennsylvania and goes underground in New York City for three days.'
 ,7,1,''),
-(8,2,'Wuthering Heights','Emily BrontÎ','978-8172344894','2013',200,'In this epic story of love, envy, betrayal and revenge, Heathcliff and Catherine come together in a romance that destroys them and those around them. Set in the lonely and bleak Yorkshire moors, this classic tale of thwarted passion begins when the new tenant of Thrushcross Grange, a Mr Lockwood, is forced to seek shelter for a night at Wuthering Heights. As the night passes, Lockwood learns of the tumultuous past of Wuthering Heights and of those connected with it.',
+(8,2,'Wuthering Heights','Emily Bront√´','978-8172344894','2013',200,'In this epic story of love, envy, betrayal and revenge, Heathcliff and Catherine come together in a romance that destroys them and those around them. Set in the lonely and bleak Yorkshire moors, this classic tale of thwarted passion begins when the new tenant of Thrushcross Grange, a Mr Lockwood, is forced to seek shelter for a night at Wuthering Heights. As the night passes, Lockwood learns of the tumultuous past of Wuthering Heights and of those connected with it.',
 8,1,''),
-(9,2,'The Great Gatsby','F. Scott Fitzgerald','978-0743273565','2004',990,'The story of the mysteriously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan, of lavish parties on Long Island at a time when The New York Times noted ìgin was the national drink and sex the national obsession,î it is an exquisitely crafted tale of America in the 1920s.'
+(9,2,'The Great Gatsby','F. Scott Fitzgerald','978-0743273565','2004',990,'The story of the mysteriously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan, of lavish parties on Long Island at a time when The New York Times noted ‚Äúgin was the national drink and sex the national obsession,‚Äù it is an exquisitely crafted tale of America in the 1920s.'
 ,9,1,''),
 (10,2,'Nineteen Eighty Four','George Orwell','978-0141036144','2008',300,'Nineteen Eighty-Four is George Orwell''s terrifying vision of a totalitarian future in which everything and everyone is slave to a tyrannical regime.',
 10,1,''),
@@ -80,19 +80,19 @@ insert into Book values
 12,1,''),
 (13,3,'Fun Home: A Family Tragicomic','Alison Bechdel','978-0544709041','2007',1200,'An unusual memoir done in the form of a graphic novel by a cult favorite comic artist offers a darkly funny family portrait that details her relationship with her father, a historic preservation expert dedicated to restoring the family''s Victorian home, funeral home director, high-school English teacher, and closeted homosexual.'
 ,13,1,''),
-(14,3,'Persepolis: The Story of a Childhood','Marjane Satrapi','978-0375714573','2004',1322,'In powerful black-and-white comic strip images, Satrapi tells the story of her life in Tehran from ages six to fourteen, years that saw the overthrow of the Shahís regime, the triumph of the Islamic Revolution, and the devastating effects of war with Iraq.',
+(14,3,'Persepolis: The Story of a Childhood','Marjane Satrapi','978-0375714573','2004',1322,'In powerful black-and-white comic strip images, Satrapi tells the story of her life in Tehran from ages six to fourteen, years that saw the overthrow of the Shah‚Äôs regime, the triumph of the Islamic Revolution, and the devastating effects of war with Iraq.',
 14,1,''),
-(15,3,'A Contract with God ñ And Other Tenement Stories','Will Eisner','978-0393609189','2017',1741,'A Contract with God begins with a gripping tale that mirrors the artistís real-life tragedy, the death of his daughter. Frimme Hersh, a devout Jew, questions his relationship with God after the loss of his own beloved child.',
+(15,3,'A Contract with God ‚Äì And Other Tenement Stories','Will Eisner','978-0393609189','2017',1741,'A Contract with God begins with a gripping tale that mirrors the artist‚Äôs real-life tragedy, the death of his daughter. Frimme Hersh, a devout Jew, questions his relationship with God after the loss of his own beloved child.',
 15,1,''),
-(16,4,'Murder on the Orient Express','Agatha Christie','9780007527502','2017',150,'Isolated and with a killer in their midst, detective Hercule Poirot must identify the murderer ñ in case he or she decides to strike again.',
+(16,4,'Murder on the Orient Express','Agatha Christie','9780007527502','2017',150,'Isolated and with a killer in their midst, detective Hercule Poirot must identify the murderer ‚Äì in case he or she decides to strike again.',
 16,1,''),
 (17,4,'The Hound of the Baskervilles','Arthur Conan Doyle','978-9350362990','2013',120,' tells the story of an attempted murder inspired by the legend of a fearsome, diabolical hound of supernatural origin. Sherlock Holmes and his companion Dr. Watson investigate the case.',
 17,1,''),
 (18,4,'The Big Sleep','Raymond Chandler','978-0394758282','1988',880,'A dying millionaire hires private eye Philip Marlowe to handle the blackmailer of one of his two troublesome daughters, and Marlowe finds himself involved with more than extortion. Kidnapping, pornography, seduction, and murder are just a few of the complications he gets caught up in.',
 18,1,''),
-(19,4,'The Moonstone','Wilkie Collins','978-9350333433','2010',855,'It catches one up and unfolds its amazing story through the recountings of its several narrators, all of them enticing and singular. Wilkie Collins''s spellbinding tale of romance, theft, and murder inspired a hugely popular genreñthe detective mystery.'
+(19,4,'The Moonstone','Wilkie Collins','978-9350333433','2010',855,'It catches one up and unfolds its amazing story through the recountings of its several narrators, all of them enticing and singular. Wilkie Collins''s spellbinding tale of romance, theft, and murder inspired a hugely popular genre‚Äìthe detective mystery.'
 ,19,1,''),
-(20,4,'The Mysterious Affair At Styles','Agatha Christie','978-9350260425','2000',500,'Introducing Hercule Poirot, the brilliant-and eccentric- detective who, at a friendís request, steps out of retirement- and into the shadows of a classic mystery on the outskirts of Essex.',
+(20,4,'The Mysterious Affair At Styles','Agatha Christie','978-9350260425','2000',500,'Introducing Hercule Poirot, the brilliant-and eccentric- detective who, at a friend‚Äôs request, steps out of retirement- and into the shadows of a classic mystery on the outskirts of Essex.',
 20,1,''),
 (21,5,'The Martian','Andy Weir','978-1785031137','2015',330,'Stranded on Mars, one astronaut fights to survive',21,1,''),
 (22,5,'Fahrenheit 451','Ray Bradbury','978-1451673319','2012',562,'Throughout Fahrenheit 451, Ray Bradbury warns readers about potential issues arising from increased technology, censorship, prescription medication, consumer culture, politics, war, and reliance on mass media',
@@ -101,7 +101,7 @@ insert into Book values
 23,1,''),
 (24,5,'Brave New World','Aldous Huxley','978-0060850524','2006',870,'Aldous Huxley''s profoundly important classic of world literature, Brave New World is a searching vision of an unequal, technologically-advanced future where humans are genetically bred, socially',
 24,1,''),
-(25,5,'The Time Machine','H. G. Wells','978-8175992955','2015',400,'A compelling science fiction, the Time Machine is a first-hand account of a Time Traveler''s journey into the future. a pull of the lever and the machine sends him to the year 802,701, when humanity has split into two bizarre racesóthe ethereal Eloi and the subterranean Morlocks. Here, his machine is stolen and with the help of Weena, an Eloi he saved from drowning, the traveler is able to retrieve it.'
+(25,5,'The Time Machine','H. G. Wells','978-8175992955','2015',400,'A compelling science fiction, the Time Machine is a first-hand account of a Time Traveler''s journey into the future. a pull of the lever and the machine sends him to the year 802,701, when humanity has split into two bizarre races‚Äîthe ethereal Eloi and the subterranean Morlocks. Here, his machine is stolen and with the help of Weena, an Eloi he saved from drowning, the traveler is able to retrieve it.'
 ,25,1,'')
 
 -----------------========================================= END OF SECTION : Category And Books=====================================----------------------------
@@ -209,15 +209,6 @@ GO
 ---======================================Section:Order ========================================================---------------------
 GO
 --DDL Commands
---OrderItems
-CREATE TABLE OrderItems
-(
-	OrderId NVARCHAR(10) FOREIGN KEY REFERENCES OrderInvoiceDetails,
-	BId INT FOREIGN KEY REFERENCES Book,
-	COUNT INT,
-	CONSTRAINT Pk_Order PRIMARY KEY (BId,OrderId)
-)
-GO
 --OrderInvoice
 CREATE TABLE OrderInvoiceDetails
 (
@@ -227,5 +218,79 @@ CREATE TABLE OrderInvoiceDetails
 	ShippingAddress NVARCHAR(100)
 )
 GO
+--OrderItems
+CREATE TABLE OrderItems
+(
+	OrderId NVARCHAR(10) FOREIGN KEY REFERENCES OrderInvoiceDetails,
+	BId INT FOREIGN KEY REFERENCES Book,
+	COUNT INT,
+	CONSTRAINT Pk_Order PRIMARY KEY (BId,OrderId)
+)
+GO
 ---======================================END OF Section:Orders========================================================---------------------
+
+---====================================== Section : StoredProcedures ========================================================---------------------
+GO
+
+-- Get top books among all categories
+-- @rowCount : No. of rows to select
+
+CREATE PROCEDURE usp_get_top_books
+@rowCount INT
+AS
+BEGIN
+SELECT TOP (@rowCount) *  FROM Book  WHERE BStatus = 1 ORDER BY BPosition
+END
+
+GO
+
+-- Get Top Books of specified category
+-- @rowCount : No. of rows to select
+-- @CId : Category Id to be selected
+
+CREATE PROCEDURE usp_get_top_books_by_category
+@rowCount INT,
+@CId INT
+AS
+BEGIN
+SELECT TOP (@rowCount) * FROM Book WHERE CId = @CId AND BStatus = 1 ORDER BY BPosition
+END
+
+GO
+
+-- Get all active books in a category
+-- @CId : Category Id to be selected
+
+CREATE PROCEDURE usp_books_by_category
+@CId INT
+AS
+BEGIN
+SELECT B.BDescription, B.BISBN, B.BId, B.BImage, B.BPrice, B.BTitle, B.BYEAR,
+C.CName FROM Book B JOIN CATEGORY C ON B.CId = C.CId WHERE C.CId = @CId AND B.BStatus = 1
+
+GO
+
+-- Get all categories
+
+CREATE PROCEDURE usp_get_categories
+AS
+BEGIN
+SELECT * FROM Category ORDER BY CPosition
+END
+
+GO
+
+-- Get all active categories
+
+CREATE PROCEDURE usp_get_active_categories
+AS
+BEGIN
+SELECT * FROM Category WHERE CStatus = 1 ORDER BY CPosition
+END
+
+GO
+
+
+
+
 
