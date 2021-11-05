@@ -303,6 +303,9 @@
     <Compile Include="Models\User_Credentials.cs">
       <DependentUpon>BookStore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\usp_books_by_category_Result.cs">
+      <DependentUpon>BookStore.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ValidationRepository.cs" />
     <Compile Include="App_Start\OAuthServerConfig.cs" />
     <Compile Include="Models\Wishlist.cs">

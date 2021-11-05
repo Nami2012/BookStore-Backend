@@ -25,8 +25,8 @@ namespace BookStore.Models
         public Nullable<decimal> Amount { get; set; }
         public string ShippingAddress { get; set; }
     
-        public  User_Credentials User_Credentials { get; set; }
+        public virtual User_Credentials User_Credentials { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public  ICollection<OrderItem> OrderItems { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

@@ -12,13 +12,14 @@ namespace BookStore.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class BookStoreDBEntities : DbContext
     {
         public BookStoreDBEntities()
             : base("name=BookStoreDBEntities")
         {
-            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -37,5 +38,14 @@ namespace BookStore.Models
         public virtual DbSet<User_Account_Info> User_Account_Info { get; set; }
         public virtual DbSet<User_Credentials> User_Credentials { get; set; }
         public virtual DbSet<Wishlist> Wishlists { get; set; }
+    
+        public virtual ObjectResult<usp_books_by_category_Result> usp_books_by_category(Nullable<int> cId)
+        {
+            var cIdParameter = cId.HasValue ?
+                new ObjectParameter("CId", cId) :
+                new ObjectParameter("CId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_books_by_category_Result>("usp_books_by_category", cIdParameter);
+        }
     }
 }

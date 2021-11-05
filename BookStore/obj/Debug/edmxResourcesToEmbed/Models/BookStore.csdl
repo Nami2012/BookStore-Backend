@@ -317,5 +317,18 @@
       <End Role="User_Credentials" EntitySet="User_Credentials" />
       <End Role="Wishlist" EntitySet="Wishlists" />
     </AssociationSet>
+    <FunctionImport Name="usp_books_by_category" ReturnType="Collection(BookStoreDBModel.usp_books_by_category_Result)">
+      <Parameter Name="CId" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
+  <ComplexType Name="usp_books_by_category_Result">
+    <Property Type="String" Name="BDescription" Nullable="false" MaxLength="1000" />
+    <Property Type="String" Name="BISBN" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="BId" Nullable="false" />
+    <Property Type="String" Name="BImage" Nullable="false" MaxLength="500" />
+    <Property Type="Decimal" Name="BPrice" Nullable="false" Precision="19" />
+    <Property Type="String" Name="BTitle" Nullable="false" MaxLength="500" />
+    <Property Type="DateTime" Name="BYEAR" Nullable="false" />
+    <Property Type="String" Name="CName" Nullable="false" MaxLength="50" />
+  </ComplexType>
 </Schema>

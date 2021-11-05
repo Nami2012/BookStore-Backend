@@ -115,5 +115,19 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="usp_books_by_category" FunctionName="BookStoreDBModel.Store.usp_books_by_category">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BookStoreDBModel.usp_books_by_category_Result">
+          <ScalarProperty Name="BDescription" ColumnName="BDescription" />
+          <ScalarProperty Name="BISBN" ColumnName="BISBN" />
+          <ScalarProperty Name="BId" ColumnName="BId" />
+          <ScalarProperty Name="BImage" ColumnName="BImage" />
+          <ScalarProperty Name="BPrice" ColumnName="BPrice" />
+          <ScalarProperty Name="BTitle" ColumnName="BTitle" />
+          <ScalarProperty Name="BYEAR" ColumnName="BYEAR" />
+          <ScalarProperty Name="CName" ColumnName="CName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

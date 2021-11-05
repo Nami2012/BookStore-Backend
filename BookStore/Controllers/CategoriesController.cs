@@ -10,31 +10,65 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using BookStore.Models;
+
+// Available Endpoints
+// Get all active categories : GetCategories : GET api/Categories
+// Get all categories (admin only) : GetCategoriesForAdmin() : GET api/Categories/Admin
+// Create new Category : PostCategory(Category category) : POST: api/Categories
+
 namespace BookStore.Controllers
 {   
     public class CategoriesController : ApiController
     {
         private BookStoreDBEntities db = new BookStoreDBEntities();
 
-        // GET: api/Categories //sorted according to position
-        public IQueryable<Category> GetCategories() //return only active categories
+        // GET: api/Categories 
+        // sorted according to position
+        // return only active categories
+        public IHttpActionResult GetCategories()
+        {
+            var categories = db.Categories.Where(category => category.CStatus == true)
+                .Select(c => new { 
+                    c.CId, 
+                    c.CName, 
+                    c.CDescription, 
+                    c.CImage, 
+                    c.CStatus, 
+                    c.CPosition, 
+                    c.CCreatedAt 
+                });
+            categories = categories.OrderBy(category => category.CPosition);
+            return Ok(categories);
+        }
+        // Return includes books details too
+        /*public IQueryable<Category> GetCategories() 
         {
             IQueryable<Category> categories = db.Categories.Where(category => category.CStatus == true);
             categories = categories.OrderBy(category => category.CPosition);
             return categories;
-        }
+        }*/
+
+
+
 
         //GET: api/Categories/Admin
-      //  [Authorize(Roles = "Admin")]
+        // Return includes books details too
+        // TODO: Remove the Book Details from GetCategories
+        [Authorize(Roles = "Admin")]
         [Route("api/Categories/Admin")]
         public IQueryable<Category> GetCategoriesForAdmin() //return all categories
         {
             IQueryable<Category> categories = db.Categories;
+
             categories = categories.OrderBy(category => category.CPosition);
+
             return categories;
         }
 
-        // GET: api/Categories/5
+
+
+        /*// GET: api/Categories/5
+        // Commented out since currenly we aren't using this endpoint
         [ResponseType(typeof(Category))]
         public IHttpActionResult GetCategory(int id)
         {
@@ -45,9 +79,12 @@ namespace BookStore.Controllers
             }
 
             return Ok(category);
-        }
+        }*/
 
-        [Route("api/Category/Names")]
+
+        // Working perfectly
+        // Commented out since currenly we aren't using this endpoint
+        /*[Route("api/Category/Names")]
         public IQueryable<string> GetCategoryNamesAndID() //id
         {
             List<string> CategoryNames = new List<string>();
@@ -56,11 +93,12 @@ namespace BookStore.Controllers
                 CategoryNames.Add(category.CName);
             }
             return CategoryNames.AsQueryable();
-        }
+        }*/
 
+        // Frontend isn't ready for this endpoint
         [ResponseType(typeof(void))]
-       
-       // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
+        [HttpPut] // Test whether this will work without [HttpPut]
         [Route("api/Category/Edit/ActiveStatus/{id}")]
         public IHttpActionResult PutCategory(int id)
         {
@@ -94,9 +132,9 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        // Frontend isn't ready for this endpoint
         // PUT: api/Categories/5
-        [ResponseType(typeof(void))]
-    
+        [ResponseType(typeof(void))]    
         //[Authorize(Roles = "Admin")]
         public IHttpActionResult PutCategory(int id, Category category)
         {
@@ -132,8 +170,7 @@ namespace BookStore.Controllers
         }
 
         // POST: api/Categories
-    
-       // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [ResponseType(typeof(Category))]
         public IHttpActionResult PostCategory(Category category)
         {
@@ -141,6 +178,11 @@ namespace BookStore.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            category.CPosition = 1;
+            category.CImage = "https://static.wikia.nocookie.net/harrypotter/images/d/d4/LibraryPottermore.png";
+            category.CStatus = true;
+            category.CCreatedAt = DateTime.Now;
 
             db.Categories.Add(category);
 
