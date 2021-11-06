@@ -299,3 +299,19 @@ SELECT User_Credentials.Username, User_Credentials.Password, User_Account_Info.N
 User_Account_Info.ActiveStatus FROM User_Credentials JOIN User_Account_Info ON User_Account_Info.UId=User_Credentials.UId WHERE User_Account_Info.UId=@userid
 END
 
+GO
+
+-- Get Wishlist of a user
+-- @UId user id
+
+CREATE PROCEDURE usp_get_wishlist_by_uid 
+@UId INT
+AS
+BEGIN
+SELECT B.BId, B.CId, B.BTitle, B.BAuthor, B.BPrice, B.BDescription, B.BImage 
+FROM Book B JOIN Wishlist W 
+ON W.BId = B.BId WHERE W.UId = @UId AND B.BStatus = 1
+END
+
+
+
