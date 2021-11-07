@@ -329,4 +329,63 @@ ON W.BId = B.BId WHERE W.UId = @UId AND B.BStatus = 1
 END
 
 
+GO
+
+-- Search Book By Title and Filter by category
+-- @SearchTerm : Title of book to search
+-- @CId : Category Id to filter
+
+CREATE PROCEDURE usp_search_by_category
+@SearchTerm NVARCHAR(100),
+@CId INT
+AS
+BEGIN
+SELECT B.BId, B.CId, B.BTitle, B.BPrice, C.CName, B.BImage 
+FROM Book B JOIN Category C ON B.CId = C.CId
+WHERE B.BTitle LIKE @SearchTerm AND C.CId = @CId
+END
+
+GO
+
+-- Search Book By Title
+-- @SearchTerm : Title of book to search
+
+CREATE PROCEDURE [dbo].[usp_search_by_title]
+@SearchTerm NVARCHAR(100)
+AS
+BEGIN
+SELECT B.BId, B.CId, B.BTitle, B.BPrice, C.CName, B.BImage  
+FROM Book B JOIN Category C ON B.CId = C.CId
+WHERE B.BTitle LIKE @SearchTerm AND B.BStatus = 1
+END
+
+GO
+
+-- Search Book by Author
+-- @SearchTerm : Name of the author to search
+CREATE PROCEDURE [dbo].[usp_search_by_author]
+@SearchTerm NVARCHAR(100)
+AS
+BEGIN
+SELECT B.BId, B.CId, B.BTitle, B.BPrice, C.CName, B.BImage  
+FROM Book B JOIN Category C ON B.CId = C.CId
+WHERE B.BAuthor LIKE @SearchTerm AND B.BStatus = 1
+END
+
+GO
+
+-- Search Book by ISBN
+-- @SearchTerm : Name of the ISBN to search
+
+CREATE PROCEDURE [dbo].[usp_search_by_isbn]
+@SearchTerm NVARCHAR(100)
+AS
+BEGIN
+SELECT B.BId, B.CId, B.BTitle, B.BPrice, C.CName, B.BImage  
+FROM Book B JOIN Category C ON B.CId = C.CId
+WHERE B.BISBN LIKE @SearchTerm AND B.BStatus = 1
+END
+
+GO
+
 
