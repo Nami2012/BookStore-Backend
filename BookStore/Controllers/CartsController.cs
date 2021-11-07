@@ -31,6 +31,8 @@ namespace BookStore.Controllers
         // If admin, return carts of all user
         // If user, return their cart
         // One user have only one cart
+        [HttpGet]
+        [Route("api/Carts")]
         [Authorize]
         public IQueryable<Cart> GetCarts()
         {
@@ -51,8 +53,8 @@ namespace BookStore.Controllers
                         identity.Claims.Where(c => c.Type == "UId")
                         .Select(c => c.Value).FirstOrDefault()
                     );
-                return db.Carts
-                    .Where(item => item.UId == UId)
+                return db.Carts.Include("Book")
+                    .Where(item => item.UId == UId).ToList() //nested json here. should we change it to join?
                     .AsQueryable();
             }
         }
@@ -62,23 +64,39 @@ namespace BookStore.Controllers
         // POST: api/Carts
         // Add Item to Cart
         // UId of the current user is taken
-        [ResponseType(typeof(Cart))]
-       // [Authorize(Roles = "User")]
-        public IHttpActionResult PostCart(Cart cart)
+        //[ResponseType(typeof(Cart))]
+        // [Authorize(Roles = "User")]
+        [HttpPost]
+        [Route("api/Carts/")]
+        public IHttpActionResult AddToCart([FromBody] int Bid)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
+            if (db.Books.Find(Bid) == null)
+            {
+                return BadRequest("No Book Found");
+            }
             // Get UId from of current user
             var identity = (ClaimsIdentity)User.Identity;
-            int UId = int.Parse(
+            int Uid = int.Parse(
                         identity.Claims.Where(c => c.Type == "UId")
                         .Select(c => c.Value).FirstOrDefault()
                     );
-            cart.UId = UId;
-
+            Cart cart = db.Carts.Find(Uid, Bid);
+            if (cart != null)
+            {
+                return BadRequest("Book Already exists in cart.");
+            }
+            cart = new Cart()
+            {
+                UId = Uid,
+                BId = Bid,
+                Count = 1,
+                STATUS = true
+            };
             db.Carts.Add(cart);
 
             try
@@ -97,16 +115,76 @@ namespace BookStore.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = cart.UId }, cart);
+            return CreatedAtRoute("DefaultApi", new { controller = "Carts", id = cart.UId }, cart);
         }
+
+        // PUT : api/Cart/decrement
+        //decrement quantity
+        [HttpPut]
+        [Route("api/Carts")]
+        public IHttpActionResult DecrementCartQuantity(int Bid, int count = 1)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (db.Books.Find(Bid) == null)
+            {
+                return BadRequest("No Book Found");
+            }
+            // Get UId from of current user
+            var identity = (ClaimsIdentity)User.Identity;
+            int Uid = int.Parse(
+                        identity.Claims.Where(c => c.Type == "UId")
+                        .Select(c => c.Value).FirstOrDefault()
+                    );
+            Cart cart = db.Carts.Find(Uid, Bid);
+            if (cart == null)
+            {
+                return BadRequest("No such book found in cart");
+            }
+            else
+            {
+                cart.Count = count < 0 ? 0 : count;
+                if (cart.Count == 0)
+                {
+                    db.Carts.Remove(cart);
+                    db.SaveChanges();
+                    return Ok(cart);
+                }
+            }
+            db.Entry(cart).Property(c => c.Count).IsModified = true;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                if (CartExists(cart.UId, cart.BId))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok(cart);
+        }
+
 
         // DELETE: api/Carts
         // BId in request body
         // UId from user identity
         [ResponseType(typeof(Cart))]
-        public IHttpActionResult DeleteCart(Cart curCart)
+        [HttpDelete]
+        [Route("api/Carts/{BId}")]
+        public IHttpActionResult DeleteCart(int BId)
         {
-            int BId = curCart.BId;
+            // int BId = curCart.BId;
             var identity = (ClaimsIdentity)User.Identity;
             int UId = int.Parse(
                         identity.Claims.Where(c => c.Type == "UId")

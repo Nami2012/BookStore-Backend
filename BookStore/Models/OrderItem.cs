@@ -18,7 +18,7 @@ namespace BookStore.Models
         public int BId { get; set; }
         public Nullable<int> COUNT { get; set; }
     
-        public virtual Book Book { get; set; }
-        public virtual OrderInvoiceDetail OrderInvoiceDetail { get; set; }
+        public  Book Book { get; set; }
+        public  OrderInvoiceDetail OrderInvoiceDetail { get; set; }
     }
 }

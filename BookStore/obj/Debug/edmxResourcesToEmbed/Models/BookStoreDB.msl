@@ -30,10 +30,10 @@
     <EntitySetMapping Name="Carts">
       <EntityTypeMapping TypeName="BookStoreDBModel.Cart">
         <MappingFragment StoreEntitySet="Cart">
-          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
           <ScalarProperty Name="UId" ColumnName="UId" />
           <ScalarProperty Name="BId" ColumnName="BId" />
           <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -110,9 +110,9 @@
     <EntitySetMapping Name="Wishlists">
       <EntityTypeMapping TypeName="BookStoreDBModel.Wishlist">
         <MappingFragment StoreEntitySet="Wishlist">
-          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
           <ScalarProperty Name="UId" ColumnName="UId" />
           <ScalarProperty Name="BId" ColumnName="BId" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -215,9 +215,10 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="usp_search_by_title" FunctionName="BookStoreDBModel.Store.usp_search_by_title">
+    <FunctionImportMapping FunctionImportName="usp_insert_user_credentials" FunctionName="BookStoreDBModel.Store.usp_insert_user_credentials" />
+    <FunctionImportMapping FunctionImportName="usp_search_by_author" FunctionName="BookStoreDBModel.Store.usp_search_by_author">
       <ResultMapping>
-        <ComplexTypeMapping TypeName="BookStoreDBModel.usp_search_by_title_Result">
+        <ComplexTypeMapping TypeName="BookStoreDBModel.usp_search_by_author_Result">
           <ScalarProperty Name="BId" ColumnName="BId" />
           <ScalarProperty Name="CId" ColumnName="CId" />
           <ScalarProperty Name="BTitle" ColumnName="BTitle" />
@@ -239,18 +240,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="usp_search_by_author" FunctionName="BookStoreDBModel.Store.usp_search_by_author">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="BookStoreDBModel.usp_search_by_author_Result">
-          <ScalarProperty Name="BId" ColumnName="BId" />
-          <ScalarProperty Name="CId" ColumnName="CId" />
-          <ScalarProperty Name="BTitle" ColumnName="BTitle" />
-          <ScalarProperty Name="BPrice" ColumnName="BPrice" />
-          <ScalarProperty Name="CName" ColumnName="CName" />
-          <ScalarProperty Name="BImage" ColumnName="BImage" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="usp_search_by_isbn" FunctionName="BookStoreDBModel.Store.usp_search_by_isbn">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BookStoreDBModel.usp_search_by_isbn_Result">
@@ -263,6 +252,17 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="usp_insert_user_credentials" FunctionName="BookStoreDBModel.Store.usp_insert_user_credentials" />
+    <FunctionImportMapping FunctionImportName="usp_search_by_title" FunctionName="BookStoreDBModel.Store.usp_search_by_title">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BookStoreDBModel.usp_search_by_title_Result">
+          <ScalarProperty Name="BId" ColumnName="BId" />
+          <ScalarProperty Name="CId" ColumnName="CId" />
+          <ScalarProperty Name="BTitle" ColumnName="BTitle" />
+          <ScalarProperty Name="BPrice" ColumnName="BPrice" />
+          <ScalarProperty Name="CName" ColumnName="CName" />
+          <ScalarProperty Name="BImage" ColumnName="BImage" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

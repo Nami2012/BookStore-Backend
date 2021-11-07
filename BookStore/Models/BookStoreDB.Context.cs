@@ -89,5 +89,67 @@ namespace BookStore.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_user_details_Result>("usp_get_user_details", useridParameter);
         }
+    
+        public virtual ObjectResult<usp_get_wishlist_by_uid_Result> usp_get_wishlist_by_uid(Nullable<int> uId)
+        {
+            var uIdParameter = uId.HasValue ?
+                new ObjectParameter("UId", uId) :
+                new ObjectParameter("UId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_wishlist_by_uid_Result>("usp_get_wishlist_by_uid", uIdParameter);
+        }
+    
+        public virtual int usp_insert_user_credentials(string username, string password)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_insert_user_credentials", usernameParameter, passwordParameter);
+        }
+    
+        public virtual ObjectResult<usp_search_by_author_Result> usp_search_by_author(string searchTerm)
+        {
+            var searchTermParameter = searchTerm != null ?
+                new ObjectParameter("SearchTerm", searchTerm) :
+                new ObjectParameter("SearchTerm", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_search_by_author_Result>("usp_search_by_author", searchTermParameter);
+        }
+    
+        public virtual ObjectResult<usp_search_by_category_Result> usp_search_by_category(string searchTerm, Nullable<int> cId)
+        {
+            var searchTermParameter = searchTerm != null ?
+                new ObjectParameter("SearchTerm", searchTerm) :
+                new ObjectParameter("SearchTerm", typeof(string));
+    
+            var cIdParameter = cId.HasValue ?
+                new ObjectParameter("CId", cId) :
+                new ObjectParameter("CId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_search_by_category_Result>("usp_search_by_category", searchTermParameter, cIdParameter);
+        }
+    
+        public virtual ObjectResult<usp_search_by_isbn_Result> usp_search_by_isbn(string searchTerm)
+        {
+            var searchTermParameter = searchTerm != null ?
+                new ObjectParameter("SearchTerm", searchTerm) :
+                new ObjectParameter("SearchTerm", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_search_by_isbn_Result>("usp_search_by_isbn", searchTermParameter);
+        }
+    
+        public virtual ObjectResult<usp_search_by_title_Result> usp_search_by_title(string searchTerm)
+        {
+            var searchTermParameter = searchTerm != null ?
+                new ObjectParameter("SearchTerm", searchTerm) :
+                new ObjectParameter("SearchTerm", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_search_by_title_Result>("usp_search_by_title", searchTermParameter);
+        }
     }
 }

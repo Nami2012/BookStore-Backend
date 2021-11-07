@@ -1,31 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using System.Web.Http.Description;
-using System.Web.Security;
 using BookStore.Models;
-//using System.Security.Claims;
 
-
-// Available Endpoints :
-// Get All Books : GetBooks() : GET api/Books
-// Get Book using BId : GetBook(int id) : GET api/Books/{id}
-// Get Books using CId : GetBooksByCategory(int cid) : GET api/Book
-// Insert Book : PostBook(Book book) : POST api/BooksByCategory/{cid}
-// Get Featured / Top books of each category
-//          : GetFeaturedBooks(int? cid) : GET GetFeaturedBooks(int? cid)
 
 
 namespace BookStore.Controllers
 {
-    [EnableCors("*", "*", "*")]
     public class BooksController : ApiController
     {
         private BookStoreDBEntities db = new BookStoreDBEntities();
@@ -55,28 +38,41 @@ namespace BookStore.Controllers
         [ResponseType(typeof(List<Book>))]
         public IHttpActionResult GetBooksByCategory(int cid)
         {
-
-            IQueryable<Book> Books = db.Books
-                .Where(b => b.CId == cid).AsQueryable();
-             return Ok(Books);
-           // return Ok(db.usp_books_by_category(cid));            
-            
+           return Ok(db.usp_books_by_category(cid));         
         }
 
-       
 
-        /*//Search books 
-        [Route("api/Search/Books/")]
+
+        //Search books 
+        [Route("api/Search/Books/{searchterm}/{cid:int=0}")]
         [HttpGet]
-        public IQueryable<Book> SearchBooks(int id,string searchterm)
-        {   
-            
-            //can build where clause separately
-            IQueryable<Book> Books = db.Books.Where(b => b.BTitle.Contains(searchterm)).AsQueryable();
-            return Books;
+        public IHttpActionResult SearchBooks(int cid, string searchterm)
+        {
+            if(cid == 0)
+            {
+                //can build where clause separately
+                return Ok(db.usp_search_by_title($"%{searchterm}%"));
+            }
+            else
+            {
+                return Ok(db.usp_search_by_category($"%{searchterm}%", cid));
+            }
+        }
 
+        // Search by Author
+        [Route("api/Search/Author/{searchterm}")]
+        [HttpGet]
+        public IHttpActionResult SearchBookByAuthor(string searchterm)
+        {
+            return Ok(db.usp_search_by_author($"%{searchterm}%"));
+        }
 
-        }*/
+        [Route("api/Search/ISBN/{searchterm}")]
+        [HttpGet]
+        public IHttpActionResult SearchByISBN(string searchterm)
+        {
+            return Ok(db.usp_search_by_isbn($"%{searchterm}%"));
+        }
 
         /*// PUT: api/Books/5
         [ResponseType(typeof(void))]
@@ -115,12 +111,10 @@ namespace BookStore.Controllers
         }*/
 
         /*//PUT:api/Book/edit/ActiveStatus
-        // But why?
-        // Why PutCategory inside BooksController ?
         [Route("api/Book/edit/ActiveStatus/{id}")]
         [ResponseType(typeof(void))]
         // [Authorize(Roles = "Admin")]
-        public IHttpActionResult PutBookStatus(int id)
+        public IHttpActionResult ActiveStatus(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -156,14 +150,15 @@ namespace BookStore.Controllers
         [Authorize(Roles = "Admin")]
         public IHttpActionResult PostBook(Book book)
         {
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
+            }*/
 
             book.BStatus = true;
-            book.BPosition = 1;
+            book.BPosition = db.Books.Max(b => b.BPosition) + 1;
             book.BImage = "https://harpercollins.co.in/PowerPoint_jpg/9789354223174.jpg";
+            book.BId = db.Books.Max(b => b.BId) + 1;
 
             db.Books.Add(book);
 
@@ -208,36 +203,13 @@ namespace BookStore.Controllers
         [Route("api/Books/GetTopBooks/{cid:int?}")]
         public IHttpActionResult GetFeaturedBooks(int? cid = null)
         {
-            if(cid == null)
+            if (cid == null)
             {
-                var books = db.Books.Where(b => b.BStatus == true)
-                    .OrderBy(b => b.BPosition)
-                    .Take(5)
-                    .Select(b => new {
-                        b.BId,
-                        b.CId,
-                        b.BTitle,
-                        b.BAuthor,
-                        b.BDescription,
-                        b.BImage
-                    });
-                return Ok(books);
+                return Ok(db.usp_get_top_books(4));
             }
             else
             {
-                var books = db.Books
-                    .Where(b => b.CId == cid && b.BStatus == true)
-                    .OrderBy(b => b.BPosition)
-                    .Take(5)
-                    .Select(b => new {
-                        b.BId,
-                        b.CId,
-                        b.BTitle,
-                        b.BAuthor,
-                        b.BDescription,
-                        b.BImage
-                    });
-                return Ok(books);
+                return Ok(db.usp_get_top_books_by_category(4, cid));
             }
         }
 

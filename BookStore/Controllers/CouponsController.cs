@@ -35,10 +35,12 @@ namespace BookStore.Controllers
         [Route("api/admin/Coupons/add")]
         public IHttpActionResult PostCoupon(Coupon coupon)
         {
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
+            }*/
+
+            coupon.Status = true;
             db.Coupons.Add(coupon);
             try
             {

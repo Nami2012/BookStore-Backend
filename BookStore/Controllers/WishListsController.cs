@@ -23,7 +23,8 @@ namespace BookStore.Controllers
         int getUserId()
         {
             var identity = (ClaimsIdentity)User.Identity;
-            User_Account_Info user = db.User_Account_Info.SingleOrDefault(u => u.UId == int.Parse(identity.Name));
+            int UId = int.Parse(identity.Name);
+            User_Account_Info user = db.User_Account_Info.SingleOrDefault(u => u.UId == UId);
             if (user == null)
             {
                 return -1;
@@ -32,7 +33,9 @@ namespace BookStore.Controllers
         }
 
         //GET /api/wishlist 
-        [ResponseType(typeof(List<Wishlist>))]
+        [Route("api/wishlist")]
+        [Authorize]
+        [HttpGet]
         public IHttpActionResult GetWishList()
         {
 
@@ -41,13 +44,14 @@ namespace BookStore.Controllers
             {
                 return BadRequest();
             }
-            List<Wishlist> WishLists = db.Wishlists.Where(W => W.UId == uid).ToList<Wishlist>();
-            return Ok(WishLists);
+
+            return Ok(db.usp_get_wishlist_by_uid(uid));
         }
         //POST /wishlist/add queryparam=> bi
-
-        [ResponseType(typeof(Wishlist))]
-        public IHttpActionResult PostWishlist(int bid)
+        [Route("api/wishlist")]
+        [Authorize]
+        [HttpPost]
+        public IHttpActionResult PostWishlist([FromBody]int bid)
         {
             if (!ModelState.IsValid)
             {
@@ -62,7 +66,6 @@ namespace BookStore.Controllers
             {
                 BId = bid,
                 UId = uid,
-                Count = 1
             };
             db.Wishlists.Add(wishlist);
 
@@ -86,12 +89,17 @@ namespace BookStore.Controllers
         }
         //DELETE /wishlist/remove queryparam => bid
         // DELETE: api/Books/5
-        [ResponseType(typeof(Wishlist))]
-
-
-        public IHttpActionResult DeleteRemoveFromWishlist(int bid, int uid)
+        //POST /wishlist/add queryparam=> bi
+        [Route("api/wishlist/{bid}")]
+        [Authorize]
+        [HttpDelete]
+        public IHttpActionResult RemoveFromWishlist(int bid)
         {
-           
+            int uid = getUserId();
+            if (uid < 0)
+            {
+                return BadRequest();
+            }
 
             Wishlist wishlist = db.Wishlists.SingleOrDefault(w => w.UId == uid && w.BId == bid);
             if (wishlist == null)

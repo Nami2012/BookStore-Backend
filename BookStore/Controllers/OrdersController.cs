@@ -93,11 +93,11 @@ namespace BookStore.Controllers
             }
             //return all books from order items.
             List<OrderItem> placedOrders = db.OrderItems.Where(o => o.OrderId == orderid.ToString()).ToList();
-            return Ok(placedOrders); 
+            return Ok(orderid.ToString()); 
         }
 
         // private function apply coupon => return percentage of total value to be reduced and adds its to the coupon validation table
-        //untested
+        // untested
         private decimal applyCoupon(string couponid, int userid)
         {
             Coupon_Validation coupon = db.Coupon_Validation.SingleOrDefault(c => c.CouponId == couponid && c.UId == userid);
@@ -139,6 +139,7 @@ namespace BookStore.Controllers
         void RemoveFromCart(int uid)
         {
             List<Cart> cartitems = db.Carts.Where(c => c.UId == uid).ToList();
+            // DELETE * FROM Carts WHERE UId = @uid
             db.Carts.RemoveRange(cartitems);
             db.SaveChanges();
         }
@@ -165,7 +166,7 @@ namespace BookStore.Controllers
         [Route("api/ConfirmOrder")]
         [ResponseType(typeof(List<OrderItem>))]
         //get order id,discount coupon code,user id
-        public IHttpActionResult ConfirmOrder(string orderid,string couponid)
+        public IHttpActionResult ConfirmOrder(string orderid,string couponid = "")
         {   
             //get user
             var identity = User.Identity.Name;
@@ -177,7 +178,7 @@ namespace BookStore.Controllers
 
             //check validity of applied coupon if any
             decimal discount = 0;
-            if (couponid != null)
+            if (couponid != "")
             {
                 discount = applyCoupon(couponid,user.UId);
             }
@@ -191,12 +192,13 @@ namespace BookStore.Controllers
             OrderInvoiceDetail order = db.OrderInvoiceDetails.Find(orderid);
             order.Amount = total_amount;
             db.Entry(order).Property(b => b.Amount).IsModified = true;
+            db.SaveChanges();
 
             //remove order items from cart and wishlist
             RemoveFromCart(user.UId);
             RemoveFromWishlist(user.UId, order.OrderId); // join use here
 
-            return Ok();
+            return Ok(orderid); // Returned order id to reroute to order post
         }
 
         //cancel order get order id as paramter
@@ -233,32 +235,32 @@ namespace BookStore.Controllers
         [HttpGet]
         [Route("api/AllOrders")]
         [ResponseType(typeof(List<OrderInvoiceDetail>))]
-        public IHttpActionResult GetWishList()
+        public IHttpActionResult AllOrders()
         {
             var identity = (ClaimsIdentity)User.Identity;
             int userid = int.Parse(identity.Name);
-            List<OrderInvoiceDetail> orders = db.OrderInvoiceDetails.Where(o => o.UId == userid).ToList();
+            List<OrderInvoiceDetail> orders = db.OrderInvoiceDetails.Where(o => o.UId == userid && o.Amount != -1).ToList();
             return Ok(orders);
         }
 
         //view order list details
         //take in order id and display the details of the order.
         [HttpGet]
-        [Route("api/OrderDetails")]
-        [ResponseType(typeof(OrderInvoiceDetail))] //enable lazy loading for this
+        [Authorize]
+        [Route("api/OrderDetails/")]//enable lazy loading for this
         public IHttpActionResult OrderDetails(string orderid)
         {
             var identity = (ClaimsIdentity)User.Identity;
-            OrderInvoiceDetail order = db.OrderInvoiceDetails.Find(orderid);
+            int uid = int.Parse(identity.Name);
+            var order = db.OrderInvoiceDetails.Include("OrderItems.Book")
+                .Where(o => o.OrderId == orderid && o.UId == uid).ToList().AsQueryable();
             if (identity == null || order == null)
             {
                 return BadRequest("Operation Not permitted");
             }
 
-            if (identity.RoleClaimType == "User" && order.UId != int.Parse(identity.Name))
-            {
-                return BadRequest("Unauthorised");
-            }
+            // db.Courses.Include("Modules.Chapters").Single(c => c.Id == id);
+
             return Ok(order);
         }
 

@@ -10,15 +10,14 @@
 namespace BookStore.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Wishlist
+    public partial class usp_search_by_title_Result
     {
-        public int UId { get; set; }
         public int BId { get; set; }
-        public Nullable<bool> STATUS { get; set; }
-    
-        public virtual Book Book { get; set; }
-        public virtual User_Credentials User_Credentials { get; set; }
+        public Nullable<int> CId { get; set; }
+        public string BTitle { get; set; }
+        public decimal BPrice { get; set; }
+        public string CName { get; set; }
+        public string BImage { get; set; }
     }
 }

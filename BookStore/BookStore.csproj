@@ -258,73 +258,88 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Admin.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Book.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BookStore.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BookStore.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BookStore.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BookStore.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BookStore.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BookStore.edmx</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BookStoreAuthorizationServerProvider.cs" />
+    <Compile Include="Models\BookStoreDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookStoreDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BookStoreDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BookStoreDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookStoreDB.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Cart.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Coupon.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Coupon_Validation.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrderInvoiceDetail.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrderItem.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User_Account_Info.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User_Credentials.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\usp_books_by_category_Result.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\usp_get_active_categories_Result.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\usp_get_categories_Result.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\usp_get_top_books_by_category_Result.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\usp_get_top_books_Result.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\usp_get_user_details_Result.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_get_wishlist_by_uid_Result.cs">
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_search_by_author_Result.cs">
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_search_by_category_Result.cs">
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_search_by_isbn_Result.cs">
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_search_by_title_Result.cs">
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ValidationRepository.cs" />
     <Compile Include="App_Start\OAuthServerConfig.cs" />
     <Compile Include="Models\Wishlist.cs">
-      <DependentUpon>BookStore.tt</DependentUpon>
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -337,15 +352,15 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\BookStore.Context.tt">
+    <Content Include="Models\BookStoreDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BookStore.edmx</DependentUpon>
-      <LastGenOutput>BookStore.Context.cs</LastGenOutput>
+      <DependentUpon>BookStoreDB.edmx</DependentUpon>
+      <LastGenOutput>BookStoreDB.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\BookStore.tt">
+    <Content Include="Models\BookStoreDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BookStore.edmx</DependentUpon>
-      <LastGenOutput>BookStore.cs</LastGenOutput>
+      <DependentUpon>BookStoreDB.edmx</DependentUpon>
+      <LastGenOutput>BookStoreDB.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -368,12 +383,12 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <EntityDeploy Include="Models\BookStore.edmx">
+    <EntityDeploy Include="Models\BookStoreDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BookStore.Designer.cs</LastGenOutput>
+      <LastGenOutput>BookStoreDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\BookStore.edmx.diagram">
-      <DependentUpon>BookStore.edmx</DependentUpon>
+    <Content Include="Models\BookStoreDB.edmx.diagram">
+      <DependentUpon>BookStoreDB.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

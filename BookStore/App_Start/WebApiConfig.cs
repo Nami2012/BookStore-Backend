@@ -10,9 +10,9 @@ namespace BookStore
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            /*// Web API configuration and services
             EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*"); 
-            config.EnableCors(cors);
+            config.EnableCors(cors);*/
             // Web API routes
             config.MapHttpAttributeRoutes();
 

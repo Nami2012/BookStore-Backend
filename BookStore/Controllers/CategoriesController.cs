@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using BookStore.Models;
 
-// Available Endpoints
-// Get all active categories : GetCategories : GET api/Categories
-// Get all categories (admin only) : GetCategoriesForAdmin() : GET api/Categories/Admin
-// Create new Category : PostCategory(Category category) : POST: api/Categories
 
 namespace BookStore.Controllers
 {   
@@ -27,42 +20,18 @@ namespace BookStore.Controllers
         // return only active categories
         public IHttpActionResult GetCategories()
         {
-            var categories = db.Categories.Where(category => category.CStatus == true)
-                .Select(c => new { 
-                    c.CId, 
-                    c.CName, 
-                    c.CDescription, 
-                    c.CImage, 
-                    c.CStatus, 
-                    c.CPosition, 
-                    c.CCreatedAt 
-                });
-            categories = categories.OrderBy(category => category.CPosition);
-            return Ok(categories);
+            return Ok(db.usp_get_active_categories());
         }
-        // Return includes books details too
-        /*public IQueryable<Category> GetCategories() 
-        {
-            IQueryable<Category> categories = db.Categories.Where(category => category.CStatus == true);
-            categories = categories.OrderBy(category => category.CPosition);
-            return categories;
-        }*/
 
 
 
 
         //GET: api/Categories/Admin
-        // Return includes books details too
-        // TODO: Remove the Book Details from GetCategories
         [Authorize(Roles = "Admin")]
         [Route("api/Categories/Admin")]
-        public IQueryable<Category> GetCategoriesForAdmin() //return all categories
+        public IHttpActionResult GetCategoriesForAdmin() //return all categories
         {
-            IQueryable<Category> categories = db.Categories;
-
-            categories = categories.OrderBy(category => category.CPosition);
-
-            return categories;
+            return Ok(db.usp_get_categories());
         }
 
 
@@ -170,16 +139,12 @@ namespace BookStore.Controllers
         }
 
         // POST: api/Categories
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         [ResponseType(typeof(Category))]
         public IHttpActionResult PostCategory(Category category)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            category.CPosition = 1;
+            category.CId = db.Categories.Max(c => c.CId) + 1;
+            category.CPosition = db.Categories.Max(c => c.CPosition) + 1;
             category.CImage = "https://static.wikia.nocookie.net/harrypotter/images/d/d4/LibraryPottermore.png";
             category.CStatus = true;
             category.CCreatedAt = DateTime.Now;

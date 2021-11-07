@@ -11,18 +11,14 @@ namespace BookStore.Models
 {
     using System;
     
-    public partial class usp_get_featured_books_Result
+    public partial class usp_get_wishlist_by_uid_Result
     {
         public int BId { get; set; }
         public Nullable<int> CId { get; set; }
         public string BTitle { get; set; }
         public string BAuthor { get; set; }
-        public string BISBN { get; set; }
-        public System.DateTime BYEAR { get; set; }
         public decimal BPrice { get; set; }
         public string BDescription { get; set; }
-        public int BPosition { get; set; }
-        public bool BStatus { get; set; }
         public string BImage { get; set; }
     }
 }

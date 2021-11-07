@@ -63,6 +63,7 @@ namespace BookStore.Controllers
         //    return Ok(user.ActiveStatus);
         //}
 
+
         // PUT: api/user/{id}/activestatus -- is id required in the header?
         [HttpPut]
         [Route("api/user/edit/activestatus")]
@@ -174,27 +175,27 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/User_Account_Info
+        // POST: api/User_Credentials
         //create user
         [HttpPost]
-        [Route("api/register")]
-        [ResponseType(typeof(User_Account_Info))]
+        [Route("api/register/user/cred")]
         //change api to register into user credentials table too
-        public IHttpActionResult CreateNewUser(User_Credentials user_Credentials,User_Account_Info user_info)
+        public IHttpActionResult CreateNewUserCredentials(User_Credentials user_Credentials)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            db.User_Credentials.Add(user_Credentials);
-            db.User_Account_Info.Add(user_info);
+            db.usp_insert_user_credentials(user_Credentials.Username, user_Credentials.Password);
+            User_Credentials CreatedUser = db.User_Credentials.SingleOrDefault(u => u.Username == user_Credentials.Username);
+            // db.User_Account_Info.Add(user_info);
             try
             {
                 db.SaveChanges();
             }
             catch (DbUpdateException)
             {
-                if (User_Account_InfoExists(user_info.UId) || User_CredentialsExists(user_info.UId))
+                if (User_CredentialsExists(user_Credentials.UId))
                 {
                     return Conflict();
                 }
@@ -203,7 +204,39 @@ namespace BookStore.Controllers
                     throw;
                 }
             }
-            return CreatedAtRoute("DefaultApi", new { id = user_info.UId }, user_info);
+            return Ok(CreatedUser.UId);
+        }
+
+        // POST: api/User_Account_Info
+        //create user
+        [HttpPost]
+        [Route("api/register/user/info")]
+        [ResponseType(typeof(User_Account_Info))]
+        //change api to register into user credentials table too
+        public IHttpActionResult CreateNewUserInfo(int id, User_Account_Info user_info)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            user_info.UId = id;
+            db.User_Account_Info.Add(user_info);
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                if (User_Account_InfoExists(user_info.UId))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return Ok();
         }
 
         // DELETE: api/User_Account_Info/5
@@ -226,7 +259,23 @@ namespace BookStore.Controllers
             return Ok(user_Account_Info);
         }
 
-       
+        // GET : api/isAdminCheck
+        // Return Ok if the Bearere Token belongs to admin
+        // Return Error else
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("api/isAdmin")]
+        public IHttpActionResult IsAdminCheck()
+        {
+
+            // If the request gets inside the method
+            // that means the user is admin
+            // Else the error response will be returned
+            // due to Authorize Filter
+            return Ok("isAdmin");
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
