@@ -89,5 +89,18 @@ namespace BookStore.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_user_details_Result>("usp_get_user_details", useridParameter);
         }
+    
+        public virtual int usp_insert_user_credentials(string username, string password)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_insert_user_credentials", usernameParameter, passwordParameter);
+        }
     }
 }

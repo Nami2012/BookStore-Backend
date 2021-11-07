@@ -25,7 +25,7 @@ using BookStore.Models;
 
 namespace BookStore.Controllers
 {
-    [EnableCors("*", "*", "*")]
+    //[EnableCors("*", "*", "*")]
     public class BooksController : ApiController
     {
         private BookStoreDBEntities db = new BookStoreDBEntities();

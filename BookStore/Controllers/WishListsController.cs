@@ -62,7 +62,7 @@ namespace BookStore.Controllers
             {
                 BId = bid,
                 UId = uid,
-                Count = 1
+                STATUS = true
             };
             db.Wishlists.Add(wishlist);
 

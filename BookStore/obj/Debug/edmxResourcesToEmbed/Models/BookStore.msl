@@ -33,6 +33,7 @@
           <ScalarProperty Name="UId" ColumnName="UId" />
           <ScalarProperty Name="BId" ColumnName="BId" />
           <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -111,7 +112,7 @@
         <MappingFragment StoreEntitySet="Wishlist">
           <ScalarProperty Name="UId" ColumnName="UId" />
           <ScalarProperty Name="BId" ColumnName="BId" />
-          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -201,5 +202,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="usp_insert_user_credentials" FunctionName="BookStoreDBModel.Store.usp_insert_user_credentials" />
   </EntityContainerMapping>
 </Mapping>

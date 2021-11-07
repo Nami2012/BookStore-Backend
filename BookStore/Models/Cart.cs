@@ -17,8 +17,9 @@ namespace BookStore.Models
         public int UId { get; set; }
         public int BId { get; set; }
         public Nullable<int> Count { get; set; }
+        public Nullable<bool> STATUS { get; set; }
     
-        public virtual Book Book { get; set; }
-        public virtual User_Credentials User_Credentials { get; set; }
+        public  Book Book { get; set; }
+        public  User_Credentials User_Credentials { get; set; }
     }
 }
