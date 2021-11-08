@@ -9,7 +9,7 @@ Microsoft.Owin.Security.OAuth
 Microsoft.Owin.Cors
 Newtonsoft.json
 
-git clone -b <branch-name>https://github.com/Nami2012/BookStore-Backend.git <br />
+git clone -b branch-name https://github.com/Nami2012/BookStore-Backend.git <br />
 Open .sln file <br />
 right click on Solution > Manage NUGet Packages > Restore <br />
 right click on Solution > Clean Solution ,  <br />
