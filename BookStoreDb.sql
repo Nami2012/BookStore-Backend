@@ -387,5 +387,37 @@ WHERE B.BISBN LIKE @SearchTerm AND B.BStatus = 1
 END
 
 GO
+-- Add new category
 
+CREATE PROCEDURE usp_insert_category
+@CName NVARCHAR(50),
+@CDescription NVARCHAR(500),
+@CImage NVARCHAR(500),
+@CPosition INT,
+@CCreatedAt DATETIME
+AS
+BEGIN
+INSERT INTO Category VALUES
+( @CName, @CDescription, @CName, 1, @CPosition, @CCreatedAt )
+END
+
+GO
+
+-- Add new Book
+
+CREATE PROCEDURE usp_insert_book
+@CId INT,
+@BTitle NVARCHAR(500),
+@BAuthor NVARCHAR(100),
+@BISBN NVARCHAR(50),
+@BYear DATE,
+@BPrice MONEY,
+@BDescription NVARCHAR(1000),
+@BPosition INT,
+@BImage NVARCHAR(500)
+AS
+BEGIN
+INSERT INTO Book VALUES
+( @CId, @BTitle, @BAuthor, @BISBN, @BYear, @BPrice, @BDescription, @BPosition, 1, @BImage )
+END
 
