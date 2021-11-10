@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using BookStore.Models;
-
+using System.Security.Claims;
 
 namespace BookStore.Controllers
 {   
@@ -18,26 +20,23 @@ namespace BookStore.Controllers
         // GET: api/Categories 
         // sorted according to position
         // return only active categories
+        [HttpGet]
+        [Route("api/Categories")]
         public IHttpActionResult GetCategories()
-        {
+        {   
+            var identity= (ClaimsIdentity)User.Identity;
+         
+            var role = identity.Name;
+                if (role == "admin")
+                    return Ok(db.usp_get_categories());
+           
+
             return Ok(db.usp_get_active_categories());
         }
 
-
-
-
-        //GET: api/Categories/Admin
-        [Authorize(Roles = "Admin")]
-        [Route("api/Categories/Admin")]
-        public IHttpActionResult GetCategoriesForAdmin() //return all categories
-        {
-            return Ok(db.usp_get_categories());
-        }
-
-
-
-        /*// GET: api/Categories/5
-        // Commented out since currenly we aren't using this endpoint
+        // GET: api/Categories/5 
+        [HttpGet]
+        [Route("api/category/{id}")]
         [ResponseType(typeof(Category))]
         public IHttpActionResult GetCategory(int id)
         {
@@ -48,34 +47,33 @@ namespace BookStore.Controllers
             }
 
             return Ok(category);
-        }*/
+        }
 
-
-        // Working perfectly
-        // Commented out since currenly we aren't using this endpoint
-        /*[Route("api/Category/Names")]
+        //GET: api/Category/Names
+        [HttpGet]
+        [Route("api/Category/Names")]
         public IQueryable<string> GetCategoryNamesAndID() //id
         {
             List<string> CategoryNames = new List<string>();
-            foreach(var category in db.Categories)
+            foreach (var category in db.Categories)
             {
                 CategoryNames.Add(category.CName);
             }
             return CategoryNames.AsQueryable();
-        }*/
+        }
 
-        // Frontend isn't ready for this endpoint
-        [ResponseType(typeof(void))]
+        //PUT: api/Category/Edit/ActiveStatus/{bid}
         [Authorize(Roles = "Admin")]
-        [HttpPut] // Test whether this will work without [HttpPut]
-        [Route("api/Category/Edit/ActiveStatus/{id}")]
-        public IHttpActionResult PutCategory(int id)
+        [HttpPut] 
+        [Route("api/Category/Edit/ActiveStatus/{bid}")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutCategory(int bid)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            Category category = db.Categories.Find(id);
+            Category category = db.Categories.Find(bid);
             if (category==null)
             {
                 return BadRequest();
@@ -88,7 +86,7 @@ namespace BookStore.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryExists(id))
+                if (!CategoryExists(bid))
                 {
                     return NotFound();
                 }
@@ -101,22 +99,18 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // Frontend isn't ready for this endpoint
+
         // PUT: api/Categories/5
-        [ResponseType(typeof(void))]    
-        //[Authorize(Roles = "Admin")]
-        public IHttpActionResult PutCategory(int id, Category category)
+        [Authorize(Roles = "Admin")]
+        [HttpPut]
+        [Route("api/Category/edit")]
+        [ResponseType(typeof(Category))]    
+        public IHttpActionResult PutCategory(Category category)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            if (id != category.CId)
-            {
-                return BadRequest();
-            }
-
             db.Entry(category).State = EntityState.Modified;
 
             try
@@ -125,7 +119,7 @@ namespace BookStore.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryExists(id))
+                if (!CategoryExists(category.CId))
                 {
                     return NotFound();
                 }
@@ -139,7 +133,9 @@ namespace BookStore.Controllers
         }
 
         // POST: api/Categories
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [Route("api/Categories")]
         [ResponseType(typeof(Category))]
         public IHttpActionResult PostCategory(Category category)
         {
@@ -171,8 +167,9 @@ namespace BookStore.Controllers
         }
 
         // DELETE: api/Categories/5
-
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
+        [HttpDelete]
+        [Route("api/category/delete")]
         [ResponseType(typeof(Category))]
         public IHttpActionResult DeleteCategory(int id)
         {

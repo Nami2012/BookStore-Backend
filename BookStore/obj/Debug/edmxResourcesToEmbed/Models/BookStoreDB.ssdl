@@ -258,6 +258,24 @@
   <Function Name="usp_get_wishlist_by_uid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UId" Type="int" Mode="In" />
   </Function>
+  <Function Name="usp_insert_book" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CId" Type="int" Mode="In" />
+    <Parameter Name="BTitle" Type="nvarchar" Mode="In" />
+    <Parameter Name="BAuthor" Type="nvarchar" Mode="In" />
+    <Parameter Name="BISBN" Type="nvarchar" Mode="In" />
+    <Parameter Name="BYear" Type="date" Mode="In" />
+    <Parameter Name="BPrice" Type="money" Mode="In" />
+    <Parameter Name="BDescription" Type="nvarchar" Mode="In" />
+    <Parameter Name="BPosition" Type="int" Mode="In" />
+    <Parameter Name="BImage" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="usp_insert_category" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CName" Type="nvarchar" Mode="In" />
+    <Parameter Name="CDescription" Type="nvarchar" Mode="In" />
+    <Parameter Name="CImage" Type="nvarchar" Mode="In" />
+    <Parameter Name="CPosition" Type="int" Mode="In" />
+    <Parameter Name="CCreatedAt" Type="datetime" Mode="In" />
+  </Function>
   <Function Name="usp_insert_user_credentials" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="username" Type="nvarchar" Mode="In" />
     <Parameter Name="password" Type="nvarchar" Mode="In" />

@@ -59,7 +59,27 @@ namespace BookStore.Controllers
             }
         }
 
-
+        //Get /api/carts/isincart
+        [HttpGet]
+        [Route("api/carts/isincart/{Bid}")]
+        [ResponseType(typeof(bool))]
+        public IHttpActionResult IsPresentInCart(int Bid)
+        { // Get UId from of current user
+            var identity = (ClaimsIdentity)User.Identity;
+            int Uid = int.Parse(
+                        identity.Claims.Where(c => c.Type == "UId")
+                        .Select(c => c.Value).FirstOrDefault()
+                    );
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (db.Carts.Find(Uid,Bid) != null)
+            {
+                return Ok(true);
+            }
+            return Ok(false);
+        }
 
         // POST: api/Carts
         // Add Item to Cart

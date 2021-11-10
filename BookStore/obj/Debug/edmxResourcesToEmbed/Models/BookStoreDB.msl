@@ -193,6 +193,7 @@
     <FunctionImportMapping FunctionImportName="usp_get_user_details" FunctionName="BookStoreDBModel.Store.usp_get_user_details">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BookStoreDBModel.usp_get_user_details_Result">
+          <ScalarProperty Name="UId" ColumnName="UId" />
           <ScalarProperty Name="Username" ColumnName="Username" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -202,6 +203,7 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="usp_insert_user_credentials" FunctionName="BookStoreDBModel.Store.usp_insert_user_credentials" />
     <FunctionImportMapping FunctionImportName="usp_get_wishlist_by_uid" FunctionName="BookStoreDBModel.Store.usp_get_wishlist_by_uid">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BookStoreDBModel.usp_get_wishlist_by_uid_Result">
@@ -215,7 +217,8 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="usp_insert_user_credentials" FunctionName="BookStoreDBModel.Store.usp_insert_user_credentials" />
+    <FunctionImportMapping FunctionImportName="usp_insert_book" FunctionName="BookStoreDBModel.Store.usp_insert_book" />
+    <FunctionImportMapping FunctionImportName="usp_insert_category" FunctionName="BookStoreDBModel.Store.usp_insert_category" />
     <FunctionImportMapping FunctionImportName="usp_search_by_author" FunctionName="BookStoreDBModel.Store.usp_search_by_author">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BookStoreDBModel.usp_search_by_author_Result">

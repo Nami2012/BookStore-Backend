@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookStoreDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookStoreDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Admin">
           <Key>
             <PropertyRef Name="Username" />
@@ -263,6 +263,24 @@
         <Function Name="usp_get_wishlist_by_uid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UId" Type="int" Mode="In" />
         </Function>
+        <Function Name="usp_insert_book" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CId" Type="int" Mode="In" />
+          <Parameter Name="BTitle" Type="nvarchar" Mode="In" />
+          <Parameter Name="BAuthor" Type="nvarchar" Mode="In" />
+          <Parameter Name="BISBN" Type="nvarchar" Mode="In" />
+          <Parameter Name="BYear" Type="date" Mode="In" />
+          <Parameter Name="BPrice" Type="money" Mode="In" />
+          <Parameter Name="BDescription" Type="nvarchar" Mode="In" />
+          <Parameter Name="BPosition" Type="int" Mode="In" />
+          <Parameter Name="BImage" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="usp_insert_category" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CName" Type="nvarchar" Mode="In" />
+          <Parameter Name="CDescription" Type="nvarchar" Mode="In" />
+          <Parameter Name="CImage" Type="nvarchar" Mode="In" />
+          <Parameter Name="CPosition" Type="int" Mode="In" />
+          <Parameter Name="CCreatedAt" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="usp_insert_user_credentials" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="username" Type="nvarchar" Mode="In" />
           <Parameter Name="password" Type="nvarchar" Mode="In" />
@@ -337,8 +355,7 @@
             <End Role="Wishlist" EntitySet="Wishlist" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookStoreDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -661,26 +678,44 @@
             <End Role="Wishlist" EntitySet="Wishlists" />
           </AssociationSet>
           <FunctionImport Name="usp_books_by_category" ReturnType="Collection(BookStoreDBModel.usp_books_by_category_Result)">
-            <Parameter Name="CId" Mode="In" Type="Int32" />
+          <Parameter Name="CId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_get_active_categories" ReturnType="Collection(BookStoreDBModel.usp_get_active_categories_Result)" />
           <FunctionImport Name="usp_get_categories" ReturnType="Collection(BookStoreDBModel.usp_get_categories_Result)" />
           <FunctionImport Name="usp_get_top_books" ReturnType="Collection(BookStoreDBModel.usp_get_top_books_Result)">
-            <Parameter Name="rowCount" Mode="In" Type="Int32" />
+          <Parameter Name="rowCount" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_get_top_books_by_category" ReturnType="Collection(BookStoreDBModel.usp_get_top_books_by_category_Result)">
             <Parameter Name="rowCount" Mode="In" Type="Int32" />
             <Parameter Name="CId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_get_user_details" ReturnType="Collection(BookStoreDBModel.usp_get_user_details_Result)">
-            <Parameter Name="userid" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="usp_get_wishlist_by_uid" ReturnType="Collection(BookStoreDBModel.usp_get_wishlist_by_uid_Result)">
-            <Parameter Name="UId" Mode="In" Type="Int32" />
+          <Parameter Name="userid" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_insert_user_credentials">
             <Parameter Name="username" Mode="In" Type="String" />
             <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_get_wishlist_by_uid" ReturnType="Collection(BookStoreDBModel.usp_get_wishlist_by_uid_Result)">
+            <Parameter Name="UId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_insert_book">
+            <Parameter Name="CId" Mode="In" Type="Int32" />
+            <Parameter Name="BTitle" Mode="In" Type="String" />
+            <Parameter Name="BAuthor" Mode="In" Type="String" />
+            <Parameter Name="BISBN" Mode="In" Type="String" />
+            <Parameter Name="BYear" Mode="In" Type="DateTime" />
+            <Parameter Name="BPrice" Mode="In" Type="Decimal" />
+            <Parameter Name="BDescription" Mode="In" Type="String" />
+            <Parameter Name="BPosition" Mode="In" Type="Int32" />
+            <Parameter Name="BImage" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_insert_category">
+            <Parameter Name="CName" Mode="In" Type="String" />
+            <Parameter Name="CDescription" Mode="In" Type="String" />
+            <Parameter Name="CImage" Mode="In" Type="String" />
+            <Parameter Name="CPosition" Mode="In" Type="Int32" />
+            <Parameter Name="CCreatedAt" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="usp_search_by_author" ReturnType="Collection(BookStoreDBModel.usp_search_by_author_Result)">
             <Parameter Name="SearchTerm" Mode="In" Type="String" />
@@ -751,6 +786,7 @@
           <Property Type="String" Name="BImage" Nullable="false" MaxLength="500" />
         </ComplexType>
         <ComplexType Name="usp_get_user_details_Result">
+          <Property Type="Int32" Name="UId" Nullable="false" />
           <Property Type="String" Name="Username" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Password" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
@@ -997,6 +1033,7 @@
           <FunctionImportMapping FunctionImportName="usp_get_user_details" FunctionName="BookStoreDBModel.Store.usp_get_user_details">
             <ResultMapping>
               <ComplexTypeMapping TypeName="BookStoreDBModel.usp_get_user_details_Result">
+                <ScalarProperty Name="UId" ColumnName="UId" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1006,6 +1043,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_insert_user_credentials" FunctionName="BookStoreDBModel.Store.usp_insert_user_credentials" />
           <FunctionImportMapping FunctionImportName="usp_get_wishlist_by_uid" FunctionName="BookStoreDBModel.Store.usp_get_wishlist_by_uid">
             <ResultMapping>
               <ComplexTypeMapping TypeName="BookStoreDBModel.usp_get_wishlist_by_uid_Result">
@@ -1019,7 +1057,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="usp_insert_user_credentials" FunctionName="BookStoreDBModel.Store.usp_insert_user_credentials" />
+          <FunctionImportMapping FunctionImportName="usp_insert_book" FunctionName="BookStoreDBModel.Store.usp_insert_book" />
+          <FunctionImportMapping FunctionImportName="usp_insert_category" FunctionName="BookStoreDBModel.Store.usp_insert_category" />
           <FunctionImportMapping FunctionImportName="usp_search_by_author" FunctionName="BookStoreDBModel.Store.usp_search_by_author">
             <ResultMapping>
               <ComplexTypeMapping TypeName="BookStoreDBModel.usp_search_by_author_Result">

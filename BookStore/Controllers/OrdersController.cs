@@ -238,7 +238,10 @@ namespace BookStore.Controllers
         public IHttpActionResult AllOrders()
         {
             var identity = (ClaimsIdentity)User.Identity;
-            int userid = int.Parse(identity.Name);
+            int userid = int.Parse(
+                        identity.Claims.Where(c => c.Type == "UId")
+                        .Select(c => c.Value).FirstOrDefault()
+                    );
             List<OrderInvoiceDetail> orders = db.OrderInvoiceDetails.Where(o => o.UId == userid && o.Amount != -1).ToList();
             return Ok(orders);
         }

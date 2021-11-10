@@ -4,18 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4c0d02212df543cc8edb21607ab69e64" Name="Diagram1">
-        <EntityTypeShape EntityType="BookStoreDBModel.Admin" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreDBModel.Book" Width="1.5" PointX="0.75" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreDBModel.Cart" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreDBModel.Category" Width="1.5" PointX="1.5" PointY="18" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreDBModel.Coupon" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreDBModel.Coupon_Validation" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreDBModel.OrderInvoiceDetail" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreDBModel.OrderItem" Width="1.5" PointX="5.25" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreDBModel.User_Account_Info" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreDBModel.User_Credentials" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreDBModel.Wishlist" Width="1.5" PointX="6" PointY="7.25" IsExpanded="true" />
+      <Diagram DiagramId="27e11eca0bf345a4b625f8011ed93bea" Name="Diagram1">
+        <EntityTypeShape EntityType="BookStoreDBModel.Admin" Width="1.5" PointX="7.125" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreDBModel.Book" Width="1.5" PointX="4.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreDBModel.Cart" Width="1.5" PointX="6.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreDBModel.Category" Width="1.5" PointX="1.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreDBModel.Coupon" Width="1.5" PointX="9.375" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreDBModel.Coupon_Validation" Width="1.5" PointX="5.875" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreDBModel.OrderInvoiceDetail" Width="1.5" PointX="11.875" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreDBModel.OrderItem" Width="1.5" PointX="9.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreDBModel.User_Account_Info" Width="1.5" PointX="1.625" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreDBModel.User_Credentials" Width="1.5" PointX="3.875" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreDBModel.Wishlist" Width="1.5" PointX="8.875" PointY="4.5" IsExpanded="true" />
         <AssociationConnector Association="BookStoreDBModel.FK__Book__CId__3A81B327" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreDBModel.FK__Cart__BId__45F365D3" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreDBModel.FK__OrderItems__BId__5812160E" ManuallyRouted="false" />

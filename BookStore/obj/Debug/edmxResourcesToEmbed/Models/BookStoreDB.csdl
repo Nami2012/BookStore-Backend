@@ -333,12 +333,30 @@
     <FunctionImport Name="usp_get_user_details" ReturnType="Collection(BookStoreDBModel.usp_get_user_details_Result)">
       <Parameter Name="userid" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="usp_get_wishlist_by_uid" ReturnType="Collection(BookStoreDBModel.usp_get_wishlist_by_uid_Result)">
-      <Parameter Name="UId" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="usp_insert_user_credentials">
       <Parameter Name="username" Mode="In" Type="String" />
       <Parameter Name="password" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_get_wishlist_by_uid" ReturnType="Collection(BookStoreDBModel.usp_get_wishlist_by_uid_Result)">
+      <Parameter Name="UId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="usp_insert_book">
+      <Parameter Name="CId" Mode="In" Type="Int32" />
+      <Parameter Name="BTitle" Mode="In" Type="String" />
+      <Parameter Name="BAuthor" Mode="In" Type="String" />
+      <Parameter Name="BISBN" Mode="In" Type="String" />
+      <Parameter Name="BYear" Mode="In" Type="DateTime" />
+      <Parameter Name="BPrice" Mode="In" Type="Decimal" />
+      <Parameter Name="BDescription" Mode="In" Type="String" />
+      <Parameter Name="BPosition" Mode="In" Type="Int32" />
+      <Parameter Name="BImage" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_insert_category">
+      <Parameter Name="CName" Mode="In" Type="String" />
+      <Parameter Name="CDescription" Mode="In" Type="String" />
+      <Parameter Name="CImage" Mode="In" Type="String" />
+      <Parameter Name="CPosition" Mode="In" Type="Int32" />
+      <Parameter Name="CCreatedAt" Mode="In" Type="DateTime" />
     </FunctionImport>
     <FunctionImport Name="usp_search_by_author" ReturnType="Collection(BookStoreDBModel.usp_search_by_author_Result)">
       <Parameter Name="SearchTerm" Mode="In" Type="String" />
@@ -409,6 +427,7 @@
     <Property Type="String" Name="BImage" Nullable="false" MaxLength="500" />
   </ComplexType>
   <ComplexType Name="usp_get_user_details_Result">
+    <Property Type="Int32" Name="UId" Nullable="false" />
     <Property Type="String" Name="Username" Nullable="false" MaxLength="100" />
     <Property Type="String" Name="Password" Nullable="false" MaxLength="100" />
     <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />

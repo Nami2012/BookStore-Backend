@@ -13,7 +13,8 @@ namespace BookStore.Controllers
     public class CouponsController : ApiController
     {
         private BookStoreDBEntities db = new BookStoreDBEntities();
-        //api/Coupons -- retrieve activecoupons
+        
+        //GET:api/Coupons -- retrieve activecoupons
         [HttpGet]
         [Route("api/Coupons/all")]
         public IQueryable<Coupon> GetActiveCoupons()
@@ -24,21 +25,23 @@ namespace BookStore.Controllers
         //api/admin/coupon --retrieve all coupons  --admin only
         [HttpGet]
         [Route("api/admin/Coupons/all")]
+        [Authorize(Roles ="Admin")]
         public IQueryable<Coupon> GetCoupons()
         {
             return db.Coupons;
         }
 
         ///api/Coupons/Add --post admin only
-        [ResponseType(typeof(Book))]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("api/admin/Coupons/add")]
+        [ResponseType(typeof(Book))]
         public IHttpActionResult PostCoupon(Coupon coupon)
         {
-            /*if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }*/
+            }
 
             coupon.Status = true;
             db.Coupons.Add(coupon);
@@ -61,6 +64,7 @@ namespace BookStore.Controllers
         }
 
         //api/Coupons/Remove/id --delete admin only
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         [ResponseType(typeof(Book))]
         [Route("api/admin/coupon/remove")]
