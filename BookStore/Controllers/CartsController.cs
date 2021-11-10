@@ -17,16 +17,6 @@ namespace BookStore.Controllers
     {
         private BookStoreDBEntities db = new BookStoreDBEntities();
 
-        /*[HttpGet]
-        [Route("api/userssss")]
-        [Authorize]
-        public IHttpActionResult GetUser()
-        {
-            var identity = (ClaimsIdentity)User.Identity;
-            //return Ok(identity.Name);
-            return Ok(identity.Claims.Where(c => c.Type == "UId").Select(c => c.Value));
-        }*/
-
         // GET: api/Carts
         // If admin, return carts of all user
         // If user, return their cart
@@ -54,19 +44,40 @@ namespace BookStore.Controllers
                         .Select(c => c.Value).FirstOrDefault()
                     );
                 return db.Carts.Include("Book")
-                    .Where(item => item.UId == UId).ToList() //nested json here. should we change it to join?
+                    .Where(item => item.UId == UId && item.STATUS == true).ToList() //nested json here. should we change it to join?
                     .AsQueryable();
             }
         }
 
-
+        //Get /api/carts/isincart
+        [HttpGet]
+        [Route("api/carts/isincart/{Bid}")]
+        [Authorize(Roles = "User")]
+        [ResponseType(typeof(bool))]
+        public IHttpActionResult IsPresentInCart(int Bid)
+        { // Get UId from of current user
+            var identity = (ClaimsIdentity)User.Identity;
+            int Uid = int.Parse(
+                        identity.Claims.Where(c => c.Type == "UId")
+                        .Select(c => c.Value).FirstOrDefault()
+                    );
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (db.Carts.Find(Uid, Bid) != null)
+            {
+                return Ok(true);
+            }
+            return Ok(false);
+        }
 
         // POST: api/Carts
         // Add Item to Cart
         // UId of the current user is taken
         //[ResponseType(typeof(Cart))]
-        // [Authorize(Roles = "User")]
         [HttpPost]
+        [Authorize(Roles = "User")]
         [Route("api/Carts/")]
         public IHttpActionResult AddToCart([FromBody] int Bid)
         {
@@ -122,6 +133,7 @@ namespace BookStore.Controllers
         //decrement quantity
         [HttpPut]
         [Route("api/Carts")]
+        [Authorize(Roles = "User")]
         public IHttpActionResult DecrementCartQuantity(int Bid, int count = 1)
         {
 

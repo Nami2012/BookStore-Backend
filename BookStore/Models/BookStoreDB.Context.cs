@@ -22,7 +22,7 @@ namespace BookStore.Models
         {
             this.Configuration.LazyLoadingEnabled = false;
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -79,15 +79,6 @@ namespace BookStore.Models
                 new ObjectParameter("CId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_top_books_by_category_Result>("usp_get_top_books_by_category", rowCountParameter, cIdParameter);
-        }
-    
-        public virtual ObjectResult<usp_get_user_details_Result> usp_get_user_details(Nullable<int> userid)
-        {
-            var useridParameter = userid.HasValue ?
-                new ObjectParameter("userid", userid) :
-                new ObjectParameter("userid", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_user_details_Result>("usp_get_user_details", useridParameter);
         }
     
         public virtual ObjectResult<usp_get_wishlist_by_uid_Result> usp_get_wishlist_by_uid(Nullable<int> uId)
@@ -150,6 +141,90 @@ namespace BookStore.Models
                 new ObjectParameter("SearchTerm", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_search_by_title_Result>("usp_search_by_title", searchTermParameter);
+        }
+    
+        public virtual int usp_insert_book(Nullable<int> cId, string bTitle, string bAuthor, string bISBN, Nullable<System.DateTime> bYear, Nullable<decimal> bPrice, string bDescription, Nullable<int> bPosition, string bImage)
+        {
+            var cIdParameter = cId.HasValue ?
+                new ObjectParameter("CId", cId) :
+                new ObjectParameter("CId", typeof(int));
+    
+            var bTitleParameter = bTitle != null ?
+                new ObjectParameter("BTitle", bTitle) :
+                new ObjectParameter("BTitle", typeof(string));
+    
+            var bAuthorParameter = bAuthor != null ?
+                new ObjectParameter("BAuthor", bAuthor) :
+                new ObjectParameter("BAuthor", typeof(string));
+    
+            var bISBNParameter = bISBN != null ?
+                new ObjectParameter("BISBN", bISBN) :
+                new ObjectParameter("BISBN", typeof(string));
+    
+            var bYearParameter = bYear.HasValue ?
+                new ObjectParameter("BYear", bYear) :
+                new ObjectParameter("BYear", typeof(System.DateTime));
+    
+            var bPriceParameter = bPrice.HasValue ?
+                new ObjectParameter("BPrice", bPrice) :
+                new ObjectParameter("BPrice", typeof(decimal));
+    
+            var bDescriptionParameter = bDescription != null ?
+                new ObjectParameter("BDescription", bDescription) :
+                new ObjectParameter("BDescription", typeof(string));
+    
+            var bPositionParameter = bPosition.HasValue ?
+                new ObjectParameter("BPosition", bPosition) :
+                new ObjectParameter("BPosition", typeof(int));
+    
+            var bImageParameter = bImage != null ?
+                new ObjectParameter("BImage", bImage) :
+                new ObjectParameter("BImage", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_insert_book", cIdParameter, bTitleParameter, bAuthorParameter, bISBNParameter, bYearParameter, bPriceParameter, bDescriptionParameter, bPositionParameter, bImageParameter);
+        }
+    
+        public virtual int usp_insert_category(string cName, string cDescription, string cImage, Nullable<int> cPosition, Nullable<System.DateTime> cCreatedAt)
+        {
+            var cNameParameter = cName != null ?
+                new ObjectParameter("CName", cName) :
+                new ObjectParameter("CName", typeof(string));
+    
+            var cDescriptionParameter = cDescription != null ?
+                new ObjectParameter("CDescription", cDescription) :
+                new ObjectParameter("CDescription", typeof(string));
+    
+            var cImageParameter = cImage != null ?
+                new ObjectParameter("CImage", cImage) :
+                new ObjectParameter("CImage", typeof(string));
+    
+            var cPositionParameter = cPosition.HasValue ?
+                new ObjectParameter("CPosition", cPosition) :
+                new ObjectParameter("CPosition", typeof(int));
+    
+            var cCreatedAtParameter = cCreatedAt.HasValue ?
+                new ObjectParameter("CCreatedAt", cCreatedAt) :
+                new ObjectParameter("CCreatedAt", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_insert_category", cNameParameter, cDescriptionParameter, cImageParameter, cPositionParameter, cCreatedAtParameter);
+        }
+    
+        public virtual ObjectResult<usp_get_user_details_Result> usp_get_user_details(Nullable<int> userid)
+        {
+            var useridParameter = userid.HasValue ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_user_details_Result>("usp_get_user_details", useridParameter);
+        }
+    
+        public virtual ObjectResult<usp_all_books_by_category_Result> usp_all_books_by_category(Nullable<int> cId)
+        {
+            var cIdParameter = cId.HasValue ?
+                new ObjectParameter("CId", cId) :
+                new ObjectParameter("CId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_all_books_by_category_Result>("usp_all_books_by_category", cIdParameter);
         }
     }
 }

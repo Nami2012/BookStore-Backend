@@ -5,6 +5,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -18,15 +19,14 @@ namespace BookStore.Controllers
         [Route("api/Coupons/all")]
         public IQueryable<Coupon> GetActiveCoupons()
         {
-            return db.Coupons.Where(c => c.Status == true);
-        }
+            var identity = (ClaimsIdentity)User.Identity;
 
-        //api/admin/coupon --retrieve all coupons  --admin only
-        [HttpGet]
-        [Route("api/admin/Coupons/all")]
-        public IQueryable<Coupon> GetCoupons()
-        {
-            return db.Coupons;
+            var role = identity.Name;
+            if (role == "admin")
+                return db.Coupons;
+
+
+            return db.Coupons.Where(c => c.Status == true);
         }
 
         ///api/Coupons/Add --post admin only
@@ -61,6 +61,7 @@ namespace BookStore.Controllers
         }
 
         //api/Coupons/Remove/id --delete admin only
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         [ResponseType(typeof(Book))]
         [Route("api/admin/coupon/remove")]

@@ -247,6 +247,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\CartsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
@@ -301,6 +302,9 @@
       <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User_Credentials.cs">
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_all_books_by_category_Result.cs">
       <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\usp_books_by_category_Result.cs">
@@ -413,6 +417,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\Categories\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

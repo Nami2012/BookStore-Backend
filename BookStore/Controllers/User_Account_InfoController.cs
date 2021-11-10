@@ -6,12 +6,15 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using BookStore.Models;
 
 namespace BookStore.Controllers
 {
+
     public class User_Account_InfoController : ApiController
     {
         private BookStoreDBEntities db = new BookStoreDBEntities();
@@ -19,6 +22,7 @@ namespace BookStore.Controllers
         // GET: api/User_Account_Info
         // admin only
         //works fine
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("api/userlist")]
         public IHttpActionResult GetAllUsers()
@@ -33,12 +37,11 @@ namespace BookStore.Controllers
         }
 
         // GET: api/User_Account_Info/5
-        //admin only
-        //works
+
         [HttpGet]
         [Route("api/userdetails")]
         //[ResponseType(typeof(User_Account_Info))]
-        public IHttpActionResult GetUserDetails(int id)
+        public IHttpActionResult GetUserDetails(int id) //check whether its admin or the user id itself
         {
             User_Account_Info user_Account_Info = db.User_Account_Info.Find(id);
             if (user_Account_Info == null)
@@ -48,23 +51,8 @@ namespace BookStore.Controllers
             return Ok(db.usp_get_user_details(user_Account_Info.UId));
         }
 
-        // GET: api/user/{UserId}/activestatus
-        //Do we need this api?
-        //[HttpGet]
-        //[Route("api/user/{id}/activestatus")]
-        //public IHttpActionResult GetUserActiveStatus(int id)
-        //{
-        //    User_Account_Info user = db.User_Account_Info.Find(id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(user.ActiveStatus);
-        //}
-
-
-        // PUT: api/user/{id}/activestatus -- is id required in the header?
+        // PUT: api/user/edit/activestatus 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         [Route("api/user/edit/activestatus")]
         public IHttpActionResult EditUserActiveStatus(int id)
@@ -99,13 +87,14 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
         // PUT: api/User_Account_Info/5
         //both admin and users
         [HttpPut]
         [Route("api/userInfo/edit")]
         [ResponseType(typeof(void))]
         public IHttpActionResult EditUserDetails(int id, User_Account_Info user_Account_Info)
-        {
+        { //check if its the user itself or is it the admin logging in
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -248,7 +237,7 @@ namespace BookStore.Controllers
         {
             User_Account_Info user_Account_Info = db.User_Account_Info.Find(id);
             User_Credentials user_Credentials = db.User_Credentials.Find(id);
-            if (user_Account_Info == null || user_Credentials==null)
+            if (user_Account_Info == null || user_Credentials == null)
             {
                 return NotFound();
             }
@@ -260,19 +249,19 @@ namespace BookStore.Controllers
         }
 
         // GET : api/isAdminCheck
-        // Return Ok if the Bearere Token belongs to admin
-        // Return Error else
-        [Authorize(Roles = "Admin")]
+
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("api/isAdmin")]
         public IHttpActionResult IsAdminCheck()
         {
-
-            // If the request gets inside the method
-            // that means the user is admin
-            // Else the error response will be returned
-            // due to Authorize Filter
-            return Ok("isAdmin");
+            var identity = (ClaimsIdentity)User.Identity;
+            var role = identity.Name;
+            if (role == "admin")
+                return Ok(true);
+            else
+                return Ok(false);
+            //return Ok("isAdmin");
         }
 
 

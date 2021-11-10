@@ -1,6 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using BookStore.Models;
@@ -14,13 +20,17 @@ namespace BookStore.Controllers
         private BookStoreDBEntities db = new BookStoreDBEntities();
 
 
-        // GET: api/Books
+        // GET: api/Books - get all books
+        [HttpGet]
+        [Route("api/Books")]
         public IQueryable<Book> GetBooks()
         {
             return db.Books;
         }
 
         // GET: api/Books/5
+        [HttpGet]
+        [Route("api/Books/{id}")]
         [ResponseType(typeof(Book))]
         public IHttpActionResult GetBook(int id)
         {
@@ -29,75 +39,46 @@ namespace BookStore.Controllers
             {
                 return NotFound();
             }
-
             return Ok(book);
         }
 
         //GET Books With Category ID
+        [HttpGet]
         [Route("api/BooksByCategory/{cid}")]
         [ResponseType(typeof(List<Book>))]
         public IHttpActionResult GetBooksByCategory(int cid)
         {
-           return Ok(db.usp_books_by_category(cid));         
+            var identity = (ClaimsIdentity)User.Identity;
+
+            var role = identity.Name;
+            if (role == "admin")
+                return Ok(db.usp_all_books_by_category(cid));
+
+
+            return Ok(db.usp_books_by_category(cid));
         }
 
 
 
-        //Search books 
-        [Route("api/Search/Books/{searchterm}/{cid:int=0}")]
-        [HttpGet]
-        public IHttpActionResult SearchBooks(int cid, string searchterm)
-        {
-            if(cid == 0)
-            {
-                //can build where clause separately
-                return Ok(db.usp_search_by_title($"%{searchterm}%"));
-            }
-            else
-            {
-                return Ok(db.usp_search_by_category($"%{searchterm}%", cid));
-            }
-        }
-
-        // Search by Author
-        [Route("api/Search/Author/{searchterm}")]
-        [HttpGet]
-        public IHttpActionResult SearchBookByAuthor(string searchterm)
-        {
-            return Ok(db.usp_search_by_author($"%{searchterm}%"));
-        }
-
-        [Route("api/Search/ISBN/{searchterm}")]
-        [HttpGet]
-        public IHttpActionResult SearchByISBN(string searchterm)
-        {
-            return Ok(db.usp_search_by_isbn($"%{searchterm}%"));
-        }
-
-        /*// PUT: api/Books/5
-        [ResponseType(typeof(void))]
-        // [Authorize(Roles = "Admin")]
-        public IHttpActionResult PutBook(int id, Book book)
+        // PUT: api/Books/5
+        [Authorize(Roles = "Admin")]
+        [HttpPut]
+        [Route("api/book/edit")]
+        [ResponseType(typeof(Book))]
+        public IHttpActionResult PutBook(Book book)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            if (id != book.BId)
-            {
-                return BadRequest();
-            }
-
             db.Entry(book).State = EntityState.Modified;
-
             try
             {
                 db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BookExists(id))
+                if (!BookExists(book.BId))
                 {
                     return NotFound();
                 }
@@ -106,14 +87,14 @@ namespace BookStore.Controllers
                     throw;
                 }
             }
+            return Ok(book);
+        }
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }*/
-
-        /*//PUT:api/Book/edit/ActiveStatus
+        //PUT:api/Book/edit/ActiveStatus
+        [HttpPut]
         [Route("api/Book/edit/ActiveStatus/{id}")]
         [ResponseType(typeof(void))]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult ActiveStatus(int id)
         {
             if (!ModelState.IsValid)
@@ -121,7 +102,7 @@ namespace BookStore.Controllers
                 return BadRequest(ModelState);
             }
             Book book = db.Books.Find(id);
-            if(book == null)   
+            if (book == null)
             {
                 return BadRequest();
             }
@@ -143,28 +124,56 @@ namespace BookStore.Controllers
                 }
             }
             return StatusCode(HttpStatusCode.NoContent);
-        }*/
+        }
+
+        // GET: api/image/book/{cid} 
+        [Route("api/image/book/{bid}")]
+        public HttpResponseMessage GetCategoryImage(int bid)
+        {
+            try
+            {
+                var response = Request.CreateResponse(HttpStatusCode.OK);
+
+                string imageName = db.Books
+                    .Where( b => b.BId == bid )
+                    .Select(b => b.BImage )
+                    .FirstOrDefault();
+
+                var filePath = HttpContext.Current.Server.MapPath("~/Images/" + imageName);
+
+                var ext = System.IO.Path.GetExtension(filePath);
+
+                var contents = System.IO.File.ReadAllBytes(filePath);
+
+                System.IO.MemoryStream ms = new System.IO.MemoryStream(contents);
+
+                response.Content = new StreamContent(ms);
+
+                response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/" + ext);
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "");
+            }
+
+        }
 
         // POST: api/Books
-        [ResponseType(typeof(Book))]
+        [HttpPost]
+        [Route("api/Books")]
         [Authorize(Roles = "Admin")]
         public IHttpActionResult PostBook(Book book)
         {
-            /*if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }*/
-
-            book.BStatus = true;
-            book.BPosition = db.Books.Max(b => b.BPosition) + 1;
-            book.BImage = "https://harpercollins.co.in/PowerPoint_jpg/9789354223174.jpg";
-            book.BId = db.Books.Max(b => b.BId) + 1;
-
-            db.Books.Add(book);
+            int newPosition = db.Books.Max(b => b.BPosition) + 1;
 
             try
             {
-                db.SaveChanges();
+                db.usp_insert_book(book.CId, book.BTitle, 
+                    book.BAuthor, book.BISBN, book.BYEAR, 
+                    book.BPrice, book.BDescription, newPosition, book.BImage);
             }
             catch (DbUpdateException)
             {
@@ -178,13 +187,13 @@ namespace BookStore.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = book.BId }, book);
+            return Ok(book.CId);
         }
-
-        /*// DELETE: api/Books/5
+        // DELETE: api/Books/5
+        [HttpDelete]
         [ResponseType(typeof(Book))]
-
-       // [Authorize(Roles = "Admin")]
+        [Route("api/book/delete")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult DeleteBook(int id)
         {
             Book book = db.Books.Find(id);
@@ -197,7 +206,7 @@ namespace BookStore.Controllers
             db.SaveChanges();
 
             return Ok(book);
-        }*/
+        }
 
         [HttpGet]
         [Route("api/Books/GetTopBooks/{cid:int?}")]

@@ -10,15 +10,16 @@
 namespace BookStore.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class OrderItem
+    public partial class usp_all_books_by_category_Result
     {
-        public string OrderId { get; set; }
+        public string BDescription { get; set; }
+        public string BISBN { get; set; }
         public int BId { get; set; }
-        public Nullable<int> COUNT { get; set; }
-    
-        public virtual Book Book { get; set; }
-        public virtual OrderInvoiceDetail OrderInvoiceDetail { get; set; }
+        public string BImage { get; set; }
+        public decimal BPrice { get; set; }
+        public string BTitle { get; set; }
+        public System.DateTime BYEAR { get; set; }
+        public string CName { get; set; }
     }
 }

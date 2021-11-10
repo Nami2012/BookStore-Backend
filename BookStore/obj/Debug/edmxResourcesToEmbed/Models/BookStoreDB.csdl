@@ -330,9 +330,6 @@
       <Parameter Name="rowCount" Mode="In" Type="Int32" />
       <Parameter Name="CId" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="usp_get_user_details" ReturnType="Collection(BookStoreDBModel.usp_get_user_details_Result)">
-      <Parameter Name="userid" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="usp_get_wishlist_by_uid" ReturnType="Collection(BookStoreDBModel.usp_get_wishlist_by_uid_Result)">
       <Parameter Name="UId" Mode="In" Type="Int32" />
     </FunctionImport>
@@ -352,6 +349,30 @@
     </FunctionImport>
     <FunctionImport Name="usp_search_by_title" ReturnType="Collection(BookStoreDBModel.usp_search_by_title_Result)">
       <Parameter Name="SearchTerm" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_insert_book">
+      <Parameter Name="CId" Mode="In" Type="Int32" />
+      <Parameter Name="BTitle" Mode="In" Type="String" />
+      <Parameter Name="BAuthor" Mode="In" Type="String" />
+      <Parameter Name="BISBN" Mode="In" Type="String" />
+      <Parameter Name="BYear" Mode="In" Type="DateTime" />
+      <Parameter Name="BPrice" Mode="In" Type="Decimal" />
+      <Parameter Name="BDescription" Mode="In" Type="String" />
+      <Parameter Name="BPosition" Mode="In" Type="Int32" />
+      <Parameter Name="BImage" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_insert_category">
+      <Parameter Name="CName" Mode="In" Type="String" />
+      <Parameter Name="CDescription" Mode="In" Type="String" />
+      <Parameter Name="CImage" Mode="In" Type="String" />
+      <Parameter Name="CPosition" Mode="In" Type="Int32" />
+      <Parameter Name="CCreatedAt" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="usp_get_user_details" ReturnType="Collection(BookStoreDBModel.usp_get_user_details_Result)">
+      <Parameter Name="userid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="usp_all_books_by_category" ReturnType="Collection(BookStoreDBModel.usp_all_books_by_category_Result)">
+      <Parameter Name="CId" Mode="In" Type="Int32" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="usp_books_by_category_Result">
@@ -408,14 +429,6 @@
     <Property Type="Boolean" Name="BStatus" Nullable="false" />
     <Property Type="String" Name="BImage" Nullable="false" MaxLength="500" />
   </ComplexType>
-  <ComplexType Name="usp_get_user_details_Result">
-    <Property Type="String" Name="Username" Nullable="false" MaxLength="100" />
-    <Property Type="String" Name="Password" Nullable="false" MaxLength="100" />
-    <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="PhoneNo" Nullable="true" MaxLength="10" />
-    <Property Type="String" Name="ShippingAddress" Nullable="true" MaxLength="100" />
-    <Property Type="Boolean" Name="ActiveStatus" Nullable="false" />
-  </ComplexType>
   <ComplexType Name="usp_get_wishlist_by_uid_Result">
     <Property Type="Int32" Name="BId" Nullable="false" />
     <Property Type="Int32" Name="CId" Nullable="true" />
@@ -456,5 +469,24 @@
     <Property Type="Decimal" Name="BPrice" Nullable="false" Precision="19" />
     <Property Type="String" Name="CName" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="BImage" Nullable="false" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="usp_get_user_details_Result">
+    <Property Type="Int32" Name="UId" Nullable="false" />
+    <Property Type="String" Name="Username" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PhoneNo" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="ShippingAddress" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="ActiveStatus" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="usp_all_books_by_category_Result">
+    <Property Type="String" Name="BDescription" Nullable="false" MaxLength="1000" />
+    <Property Type="String" Name="BISBN" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="BId" Nullable="false" />
+    <Property Type="String" Name="BImage" Nullable="false" MaxLength="500" />
+    <Property Type="Decimal" Name="BPrice" Nullable="false" Precision="19" />
+    <Property Type="String" Name="BTitle" Nullable="false" MaxLength="500" />
+    <Property Type="DateTime" Name="BYEAR" Nullable="false" />
+    <Property Type="String" Name="CName" Nullable="false" MaxLength="50" />
   </ComplexType>
 </Schema>

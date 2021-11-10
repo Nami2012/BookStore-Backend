@@ -11,6 +11,7 @@ using System.Web.Http.Description;
 
 namespace BookStore.Controllers
 {
+    [Authorize]
     public class OrdersController : ApiController
     {
         private readonly Random random = new Random();
@@ -238,22 +239,36 @@ namespace BookStore.Controllers
         public IHttpActionResult AllOrders()
         {
             var identity = (ClaimsIdentity)User.Identity;
-            int userid = int.Parse(identity.Name);
-            List<OrderInvoiceDetail> orders = db.OrderInvoiceDetails.Where(o => o.UId == userid && o.Amount != -1).ToList();
+            int uid = int.Parse(
+                         identity.Claims.Where(c => c.Type == "UId")
+                         .Select(c => c.Value).FirstOrDefault()
+                     );
+            var orders = db.OrderInvoiceDetails.ToList().AsQueryable();
+            if(uid != 0)
+            {
+                orders = orders.Where(o => o.UId == uid && o.Amount != -1);
+            }
+
             return Ok(orders);
         }
 
         //view order list details
         //take in order id and display the details of the order.
         [HttpGet]
-        [Authorize]
         [Route("api/OrderDetails/")]//enable lazy loading for this
         public IHttpActionResult OrderDetails(string orderid)
         {
             var identity = (ClaimsIdentity)User.Identity;
-            int uid = int.Parse(identity.Name);
+            int uid = int.Parse(
+                         identity.Claims.Where(c => c.Type == "UId")
+                         .Select(c => c.Value).FirstOrDefault()
+                     );
             var order = db.OrderInvoiceDetails.Include("OrderItems.Book")
-                .Where(o => o.OrderId == orderid && o.UId == uid).ToList().AsQueryable();
+                .Where(o => o.OrderId == orderid).ToList().AsQueryable();
+            if(uid != 0)
+            {
+                order = order.Where(o => o.UId == uid);
+            }
             if (identity == null || order == null)
             {
                 return BadRequest("Operation Not permitted");

@@ -13,6 +13,7 @@ namespace BookStore.Models
     
     public partial class usp_get_user_details_Result
     {
+        public int UId { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string Name { get; set; }

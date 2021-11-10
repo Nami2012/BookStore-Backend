@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookStoreDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookStoreDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Admin">
           <Key>
             <PropertyRef Name="Username" />
@@ -114,7 +114,9 @@
           <Property Name="STATUS" Type="bit" />
         </EntityType>
         <Association Name="FK__Book__CId__3A81B327">
-          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Book" Type="Self.Book" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Category">
@@ -126,7 +128,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Cart__BId__45F365D3">
-          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="Book" Type="Self.Book" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Book">
@@ -138,7 +142,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Cart__UId__44FF419A">
-          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User_Credentials">
@@ -150,7 +156,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Coupon_Va__Coupo__5070F446">
-          <End Role="Coupon" Type="Self.Coupon" Multiplicity="1" />
+          <End Role="Coupon" Type="Self.Coupon" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Coupon_Validation" Type="Self.Coupon_Validation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Coupon">
@@ -162,7 +170,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Coupon_Vali__UId__5165187F">
-          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Coupon_Validation" Type="Self.Coupon_Validation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User_Credentials">
@@ -174,7 +184,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__OrderInvoic__UId__5441852A">
-          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="0..1" />
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="OrderInvoiceDetails" Type="Self.OrderInvoiceDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User_Credentials">
@@ -186,7 +198,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__OrderItem__Order__571DF1D5">
-          <End Role="OrderInvoiceDetails" Type="Self.OrderInvoiceDetails" Multiplicity="1" />
+          <End Role="OrderInvoiceDetails" Type="Self.OrderInvoiceDetails" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderInvoiceDetails">
@@ -198,7 +212,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__OrderItems__BId__5812160E">
-          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="Book" Type="Self.Book" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Book">
@@ -210,7 +226,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__User_Accoun__UId__4222D4EF">
-          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="User_Account_Info" Type="Self.User_Account_Info" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="User_Credentials">
@@ -222,7 +240,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Wishlist__BId__4AB81AF0">
-          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="Book" Type="Self.Book" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Wishlist" Type="Self.Wishlist" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Book">
@@ -234,7 +254,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Wishlist__UId__49C3F6B7">
-          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+          <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Wishlist" Type="Self.Wishlist" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User_Credentials">
@@ -245,6 +267,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="usp_all_books_by_category" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CId" Type="int" Mode="In" />
+        </Function>
         <Function Name="usp_books_by_category" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CId" Type="int" Mode="In" />
         </Function>
@@ -262,6 +287,24 @@
         </Function>
         <Function Name="usp_get_wishlist_by_uid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_insert_book" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CId" Type="int" Mode="In" />
+          <Parameter Name="BTitle" Type="nvarchar" Mode="In" />
+          <Parameter Name="BAuthor" Type="nvarchar" Mode="In" />
+          <Parameter Name="BISBN" Type="nvarchar" Mode="In" />
+          <Parameter Name="BYear" Type="date" Mode="In" />
+          <Parameter Name="BPrice" Type="money" Mode="In" />
+          <Parameter Name="BDescription" Type="nvarchar" Mode="In" />
+          <Parameter Name="BPosition" Type="int" Mode="In" />
+          <Parameter Name="BImage" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="usp_insert_category" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CName" Type="nvarchar" Mode="In" />
+          <Parameter Name="CDescription" Type="nvarchar" Mode="In" />
+          <Parameter Name="CImage" Type="nvarchar" Mode="In" />
+          <Parameter Name="CPosition" Type="int" Mode="In" />
+          <Parameter Name="CCreatedAt" Type="datetime" Mode="In" />
         </Function>
         <Function Name="usp_insert_user_credentials" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="username" Type="nvarchar" Mode="In" />
@@ -337,8 +380,7 @@
             <End Role="Wishlist" EntitySet="Wishlist" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookStoreDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -661,39 +703,60 @@
             <End Role="Wishlist" EntitySet="Wishlists" />
           </AssociationSet>
           <FunctionImport Name="usp_books_by_category" ReturnType="Collection(BookStoreDBModel.usp_books_by_category_Result)">
-            <Parameter Name="CId" Mode="In" Type="Int32" />
+          <Parameter Name="CId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_get_active_categories" ReturnType="Collection(BookStoreDBModel.usp_get_active_categories_Result)" />
           <FunctionImport Name="usp_get_categories" ReturnType="Collection(BookStoreDBModel.usp_get_categories_Result)" />
           <FunctionImport Name="usp_get_top_books" ReturnType="Collection(BookStoreDBModel.usp_get_top_books_Result)">
-            <Parameter Name="rowCount" Mode="In" Type="Int32" />
+          <Parameter Name="rowCount" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_get_top_books_by_category" ReturnType="Collection(BookStoreDBModel.usp_get_top_books_by_category_Result)">
             <Parameter Name="rowCount" Mode="In" Type="Int32" />
             <Parameter Name="CId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="usp_get_user_details" ReturnType="Collection(BookStoreDBModel.usp_get_user_details_Result)">
-            <Parameter Name="userid" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="usp_get_wishlist_by_uid" ReturnType="Collection(BookStoreDBModel.usp_get_wishlist_by_uid_Result)">
-            <Parameter Name="UId" Mode="In" Type="Int32" />
+          <Parameter Name="UId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_insert_user_credentials">
             <Parameter Name="username" Mode="In" Type="String" />
             <Parameter Name="password" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="usp_search_by_author" ReturnType="Collection(BookStoreDBModel.usp_search_by_author_Result)">
-            <Parameter Name="SearchTerm" Mode="In" Type="String" />
+          <Parameter Name="SearchTerm" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="usp_search_by_category" ReturnType="Collection(BookStoreDBModel.usp_search_by_category_Result)">
             <Parameter Name="SearchTerm" Mode="In" Type="String" />
             <Parameter Name="CId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_search_by_isbn" ReturnType="Collection(BookStoreDBModel.usp_search_by_isbn_Result)">
-            <Parameter Name="SearchTerm" Mode="In" Type="String" />
+          <Parameter Name="SearchTerm" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="usp_search_by_title" ReturnType="Collection(BookStoreDBModel.usp_search_by_title_Result)">
-            <Parameter Name="SearchTerm" Mode="In" Type="String" />
+          <Parameter Name="SearchTerm" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_insert_book">
+            <Parameter Name="CId" Mode="In" Type="Int32" />
+            <Parameter Name="BTitle" Mode="In" Type="String" />
+            <Parameter Name="BAuthor" Mode="In" Type="String" />
+            <Parameter Name="BISBN" Mode="In" Type="String" />
+            <Parameter Name="BYear" Mode="In" Type="DateTime" />
+            <Parameter Name="BPrice" Mode="In" Type="Decimal" />
+            <Parameter Name="BDescription" Mode="In" Type="String" />
+            <Parameter Name="BPosition" Mode="In" Type="Int32" />
+            <Parameter Name="BImage" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_insert_category">
+            <Parameter Name="CName" Mode="In" Type="String" />
+            <Parameter Name="CDescription" Mode="In" Type="String" />
+            <Parameter Name="CImage" Mode="In" Type="String" />
+            <Parameter Name="CPosition" Mode="In" Type="Int32" />
+            <Parameter Name="CCreatedAt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="usp_get_user_details" ReturnType="Collection(BookStoreDBModel.usp_get_user_details_Result)">
+          <Parameter Name="userid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_all_books_by_category" ReturnType="Collection(BookStoreDBModel.usp_all_books_by_category_Result)">
+            <Parameter Name="CId" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="usp_books_by_category_Result">
@@ -750,14 +813,6 @@
           <Property Type="Boolean" Name="BStatus" Nullable="false" />
           <Property Type="String" Name="BImage" Nullable="false" MaxLength="500" />
         </ComplexType>
-        <ComplexType Name="usp_get_user_details_Result">
-          <Property Type="String" Name="Username" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="PhoneNo" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="ShippingAddress" Nullable="true" MaxLength="100" />
-          <Property Type="Boolean" Name="ActiveStatus" Nullable="false" />
-        </ComplexType>
         <ComplexType Name="usp_get_wishlist_by_uid_Result">
           <Property Type="Int32" Name="BId" Nullable="false" />
           <Property Type="Int32" Name="CId" Nullable="true" />
@@ -798,6 +853,25 @@
           <Property Type="Decimal" Name="BPrice" Nullable="false" Precision="19" />
           <Property Type="String" Name="CName" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="BImage" Nullable="false" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="usp_get_user_details_Result">
+          <Property Type="Int32" Name="UId" Nullable="false" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="PhoneNo" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="ShippingAddress" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="ActiveStatus" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="usp_all_books_by_category_Result">
+          <Property Type="String" Name="BDescription" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="BISBN" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="BId" Nullable="false" />
+          <Property Type="String" Name="BImage" Nullable="false" MaxLength="500" />
+          <Property Type="Decimal" Name="BPrice" Nullable="false" Precision="19" />
+          <Property Type="String" Name="BTitle" Nullable="false" MaxLength="500" />
+          <Property Type="DateTime" Name="BYEAR" Nullable="false" />
+          <Property Type="String" Name="CName" Nullable="false" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -994,18 +1068,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="usp_get_user_details" FunctionName="BookStoreDBModel.Store.usp_get_user_details">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="BookStoreDBModel.usp_get_user_details_Result">
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
-                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
-                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="usp_get_wishlist_by_uid" FunctionName="BookStoreDBModel.Store.usp_get_wishlist_by_uid">
             <ResultMapping>
               <ComplexTypeMapping TypeName="BookStoreDBModel.usp_get_wishlist_by_uid_Result">
@@ -1065,6 +1127,35 @@
                 <ScalarProperty Name="BPrice" ColumnName="BPrice" />
                 <ScalarProperty Name="CName" ColumnName="CName" />
                 <ScalarProperty Name="BImage" ColumnName="BImage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_insert_book" FunctionName="BookStoreDBModel.Store.usp_insert_book" />
+          <FunctionImportMapping FunctionImportName="usp_insert_category" FunctionName="BookStoreDBModel.Store.usp_insert_category" />
+          <FunctionImportMapping FunctionImportName="usp_get_user_details" FunctionName="BookStoreDBModel.Store.usp_get_user_details">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BookStoreDBModel.usp_get_user_details_Result">
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_all_books_by_category" FunctionName="BookStoreDBModel.Store.usp_all_books_by_category">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BookStoreDBModel.usp_all_books_by_category_Result">
+                <ScalarProperty Name="BDescription" ColumnName="BDescription" />
+                <ScalarProperty Name="BISBN" ColumnName="BISBN" />
+                <ScalarProperty Name="BId" ColumnName="BId" />
+                <ScalarProperty Name="BImage" ColumnName="BImage" />
+                <ScalarProperty Name="BPrice" ColumnName="BPrice" />
+                <ScalarProperty Name="BTitle" ColumnName="BTitle" />
+                <ScalarProperty Name="BYEAR" ColumnName="BYEAR" />
+                <ScalarProperty Name="CName" ColumnName="CName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
