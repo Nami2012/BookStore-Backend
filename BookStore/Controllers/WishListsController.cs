@@ -54,6 +54,7 @@ namespace BookStore.Controllers
         [HttpGet]
         [Route("api/carts/isinwishlist/{Bid}")]
         [ResponseType(typeof(bool))]
+        [Authorize(Roles="User")]
         public IHttpActionResult IsPresentInWishlist(int Bid)
         { // Get UId from of current user
             var identity = (ClaimsIdentity)User.Identity;

@@ -10,7 +10,8 @@ using System.Web.Http;
 using System.Web.Http.Description;
 
 namespace BookStore.Controllers
-{
+{   
+    [Authorize]
     public class OrdersController : ApiController
     {
         private readonly Random random = new Random();

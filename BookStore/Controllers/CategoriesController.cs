@@ -132,39 +132,39 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Categories
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        [Route("api/Categories")]
-        [ResponseType(typeof(Category))]
-        public IHttpActionResult PostCategory(Category category)
-        {
-            category.CId = db.Categories.Max(c => c.CId) + 1;
-            category.CPosition = db.Categories.Max(c => c.CPosition) + 1;
-            category.CImage = "https://static.wikia.nocookie.net/harrypotter/images/d/d4/LibraryPottermore.png";
-            category.CStatus = true;
-            category.CCreatedAt = DateTime.Now;
+        //// POST: api/Categories
+        //[Authorize(Roles = "Admin")]
+        //[HttpPost]
+        //[Route("api/Categories")]
+        //[ResponseType(typeof(Category))]
+        //public IHttpActionResult PostCategory(Category category)
+        //{
+        //    category.CId = db.Categories.Max(c => c.CId) + 1;
+        //    category.CPosition = db.Categories.Max(c => c.CPosition) + 1;
+        //    category.CImage = "https://static.wikia.nocookie.net/harrypotter/images/d/d4/LibraryPottermore.png";
+        //    category.CStatus = true;
+        //    category.CCreatedAt = DateTime.Now;
 
-            db.Categories.Add(category);
+        //    db.Categories.Add(category);
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (CategoryExists(category.CId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (CategoryExists(category.CId))
+        //        {
+        //            return Conflict();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return CreatedAtRoute("DefaultApi", new { id = category.CId }, category);
-        }
+        //    return CreatedAtRoute("DefaultApi", new { id = category.CId }, category);
+        //}
 
         // DELETE: api/Categories/5
         [Authorize(Roles = "Admin")]

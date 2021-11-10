@@ -17,16 +17,6 @@ namespace BookStore.Controllers
     {
         private BookStoreDBEntities db = new BookStoreDBEntities();
 
-        /*[HttpGet]
-        [Route("api/userssss")]
-        [Authorize]
-        public IHttpActionResult GetUser()
-        {
-            var identity = (ClaimsIdentity)User.Identity;
-            //return Ok(identity.Name);
-            return Ok(identity.Claims.Where(c => c.Type == "UId").Select(c => c.Value));
-        }*/
-
         // GET: api/Carts
         // If admin, return carts of all user
         // If user, return their cart
@@ -63,6 +53,7 @@ namespace BookStore.Controllers
         [HttpGet]
         [Route("api/carts/isincart/{Bid}")]
         [ResponseType(typeof(bool))]
+        [Authorize(Roles ="User")]
         public IHttpActionResult IsPresentInCart(int Bid)
         { // Get UId from of current user
             var identity = (ClaimsIdentity)User.Identity;
@@ -88,6 +79,7 @@ namespace BookStore.Controllers
         // [Authorize(Roles = "User")]
         [HttpPost]
         [Route("api/Carts/")]
+        [Authorize(Roles ="User")]
         public IHttpActionResult AddToCart([FromBody] int Bid)
         {
 
@@ -194,8 +186,6 @@ namespace BookStore.Controllers
 
             return Ok(cart);
         }
-
-
         // DELETE: api/Carts
         // BId in request body
         // UId from user identity
