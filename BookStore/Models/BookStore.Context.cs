@@ -22,7 +22,7 @@ namespace BookStore.Models
         {
             this.Configuration.LazyLoadingEnabled = false;
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -36,9 +36,19 @@ namespace BookStore.Models
         public virtual DbSet<Coupon_Validation> Coupon_Validation { get; set; }
         public virtual DbSet<OrderInvoiceDetail> OrderInvoiceDetails { get; set; }
         public virtual DbSet<OrderItem> OrderItems { get; set; }
+        public virtual DbSet<ShippingAddress> ShippingAddresses { get; set; }
         public virtual DbSet<User_Account_Info> User_Account_Info { get; set; }
         public virtual DbSet<User_Credentials> User_Credentials { get; set; }
         public virtual DbSet<Wishlist> Wishlists { get; set; }
+    
+        public virtual ObjectResult<usp_all_books_by_category_Result> usp_all_books_by_category(Nullable<int> cId)
+        {
+            var cIdParameter = cId.HasValue ?
+                new ObjectParameter("CId", cId) :
+                new ObjectParameter("CId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_all_books_by_category_Result>("usp_all_books_by_category", cIdParameter);
+        }
     
         public virtual ObjectResult<usp_books_by_category_Result> usp_books_by_category(Nullable<int> cId)
         {
@@ -81,6 +91,15 @@ namespace BookStore.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_top_books_by_category_Result>("usp_get_top_books_by_category", rowCountParameter, cIdParameter);
         }
     
+        public virtual ObjectResult<usp_get_user_details_Result> usp_get_user_details(Nullable<int> userid)
+        {
+            var useridParameter = userid.HasValue ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_user_details_Result>("usp_get_user_details", useridParameter);
+        }
+    
         public virtual ObjectResult<usp_get_wishlist_by_uid_Result> usp_get_wishlist_by_uid(Nullable<int> uId)
         {
             var uIdParameter = uId.HasValue ?
@@ -88,59 +107,6 @@ namespace BookStore.Models
                 new ObjectParameter("UId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_wishlist_by_uid_Result>("usp_get_wishlist_by_uid", uIdParameter);
-        }
-    
-        public virtual int usp_insert_user_credentials(string username, string password)
-        {
-            var usernameParameter = username != null ?
-                new ObjectParameter("username", username) :
-                new ObjectParameter("username", typeof(string));
-    
-            var passwordParameter = password != null ?
-                new ObjectParameter("password", password) :
-                new ObjectParameter("password", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_insert_user_credentials", usernameParameter, passwordParameter);
-        }
-    
-        public virtual ObjectResult<usp_search_by_author_Result> usp_search_by_author(string searchTerm)
-        {
-            var searchTermParameter = searchTerm != null ?
-                new ObjectParameter("SearchTerm", searchTerm) :
-                new ObjectParameter("SearchTerm", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_search_by_author_Result>("usp_search_by_author", searchTermParameter);
-        }
-    
-        public virtual ObjectResult<usp_search_by_category_Result> usp_search_by_category(string searchTerm, Nullable<int> cId)
-        {
-            var searchTermParameter = searchTerm != null ?
-                new ObjectParameter("SearchTerm", searchTerm) :
-                new ObjectParameter("SearchTerm", typeof(string));
-    
-            var cIdParameter = cId.HasValue ?
-                new ObjectParameter("CId", cId) :
-                new ObjectParameter("CId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_search_by_category_Result>("usp_search_by_category", searchTermParameter, cIdParameter);
-        }
-    
-        public virtual ObjectResult<usp_search_by_isbn_Result> usp_search_by_isbn(string searchTerm)
-        {
-            var searchTermParameter = searchTerm != null ?
-                new ObjectParameter("SearchTerm", searchTerm) :
-                new ObjectParameter("SearchTerm", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_search_by_isbn_Result>("usp_search_by_isbn", searchTermParameter);
-        }
-    
-        public virtual ObjectResult<usp_search_by_title_Result> usp_search_by_title(string searchTerm)
-        {
-            var searchTermParameter = searchTerm != null ?
-                new ObjectParameter("SearchTerm", searchTerm) :
-                new ObjectParameter("SearchTerm", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_search_by_title_Result>("usp_search_by_title", searchTermParameter);
         }
     
         public virtual int usp_insert_book(Nullable<int> cId, string bTitle, string bAuthor, string bISBN, Nullable<System.DateTime> bYear, Nullable<decimal> bPrice, string bDescription, Nullable<int> bPosition, string bImage)
@@ -209,22 +175,82 @@ namespace BookStore.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_insert_category", cNameParameter, cDescriptionParameter, cImageParameter, cPositionParameter, cCreatedAtParameter);
         }
     
-        public virtual ObjectResult<usp_get_user_details_Result> usp_get_user_details(Nullable<int> userid)
+        public virtual int usp_insert_user_credentials(string username, string password)
         {
-            var useridParameter = userid.HasValue ?
-                new ObjectParameter("userid", userid) :
-                new ObjectParameter("userid", typeof(int));
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_get_user_details_Result>("usp_get_user_details", useridParameter);
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_insert_user_credentials", usernameParameter, passwordParameter);
         }
     
-        public virtual ObjectResult<usp_all_books_by_category_Result> usp_all_books_by_category(Nullable<int> cId)
+        public virtual ObjectResult<usp_search_by_author_Result> usp_search_by_author(string searchTerm)
         {
+            var searchTermParameter = searchTerm != null ?
+                new ObjectParameter("SearchTerm", searchTerm) :
+                new ObjectParameter("SearchTerm", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_search_by_author_Result>("usp_search_by_author", searchTermParameter);
+        }
+    
+        public virtual ObjectResult<usp_search_by_category_Result> usp_search_by_category(string searchTerm, Nullable<int> cId)
+        {
+            var searchTermParameter = searchTerm != null ?
+                new ObjectParameter("SearchTerm", searchTerm) :
+                new ObjectParameter("SearchTerm", typeof(string));
+    
             var cIdParameter = cId.HasValue ?
                 new ObjectParameter("CId", cId) :
                 new ObjectParameter("CId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_all_books_by_category_Result>("usp_all_books_by_category", cIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_search_by_category_Result>("usp_search_by_category", searchTermParameter, cIdParameter);
+        }
+    
+        public virtual ObjectResult<usp_search_by_isbn_Result> usp_search_by_isbn(string searchTerm)
+        {
+            var searchTermParameter = searchTerm != null ?
+                new ObjectParameter("SearchTerm", searchTerm) :
+                new ObjectParameter("SearchTerm", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_search_by_isbn_Result>("usp_search_by_isbn", searchTermParameter);
+        }
+    
+        public virtual ObjectResult<usp_search_by_title_Result> usp_search_by_title(string searchTerm)
+        {
+            var searchTermParameter = searchTerm != null ?
+                new ObjectParameter("SearchTerm", searchTerm) :
+                new ObjectParameter("SearchTerm", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_search_by_title_Result>("usp_search_by_title", searchTermParameter);
+        }
+    
+        public virtual int usp_insert_shipping_address(Nullable<int> uId, string street, string city, string state, string pincode)
+        {
+            var uIdParameter = uId.HasValue ?
+                new ObjectParameter("UId", uId) :
+                new ObjectParameter("UId", typeof(int));
+    
+            var streetParameter = street != null ?
+                new ObjectParameter("Street", street) :
+                new ObjectParameter("Street", typeof(string));
+    
+            var cityParameter = city != null ?
+                new ObjectParameter("City", city) :
+                new ObjectParameter("City", typeof(string));
+    
+            var stateParameter = state != null ?
+                new ObjectParameter("State", state) :
+                new ObjectParameter("State", typeof(string));
+    
+            var pincodeParameter = pincode != null ?
+                new ObjectParameter("Pincode", pincode) :
+                new ObjectParameter("Pincode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_insert_shipping_address", uIdParameter, streetParameter, cityParameter, stateParameter, pincodeParameter);
         }
     }
 }

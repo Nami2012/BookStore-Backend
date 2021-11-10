@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\myaseen\OneDrive - SOTI Inc\Documents\BookStore\BookStore-Backend\BookStore\Models\BookStoreDB.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\ns\source\Backend_Integration\Backend-MVP\BookStore-Backend\BookStore\Models\BookStore.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

@@ -20,6 +20,7 @@ namespace BookStore.Models
             this.Carts = new HashSet<Cart>();
             this.Coupon_Validation = new HashSet<Coupon_Validation>();
             this.OrderInvoiceDetails = new HashSet<OrderInvoiceDetail>();
+            this.ShippingAddresses = new HashSet<ShippingAddress>();
             this.Wishlists = new HashSet<Wishlist>();
         }
     
@@ -33,6 +34,8 @@ namespace BookStore.Models
         public virtual ICollection<Coupon_Validation> Coupon_Validation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderInvoiceDetail> OrderInvoiceDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ShippingAddress> ShippingAddresses { get; set; }
         public virtual User_Account_Info User_Account_Info { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wishlist> Wishlists { get; set; }
