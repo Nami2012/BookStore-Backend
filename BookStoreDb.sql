@@ -420,3 +420,24 @@ BEGIN
 INSERT INTO Book VALUES
 ( @CId, @BTitle, @BAuthor, @BISBN, @BYear, @BPrice, @BDescription, @BPosition, 1, @BImage )
 END
+
+GO
+
+---====================================== Section : Triggers ========================================================---------------------
+
+-- Trigger for updating book status on Cart and Wishlist table
+-- upon updating Book table
+CREATE TRIGGER trgAfterBookDisable 
+ON Book
+AFTER UPDATE
+AS
+DECLARE @BId INT;
+DECLARE @BStatus BIT;
+SELECT @BId = i.BId FROM inserted i;
+SELECT @BStatus = i.BStatus FROM inserted i;
+BEGIN
+UPDATE Wishlist SET STATUS = @BStatus WHERE BId = @BId;
+UPDATE CART SET STATUS = @BStatus WHERE BId = @BId;
+END
+
+GO
