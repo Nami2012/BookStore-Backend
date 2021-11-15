@@ -11,14 +11,18 @@ namespace BookStore.Controllers
     public class SearchController : ApiController
     {
         private BookStoreDBEntities db = new BookStoreDBEntities();
-        //Search books 
+
+
+        // GET : api/Search/Books/Harry
+        // GET : api/Search/Books/Harry/1
+        // Returns books that matches searchterm
+        // Filter by categoryId if present
         [HttpGet]
         [Route("api/Search/Books/{searchterm}/{cid:int=0}")]
         public IHttpActionResult SearchBooks(int cid, string searchterm)
         {
             if (cid == 0)
             {
-                //can build where clause separately
                 return Ok(db.usp_search_by_title($"%{searchterm}%"));
             }
             else
@@ -27,16 +31,19 @@ namespace BookStore.Controllers
             }
         }
 
+        // GET : api/Search/Author/Dan
         // Search by Author
-        [Route("api/Search/Author/{searchterm}")]
         [HttpGet]
+        [Route("api/Search/Author/{searchterm}")]
         public IHttpActionResult SearchBookByAuthor(string searchterm)
         {
             return Ok(db.usp_search_by_author($"%{searchterm}%"));
         }
 
-        [Route("api/Search/ISBN/{searchterm}")]
+        // GET : api/Search/ISBN/9199
+        // Search book by ISBN
         [HttpGet]
+        [Route("api/Search/ISBN/{searchterm}")]
         public IHttpActionResult SearchByISBN(string searchterm)
         {
             return Ok(db.usp_search_by_isbn($"%{searchterm}%"));

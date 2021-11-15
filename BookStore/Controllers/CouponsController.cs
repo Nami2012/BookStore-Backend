@@ -10,7 +10,11 @@ namespace BookStore.Controllers
     public class CouponsController : ApiController
     {
         private BookStoreDBEntities db = new BookStoreDBEntities();
-        //api/Coupons -- retrieve activecoupons
+
+
+        // GET : api/Coupons/all
+        // Returns all coupons for admin
+        // Returns all active coupons for normal request
         [HttpGet]
         [Route("api/Coupons/all")]
         public IQueryable<Coupon> GetActiveCoupons()
@@ -18,40 +22,46 @@ namespace BookStore.Controllers
             var identity = (ClaimsIdentity)User.Identity;
 
             var role = identity.Name;
+
+            // If admin return all coupons
             if (role == "admin")
                 return db.Coupons;
-
-
+            
+            // Else return active coupons
             return db.Coupons.Where(c => c.Status == true);
         }
-        //GET: get valid coupons for a user
+
+
+        // GET: api/Coupons/valid
+        // Get valid coupons for a user
         [HttpGet]
         [Route("api/Coupons/valid")]
         [Authorize(Roles = "User")]
         public IHttpActionResult GetValidCouponsForUser()
         {
             var identity = (ClaimsIdentity)User.Identity;
-            int Uid = int.Parse(
+            int UId = int.Parse(
                        identity.Claims.Where(c => c.Type == "UId")
                        .Select(c => c.Value).FirstOrDefault()
                    );
 
-            return Ok(db.usp_valid_coupons(Uid));
+            return Ok(db.usp_valid_coupons(UId));
         }
 
-        ///api/Coupons/Add --post admin only
-        [ResponseType(typeof(Book))]
+
+        // POST : api/admin/Coupons/add
+        // Create new Coupons
+        // Admin only
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("api/admin/Coupons/add")]
         public IHttpActionResult PostCoupon(Coupon coupon)
         {
-            /*if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }*/
-
+            // New coupons are made active by default
             coupon.Status = true;
+
             db.Coupons.Add(coupon);
+
             try
             {
                 db.SaveChanges();
@@ -67,22 +77,26 @@ namespace BookStore.Controllers
                     throw;
                 }
             }
-            return CreatedAtRoute("", new { id = coupon.CouponId }, coupon); //add route name here
+            return Ok();
         }
 
-        //api/Coupons/Remove/id --delete admin only
-        [Authorize(Roles = "Admin")]
+        // DELETE : api/admin/coupon/remove
+        // Delete Coupon with given couponId
+        // Admin Only
         [HttpDelete]
-        [ResponseType(typeof(Book))]
+        [Authorize(Roles = "Admin")]
         [Route("api/admin/coupon/remove")]
-        public IHttpActionResult RemoveCoupon(string id)
+        public IHttpActionResult RemoveCoupon(string couponId)
         {
-            Coupon coupon = db.Coupons.Find(id);
+            Coupon coupon = db.Coupons.Find(couponId);
+
             if (coupon == null)
             {
                 return NotFound();
             }
+
             db.Coupons.Remove(coupon);
+
             db.SaveChanges();
 
             return Ok(coupon);

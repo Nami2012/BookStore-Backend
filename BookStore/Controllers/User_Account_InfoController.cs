@@ -19,11 +19,11 @@ namespace BookStore.Controllers
     {
         private BookStoreDBEntities db = new BookStoreDBEntities();
 
-        // GET: api/User_Account_Info
-        // admin only
-        //works fine
-        [Authorize(Roles = "Admin")]
+        // GET: api/userlist
+        // Returns list of all users
+        // Admin only
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [Route("api/userlist")]
         public IHttpActionResult GetAllUsers()
         {
@@ -37,21 +37,25 @@ namespace BookStore.Controllers
         }
 
         // GET: api/User_Account_Info/5
-
+        // Returns details of user with given UId
         [HttpGet]
         [Route("api/userdetails")]
         //[ResponseType(typeof(User_Account_Info))]
-        public IHttpActionResult GetUserDetails(int id) //check whether its admin or the user id itself
+        public IHttpActionResult GetUserDetails(int id)
         {
             User_Account_Info user_Account_Info = db.User_Account_Info.Find(id);
+
             if (user_Account_Info == null)
             {
                 return NotFound();
             }
+
             return Ok(db.usp_get_user_details(user_Account_Info.UId));
         }
 
         // PUT: api/user/edit/activestatus 
+        // Activate or deactivate a user
+        // Admin only
         [Authorize(Roles = "Admin")]
         [HttpPut]
         [Route("api/user/edit/activestatus")]
@@ -61,14 +65,18 @@ namespace BookStore.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             User_Account_Info user = db.User_Account_Info.Find(id);
+
             if (user == null)
             {
                 return NotFound();
             }
-
+            // Active status of user of toggled
             user.ActiveStatus = !user.ActiveStatus;
+
             db.Entry(user).Property(u => u.ActiveStatus).IsModified = true;
+
             try
             {
                 db.SaveChanges();
@@ -88,13 +96,12 @@ namespace BookStore.Controllers
         }
 
 
-        // PUT: api/User_Account_Info/5
-        //both admin and users
+        // PUT: api/userInfo/edit
+        // Edit the details of user
         [HttpPut]
         [Route("api/userInfo/edit")]
-        [ResponseType(typeof(void))]
         public IHttpActionResult EditUserDetails(int id, User_Account_Info user_Account_Info)
-        { //check if its the user itself or is it the admin logging in
+        { 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -126,12 +133,14 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-
-        //separate api for password change and credential change required
+        // PUT
+        // Edit user credentials
+        // separate api for password change and credential change required
         [HttpPut]
         [Route("api/userCred/edit")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult EditUserDetails(int id, User_Credentials user_credentials)
+        public IHttpActionResult EditUserDetails
+            (int id, User_Credentials user_credentials)
         {
             if (!ModelState.IsValid)
             {
@@ -164,20 +173,24 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/User_Credentials
-        //create user
+        // POST: api/register/user/cred
+        // Create new user
+        // Admin Only
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("api/register/user/cred")]
-        //change api to register into user credentials table too
         public IHttpActionResult CreateNewUserCredentials(User_Credentials user_Credentials)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            db.usp_insert_user_credentials(user_Credentials.Username, user_Credentials.Password);
-            User_Credentials CreatedUser = db.User_Credentials.SingleOrDefault(u => u.Username == user_Credentials.Username);
-            // db.User_Account_Info.Add(user_info);
+            db.usp_insert_user_credentials
+                (user_Credentials.Username, user_Credentials.Password);
+
+            User_Credentials CreatedUser
+                = db.User_Credentials.SingleOrDefault
+                (u => u.Username == user_Credentials.Username);
             try
             {
                 db.SaveChanges();
@@ -193,16 +206,20 @@ namespace BookStore.Controllers
                     throw;
                 }
             }
+
+            // UId of newly created user is returned
             return Ok(CreatedUser.UId);
         }
 
-        // POST: api/User_Account_Info
-        //create user
+        // POST: api/register/user/info
+        // Create new user
+        // Record is inserted to User Credentials table prior to this
         [HttpPost]
         [Route("api/register/user/info")]
         [ResponseType(typeof(User_Account_Info))]
         //change api to register into user credentials table too
-        public IHttpActionResult CreateNewUserInfo(int id, User_Account_Info user_info)
+        public IHttpActionResult CreateNewUserInfo
+            (int id, User_Account_Info user_info)
         {
             if (!ModelState.IsValid)
             {
@@ -228,40 +245,45 @@ namespace BookStore.Controllers
             return Ok();
         }
 
-        // DELETE: api/User_Account_Info/5
-        //change api to remove creds from user credentials table too
+        // DELETE: api/user/delete
+        // Delete User
+        // Admin only
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         [Route("api/user/delete")]
-        [ResponseType(typeof(User_Account_Info))]
         public IHttpActionResult DeleteUser(int id)
         {
+            // Records are deleted from User Credentials and User Details table
             User_Account_Info user_Account_Info = db.User_Account_Info.Find(id);
             User_Credentials user_Credentials = db.User_Credentials.Find(id);
+
             if (user_Account_Info == null || user_Credentials == null)
             {
                 return NotFound();
             }
+
             db.User_Account_Info.Remove(user_Account_Info);
             db.User_Credentials.Remove(user_Credentials);
+            
             db.SaveChanges();
 
             return Ok(user_Account_Info);
         }
 
-        // GET : api/isAdminCheck
-
-        //[Authorize(Roles = "Admin")]
+        // GET : api/isAdmin
+        // Returns true if current token belongs to admin
         [HttpGet]
         [Route("api/isAdmin")]
         public IHttpActionResult IsAdminCheck()
         {
             var identity = (ClaimsIdentity)User.Identity;
             var role = identity.Name;
+
             if (role == "admin")
                 return Ok(true);
             else
                 return Ok(false);
-            //return Ok("isAdmin");
+
         }
 
 

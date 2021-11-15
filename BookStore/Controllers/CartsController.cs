@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -44,23 +39,27 @@ namespace BookStore.Controllers
                         .Select(c => c.Value).FirstOrDefault()
                     );
                 return db.Carts.Include("Book")
-                    .Where(item => item.UId == UId && item.STATUS == true).ToList() //nested json here. should we change it to join?
+                    .Where(item => item.UId == UId && item.STATUS == true)
+                    .ToList()
                     .AsQueryable();
             }
         }
 
-        //Get /api/carts/isincart
+        // GET : /api/carts/isincart/1
+        // Returns true if book is present in the cart of current user
         [HttpGet]
         [Route("api/carts/isincart/{Bid}")]
         [Authorize(Roles = "User")]
         [ResponseType(typeof(bool))]
         public IHttpActionResult IsPresentInCart(int Bid)
-        { // Get UId from of current user
+        {   
+            // Get UId from of current user
             var identity = (ClaimsIdentity)User.Identity;
             int Uid = int.Parse(
                         identity.Claims.Where(c => c.Type == "UId")
                         .Select(c => c.Value).FirstOrDefault()
                     );
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -75,7 +74,6 @@ namespace BookStore.Controllers
         // POST: api/Carts
         // Add Item to Cart
         // UId of the current user is taken
-        //[ResponseType(typeof(Cart))]
         [HttpPost]
         [Authorize(Roles = "User")]
         [Route("api/Carts/")]
@@ -96,11 +94,15 @@ namespace BookStore.Controllers
                         identity.Claims.Where(c => c.Type == "UId")
                         .Select(c => c.Value).FirstOrDefault()
                     );
+
             Cart cart = db.Carts.Find(Uid, Bid);
+
             if (cart != null)
             {
                 return BadRequest("Book Already exists in cart.");
             }
+
+            // new cart item is added
             cart = new Cart()
             {
                 UId = Uid,
@@ -130,7 +132,7 @@ namespace BookStore.Controllers
         }
 
         // PUT : api/Cart/decrement
-        //decrement quantity
+        // Decrement quantity of Book from cart
         [HttpPut]
         [Route("api/Carts")]
         [Authorize(Roles = "User")]
@@ -191,6 +193,7 @@ namespace BookStore.Controllers
         // DELETE: api/Carts
         // BId in request body
         // UId from user identity
+        // Book is removed from current user's cart
         [ResponseType(typeof(Cart))]
         [HttpDelete]
         [Route("api/Carts/{BId}")]
@@ -203,6 +206,7 @@ namespace BookStore.Controllers
                         .Select(c => c.Value).FirstOrDefault()
                     );
             Cart cart = db.Carts.Find(UId, BId);
+
             if (cart == null)
             {
                 return NotFound();

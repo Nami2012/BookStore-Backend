@@ -18,9 +18,10 @@ namespace BookStore.Controllers
         private BookStoreDBEntities db = new BookStoreDBEntities();
 
         // GET: api/ShippingAddresses
+        // Returns the shipping address of user
         [HttpGet]
-        [Route("api/ShippingAddresses")]
         [Authorize]
+        [Route("api/ShippingAddresses")]
         public IQueryable<ShippingAddress> GetShippingAddresses()
         {
             var identity = (ClaimsIdentity)User.Identity;
@@ -32,9 +33,9 @@ namespace BookStore.Controllers
         }
 
         // GET: api/ShippingAddresses/5
+        // Returns shipping address of user with given shippind Id
         [HttpGet]
         [Route("api/ShippingAddresses/{SHid}")]
-        [ResponseType(typeof(ShippingAddress))]
         public IHttpActionResult GetShippingAddress(int SHid)
         {
             var identity = (ClaimsIdentity)User.Identity;
@@ -42,7 +43,10 @@ namespace BookStore.Controllers
                         identity.Claims.Where(c => c.Type == "UId")
                         .Select(c => c.Value).FirstOrDefault()
                     );
-            ShippingAddress shippingAddress = db.ShippingAddresses.Where(s => s.UId == Uid && s.ShId == SHid).FirstOrDefault();
+            ShippingAddress shippingAddress
+                = db.ShippingAddresses
+                .Where(s => s.UId == Uid && s.ShId == SHid)
+                .FirstOrDefault();
             if (shippingAddress == null)
             {
                 return NotFound();
@@ -51,12 +55,14 @@ namespace BookStore.Controllers
             return Ok(shippingAddress);
         }
 
-        // PUT: api/ShippingAddresses/5
+        // PUT: api/ShippingAddresses/5/1
+        // Edit the shipping address of given user
         [HttpPut]
-        [Route("api/ShippingAddresses/{SHid}/{UserId}")]
         [Authorize]
+        [Route("api/ShippingAddresses/{SHid}/{UserId}")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutShippingAddress(int SHid, ShippingAddress shippingAddress, int UserId)
+        public IHttpActionResult PutShippingAddress
+            (int SHid, int UserId, ShippingAddress shippingAddress)
         {
             
             var identity = (ClaimsIdentity)User.Identity;
@@ -64,9 +70,13 @@ namespace BookStore.Controllers
             var role = identity.Name;
 
             int Uid;
+
+            // Admin can edit all users, so UId is taken 
+            // directly from request
             if (role == "admin") {
                 Uid = UserId;
             }
+            // else user can edit only their shipping addresses
             else
             {
                 Uid = int.Parse(
@@ -104,27 +114,28 @@ namespace BookStore.Controllers
         }
 
         // POST: api/ShippingAddresses
+        // Create new shipping address
         [HttpPost]
         [Route("api/ShippingAddresses")]
         [ResponseType(typeof(ShippingAddress))]
         public IHttpActionResult PostShippingAddress(ShippingAddress shippingAddress)
         {
-            /*var identity = (ClaimsIdentity)User.Identity;
-            int Uid = int.Parse(
-                        identity.Claims.Where(c => c.Type == "UId")
-                        .Select(c => c.Value).FirstOrDefault()
-                    );*/
-
-            db.usp_insert_shipping_address(shippingAddress.UId, shippingAddress.Street, shippingAddress.City,
-                shippingAddress.State, shippingAddress.Pincode);
+            db.usp_insert_shipping_address
+                (
+                    shippingAddress.UId, 
+                    shippingAddress.Street, 
+                    shippingAddress.City,
+                    shippingAddress.State, 
+                    shippingAddress.Pincode
+                );
             return Ok(true);
         }
 
         // DELETE: api/ShippingAddresses/5
+        // Delete shipping address of a user
         [HttpDelete]
         [Authorize]
         [Route("api/ShippingAddresses/{SHid}")]
-        [ResponseType(typeof(ShippingAddress))]
         public IHttpActionResult DeleteShippingAddress(int SHid)
         {
             ShippingAddress shippingAddress = db.ShippingAddresses.Find(SHid);
@@ -132,11 +143,13 @@ namespace BookStore.Controllers
             {
                 return NotFound();
             }
+
             var identity = (ClaimsIdentity)User.Identity;
             int Uid = int.Parse(
                         identity.Claims.Where(c => c.Type == "UId")
                         .Select(c => c.Value).FirstOrDefault()
                     );
+            // user can delete only their shipping address
             if (shippingAddress.UId != Uid)
             {
                 return BadRequest();
@@ -148,7 +161,9 @@ namespace BookStore.Controllers
             return Ok(shippingAddress);
         }
 
-        // GET : api/ShippingAddresses/user/{uid}
+        // GET : api/ShippingAddresses/user/1
+        // Returns shipping address of user
+        // Admin Only
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [Route("api/ShippingAddresses/user/{uid}")]
