@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BookStoreDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="BId" />
+    </Key>
+    <Property Name="BId" Type="int" Nullable="false" />
+    <Property Name="CId" Type="int" />
+    <Property Name="BTitle" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="BAuthor" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="BISBN" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="BYEAR" Type="date" Nullable="false" />
+    <Property Name="BPrice" Type="money" Nullable="false" />
+    <Property Name="BDescription" Type="nvarchar" MaxLength="1000" Nullable="false" />
+    <Property Name="BPosition" Type="int" Nullable="false" />
+    <Property Name="BStatus" Type="bit" Nullable="false" />
+    <Property Name="BImage" Type="nvarchar" MaxLength="500" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CId" />
+    </Key>
+    <Property Name="CId" Type="int" Nullable="false" />
+    <Property Name="CName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CDescription" Type="nvarchar" MaxLength="500" />
+    <Property Name="CImage" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="CStatus" Type="bit" Nullable="false" />
+    <Property Name="CPosition" Type="int" Nullable="false" />
+    <Property Name="CCreatedAt" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User_Account_Info">
+    <Key>
+      <PropertyRef Name="UId" />
+    </Key>
+    <Property Name="UId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="PhoneNo" Type="nvarchar" MaxLength="10" />
+    <Property Name="ShippingAddress" Type="nvarchar" MaxLength="100" />
+    <Property Name="ActiveStatus" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User_Credentials">
+    <Key>
+      <PropertyRef Name="UId" />
+    </Key>
+    <Property Name="UId" Type="int" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Book__CId__4AB81AF0">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Book" Type="Self.Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CId" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="CId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__User_Accoun__UId__5629CD9C">
+    <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1" />
+    <End Role="User_Account_Info" Type="Self.User_Account_Info" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User_Credentials">
+        <PropertyRef Name="UId" />
+      </Principal>
+      <Dependent Role="User_Account_Info">
+        <PropertyRef Name="UId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BookStoreDBModelStoreContainer">
+    <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Account_Info" EntityType="Self.User_Account_Info" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Credentials" EntityType="Self.User_Credentials" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Book__CId__4AB81AF0" Association="Self.FK__Book__CId__4AB81AF0">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Book" EntitySet="Book" />
+    </AssociationSet>
+    <AssociationSet Name="FK__User_Accoun__UId__5629CD9C" Association="Self.FK__User_Accoun__UId__5629CD9C">
+      <End Role="User_Credentials" EntitySet="User_Credentials" />
+      <End Role="User_Account_Info" EntitySet="User_Account_Info" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
