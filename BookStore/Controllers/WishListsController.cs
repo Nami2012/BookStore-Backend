@@ -20,14 +20,19 @@ namespace BookStore.Controllers
             return db.Wishlists.Count(e => ((e.BId == bid) && (e.UId == uid))) > 0;
         }
 
+        // Returns UId of current user
         int getUserId()
         {
             var identity = (ClaimsIdentity)User.Identity;
+
+            // Getting UId from identity
             int UId = int.Parse(
                         identity.Claims.Where(c => c.Type == "UId")
                         .Select(c => c.Value).FirstOrDefault()
                     );
-            User_Account_Info user = db.User_Account_Info.SingleOrDefault(u => u.UId == UId);
+
+            User_Account_Info user = db.User_Account_Info
+                .SingleOrDefault(u => u.UId == UId);
             if (user == null)
             {
                 return -1;
@@ -35,7 +40,8 @@ namespace BookStore.Controllers
             return user.UId;
         }
 
-        //GET /api/wishlist 
+        // GET : api/wishlist 
+        // Returns wishlist of current user
         [Route("api/wishlist")]
         [Authorize]
         [HttpGet]
@@ -51,12 +57,16 @@ namespace BookStore.Controllers
             return Ok(db.usp_get_wishlist_by_uid(uid));
         }
 
+        // GET : api/carts/isinwishlist/1
+        // Checks whether Book with given BId is in wishlist of current user
+        // Returns true if exists
         [HttpGet]
         [Route("api/carts/isinwishlist/{Bid}")]
         [ResponseType(typeof(bool))]
         [Authorize]
         public IHttpActionResult IsPresentInWishlist(int Bid)
-        { // Get UId from of current user
+        { 
+            // Get UId from of current user
             var identity = (ClaimsIdentity)User.Identity;
             int Uid = int.Parse(
                         identity.Claims.Where(c => c.Type == "UId")
@@ -73,21 +83,28 @@ namespace BookStore.Controllers
             return Ok(false);
         }
 
-        //POST /wishlist/add queryparam=> bi
-        [Route("api/wishlist")]
-        [Authorize]
+        // POST : api/wishlist
+        // Add book to wishlist
+        // queryparam => bi
         [HttpPost]
+        [Authorize]
+        [Route("api/wishlist")]
         public IHttpActionResult PostWishlist([FromBody] int bid)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            // get UId of current user
             int uid = getUserId();
+
             if (uid < 0)
             {
                 return BadRequest();
             }
+
+            // create a new Wishlist Object
             Wishlist wishlist = new Wishlist()
             {
                 BId = bid,
@@ -113,9 +130,10 @@ namespace BookStore.Controllers
 
             return Ok();
         }
-        //DELETE /wishlist/remove queryparam => bid
-        // DELETE: api/Books/5
-        //POST /wishlist/add queryparam=> bi
+        // DELETE : api/wishlist/5
+        // DELETE : api/wishlist/remove
+        // queryparam => bid
+        // Remove a book from wishlist
         [Route("api/wishlist/{bid}")]
         [Authorize]
         [HttpDelete]
@@ -127,12 +145,14 @@ namespace BookStore.Controllers
                 return BadRequest();
             }
 
-            Wishlist wishlist = db.Wishlists.SingleOrDefault(w => w.UId == uid && w.BId == bid);
+            Wishlist wishlist = db.Wishlists
+                .SingleOrDefault(w => w.UId == uid && w.BId == bid);
             if (wishlist == null)
             {
                 return NotFound();
             }
 
+            // Remove the Book with given BId
             db.Wishlists.Remove(wishlist);
             db.SaveChanges();
 
