@@ -167,7 +167,7 @@ namespace BookStore.Controllers
         [Route("api/ConfirmOrder")]
         [ResponseType(typeof(List<OrderItem>))]
         //get order id,discount coupon code,user id
-        public IHttpActionResult ConfirmOrder(string orderid,string couponid = "")
+        public IHttpActionResult ConfirmOrder(string orderid, string shId, string couponid = "")
         {   
             //get user
             var identity = User.Identity.Name;
@@ -192,6 +192,7 @@ namespace BookStore.Controllers
             //update total amount in order invoice details
             OrderInvoiceDetail order = db.OrderInvoiceDetails.Find(orderid);
             order.Amount = total_amount;
+            order.ShippingAddress = shId;
             db.Entry(order).Property(b => b.Amount).IsModified = true;
             db.SaveChanges();
 

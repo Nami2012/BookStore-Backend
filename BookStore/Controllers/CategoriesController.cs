@@ -21,9 +21,9 @@ namespace BookStore.Controllers
     {
         private BookStoreDBEntities db = new BookStoreDBEntities();
 
-        /// GET: api/Categories 
-        // sorted according to position
-        // return only active categories
+        // GET: api/Categories 
+        // Sorted according to position of category
+        // Returns only active categories
         [HttpGet]
         [Route("api/Categories")]
         public IHttpActionResult GetCategories()
@@ -38,7 +38,22 @@ namespace BookStore.Controllers
             return Ok(db.usp_get_active_categories());
         }
 
-        // GET: api/Categories/5 
+        // GET: api/Category/Names
+        // Returns List of Active Catgeory Names
+        [HttpGet]
+        [Route("api/Category/Names")]
+        public IQueryable<string> GetCategoryNames()
+        {
+            List<string> CategoryNames = new List<string>();
+            foreach (var category in db.Categories.Where(c => c.CStatus == true))
+            {
+                CategoryNames.Add(category.CName);
+            }
+            return CategoryNames.AsQueryable();
+        }
+
+        // GET: api/category/5 
+        // Returns information related to category with given CId
         [HttpGet]
         [Route("api/category/{id}")]
         [ResponseType(typeof(Category))]
@@ -53,31 +68,22 @@ namespace BookStore.Controllers
             return Ok(category);
         }
 
-        //GET: api/Category/Names
-        [HttpGet]
-        [Route("api/Category/Names")]
-        public IQueryable<string> GetCategoryNamesAndID() //id
-        {
-            List<string> CategoryNames = new List<string>();
-            foreach (var category in db.Categories)
-            {
-                CategoryNames.Add(category.CName);
-            }
-            return CategoryNames.AsQueryable();
-        }
 
-        //PUT: api/Category/Edit/ActiveStatus/{bid}
-        [Authorize(Roles = "Admin")]
+        // PUT: api/Category/Edit/ActiveStatus/1
+        // Change the ActiveStatus for a category
+        // Activate and deactivate category
+        // Admin Only
         [HttpPut]
-        [Route("api/Category/Edit/ActiveStatus/{bid}")]
+        [Authorize(Roles = "Admin")]
+        [Route("api/Category/Edit/ActiveStatus/{cid}")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCategory(int bid)
+        public IHttpActionResult PutCategory(int cid)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            Category category = db.Categories.Find(bid);
+            Category category = db.Categories.Find(cid);
             if (category == null)
             {
                 return BadRequest();
@@ -90,7 +96,7 @@ namespace BookStore.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryExists(bid))
+                if (!CategoryExists(cid))
                 {
                     return NotFound();
                 }
@@ -103,9 +109,11 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // PUT: api/Categories/5
+        // PUT: api/Category/edit
+        // Edit Category
+        // Admin Only
         [Authorize(Roles = "Admin")]
-        [HttpPut]
+        [HttpPut]   
         [Route("api/Category/edit")]
         [ResponseType(typeof(Category))]
         public IHttpActionResult PutCategory(Category category)
@@ -135,9 +143,11 @@ namespace BookStore.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // DELETE: api/Categories/5
-        [Authorize(Roles = "Admin")]
+        // DELETE: api/category/delete/1
+        // Delete category with given CId
+        // Admin Only
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         [Route("api/category/delete")]
         [ResponseType(typeof(Category))]
         public IHttpActionResult DeleteCategory(int id)
@@ -155,7 +165,8 @@ namespace BookStore.Controllers
         }
 
 
-        // GET: api/image/category/{cid} 
+        // GET: api/image/category/1
+        // Get the Category Image with given CId
         [Route("api/image/category/{cid}")]
         public HttpResponseMessage GetCategoryImage(int cid)
         {
@@ -163,29 +174,36 @@ namespace BookStore.Controllers
             {
                 var response = Request.CreateResponse(HttpStatusCode.OK);
 
+                // Get the image filename from DB
                 string imageName = db.Categories
                     .Where(c => c.CId == cid)
                     .Select(c => c.CImage)
                     .FirstOrDefault();
 
-                var filePath = HttpContext.Current.Server.MapPath("~/Images/" + imageName);
-
+                // Create the full file path and extension
+                var filePath = HttpContext.Current
+                    .Server.MapPath("~/Images/" + imageName);
                 var ext = System.IO.Path.GetExtension(filePath);
 
+                // Fetch the file
                 var contents = System.IO.File.ReadAllBytes(filePath);
+                System.IO.MemoryStream ms 
+                    = new System.IO.MemoryStream(contents);
 
-                System.IO.MemoryStream ms = new System.IO.MemoryStream(contents);
-
+                // Setup response
                 response.Content = new StreamContent(ms);
-
-                response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/" + ext);
+                response.Content.Headers.ContentType 
+                    = new System.Net.Http
+                    .Headers.MediaTypeHeaderValue("image/" + ext);
 
                 return response;
             }
             catch (Exception ex)
             {
 
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "");
+                return Request
+                    .CreateErrorResponse(HttpStatusCode.NotFound,
+                    ex.Message);
             }
             
         }
@@ -193,8 +211,9 @@ namespace BookStore.Controllers
 
 
         // POST : api/uploadImage
-        // Accept image and store it into a folder
-        /*[Authorize(Roles = " Admin")]*/
+        // Upload category and book image to the server
+        // Admin Only
+        [Authorize(Roles = " Admin")]
         [Route("api/uploadImage")]
         public IHttpActionResult PostImage()
         {
@@ -202,10 +221,16 @@ namespace BookStore.Controllers
             try
             {
                 string imageName = null;
+
+                // Get the image file from request
                 var httpRequest = HttpContext.Current.Request;
                 var postedImage = httpRequest.Files["ImageToUpload"];
+
+                // Save the image to the server
                 if (postedImage != null)
                 {
+
+                    // Create unique filename
                     imageName = new String(Path.GetFileNameWithoutExtension(postedImage.FileName)
                         .Take(10)
                         .ToArray())
@@ -214,8 +239,11 @@ namespace BookStore.Controllers
                         + DateTime.Now.ToString("yymmssfff")
                         + Path.GetExtension(postedImage.FileName);
 
+                    // Saving image to Images folder
                     var filePath = HttpContext.Current.Server.MapPath("~/Images/" + imageName);
                     postedImage.SaveAs(filePath);
+
+                    // Image name is returned
                     result = imageName;
                 } else
                 {
@@ -225,59 +253,29 @@ namespace BookStore.Controllers
             }
             catch (Exception ex)
             {
-                result = ex.Message;
-                throw;
+                return InternalServerError(ex);
             }
 
             return Ok(result);
         }
 
 
-        //GET: api/Categories/Admin
+        // GET: api/Categories/Admin
+        // Returns all (active and non active) categories
+        // Admin only
         [Authorize(Roles = "Admin")]
         [Route("api/Categories/Admin")]
-        public IHttpActionResult GetCategoriesForAdmin() //return all categories
+        public IHttpActionResult GetCategoriesForAdmin()
         {
             return Ok(db.usp_get_categories());
-        }
-
-
-
-        /*// GET: api/Categories/5
-        // Commented out since currenly we aren't using this endpoint
-        [ResponseType(typeof(Category))]
-        public IHttpActionResult GetCategory(int id)
-        {
-            Category category = db.Categories.Find(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(category);
-        }*/
-
-
-        // Working perfectly
-        // Commented out since currenly we aren't using this endpoint
-        /*[Route("api/Category/Names")]
-        public IQueryable<string> GetCategoryNamesAndID() //id
-        {
-            List<string> CategoryNames = new List<string>();
-            foreach(var category in db.Categories)
-            {
-                CategoryNames.Add(category.CName);
-            }
-            return CategoryNames.AsQueryable();
-        }*/
-
-        
+        }     
         
 
         // POST: api/Categories
-        // [Authorize(Roles = "Admin")]
-        // need to test
-        [ResponseType(typeof(Category))]
+        // Create new category
+        // Admin Only
+        [Authorize(Roles = "Admin")]
+        [Route("api/categories")]
         public IHttpActionResult PostCategory(Category category)
         {
             int newCPosition = db.Categories.Max(c => c.CPosition) + 1;
@@ -291,15 +289,12 @@ namespace BookStore.Controllers
                 db.usp_insert_category
                     (category.CName, category.CDescription, 
                     category.CImage, newCPosition, CCreatedAt);
-                // Write code to  retrive the created category id
-                // return createdat()
             }
             catch (DbUpdateException)
             {
                 throw;
             }
-            // To return this find way to retrive the newly created category id
-            // CreatedAtRoute("DefaultApi", new { id = category.CId }, category
+
             return Ok("Category Added");
         }
 

@@ -81,6 +81,17 @@
     <Property Name="BId" Type="int" Nullable="false" />
     <Property Name="COUNT" Type="int" />
   </EntityType>
+  <EntityType Name="ShippingAddress">
+    <Key>
+      <PropertyRef Name="ShId" />
+    </Key>
+    <Property Name="ShId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UId" Type="int" />
+    <Property Name="Street" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="City" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="State" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Pincode" Type="nvarchar" MaxLength="10" Nullable="false" />
+  </EntityType>
   <EntityType Name="User_Account_Info">
     <Key>
       <PropertyRef Name="UId" />
@@ -220,6 +231,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__ShippingAdd__UId__71D1E811">
+    <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="0..1" />
+    <End Role="ShippingAddress" Type="Self.ShippingAddress" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_Credentials">
+        <PropertyRef Name="UId" />
+      </Principal>
+      <Dependent Role="ShippingAddress">
+        <PropertyRef Name="UId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__User_Accoun__UId__4222D4EF">
     <End Role="User_Credentials" Type="Self.User_Credentials" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -301,6 +324,13 @@
     <Parameter Name="CPosition" Type="int" Mode="In" />
     <Parameter Name="CCreatedAt" Type="datetime" Mode="In" />
   </Function>
+  <Function Name="usp_insert_shipping_address" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UId" Type="int" Mode="In" />
+    <Parameter Name="Street" Type="nvarchar" Mode="In" />
+    <Parameter Name="City" Type="nvarchar" Mode="In" />
+    <Parameter Name="State" Type="nvarchar" Mode="In" />
+    <Parameter Name="Pincode" Type="nvarchar" Mode="In" />
+  </Function>
   <Function Name="usp_insert_user_credentials" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="username" Type="nvarchar" Mode="In" />
     <Parameter Name="password" Type="nvarchar" Mode="In" />
@@ -318,6 +348,9 @@
   <Function Name="usp_search_by_title" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="SearchTerm" Type="nvarchar" Mode="In" />
   </Function>
+  <Function Name="usp_valid_coupons" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UId" Type="int" Mode="In" />
+  </Function>
   <EntityContainer Name="BookStoreDBModelStoreContainer">
     <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
@@ -327,6 +360,7 @@
     <EntitySet Name="Coupon_Validation" EntityType="Self.Coupon_Validation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderInvoiceDetails" EntityType="Self.OrderInvoiceDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderItems" EntityType="Self.OrderItems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShippingAddress" EntityType="Self.ShippingAddress" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User_Account_Info" EntityType="Self.User_Account_Info" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User_Credentials" EntityType="Self.User_Credentials" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Wishlist" EntityType="Self.Wishlist" Schema="dbo" store:Type="Tables" />
@@ -361,6 +395,10 @@
     <AssociationSet Name="FK__OrderItems__BId__5812160E" Association="Self.FK__OrderItems__BId__5812160E">
       <End Role="Book" EntitySet="Book" />
       <End Role="OrderItems" EntitySet="OrderItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ShippingAdd__UId__71D1E811" Association="Self.FK__ShippingAdd__UId__71D1E811">
+      <End Role="User_Credentials" EntitySet="User_Credentials" />
+      <End Role="ShippingAddress" EntitySet="ShippingAddress" />
     </AssociationSet>
     <AssociationSet Name="FK__User_Accoun__UId__4222D4EF" Association="Self.FK__User_Accoun__UId__4222D4EF">
       <End Role="User_Credentials" EntitySet="User_Credentials" />

@@ -1,10 +1,6 @@
 ﻿using BookStore.Models;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -27,6 +23,20 @@ namespace BookStore.Controllers
 
 
             return db.Coupons.Where(c => c.Status == true);
+        }
+        //GET: get valid coupons for a user
+        [HttpGet]
+        [Route("api/Coupons/valid")]
+        [Authorize(Roles = "User")]
+        public IHttpActionResult GetValidCouponsForUser()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            int Uid = int.Parse(
+                       identity.Claims.Where(c => c.Type == "UId")
+                       .Select(c => c.Value).FirstOrDefault()
+                   );
+
+            return Ok(db.usp_valid_coupons(Uid));
         }
 
         ///api/Coupons/Add --post admin only

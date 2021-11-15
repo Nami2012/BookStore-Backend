@@ -253,6 +253,7 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CouponsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\ShippingAddressesController.cs" />
     <Compile Include="Controllers\User_Account_InfoController.cs" />
     <Compile Include="Controllers\WishListsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -298,6 +299,9 @@
     <Compile Include="Models\OrderItem.cs">
       <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ShippingAddress.cs">
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\User_Account_Info.cs">
       <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
@@ -338,6 +342,9 @@
       <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\usp_search_by_title_Result.cs">
+      <DependentUpon>BookStoreDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\usp_valid_coupons_Result.cs">
       <DependentUpon>BookStoreDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ValidationRepository.cs" />

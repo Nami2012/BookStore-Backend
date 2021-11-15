@@ -672,4 +672,3 @@ C:\Users\myaseen\OneDrive - SOTI Inc\Documents\BookStore\BookStore-Backend\BookS
 C:\Users\myaseen\OneDrive - SOTI Inc\Documents\BookStore\BookStore-Backend\BookStore\obj\Debug\BookStore.csproj.CoreCompileInputs.cache
 C:\Users\myaseen\OneDrive - SOTI Inc\Documents\BookStore\BookStore-Backend\BookStore\obj\Debug\BookStore.dll
 C:\Users\myaseen\OneDrive - SOTI Inc\Documents\BookStore\BookStore-Backend\BookStore\obj\Debug\BookStore.pdb
-C:\Users\myaseen\OneDrive - SOTI Inc\Documents\BookStore\BookStore-Backend\BookStore\obj\Debug\BookStore.csproj.CopyComplete

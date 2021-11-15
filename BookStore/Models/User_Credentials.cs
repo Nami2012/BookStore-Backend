@@ -21,6 +21,7 @@ namespace BookStore.Models
             this.Coupon_Validation = new HashSet<Coupon_Validation>();
             this.OrderInvoiceDetails = new HashSet<OrderInvoiceDetail>();
             this.Wishlists = new HashSet<Wishlist>();
+            this.ShippingAddresses = new HashSet<ShippingAddress>();
         }
     
         public int UId { get; set; }
@@ -36,5 +37,7 @@ namespace BookStore.Models
         public virtual User_Account_Info User_Account_Info { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wishlist> Wishlists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ShippingAddress> ShippingAddresses { get; set; }
     }
 }

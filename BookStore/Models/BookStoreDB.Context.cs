@@ -20,9 +20,8 @@ namespace BookStore.Models
         public BookStoreDBEntities()
             : base("name=BookStoreDBEntities")
         {
-            this.Configuration.LazyLoadingEnabled = false;
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -39,6 +38,7 @@ namespace BookStore.Models
         public virtual DbSet<User_Account_Info> User_Account_Info { get; set; }
         public virtual DbSet<User_Credentials> User_Credentials { get; set; }
         public virtual DbSet<Wishlist> Wishlists { get; set; }
+        public virtual DbSet<ShippingAddress> ShippingAddresses { get; set; }
     
         public virtual ObjectResult<usp_books_by_category_Result> usp_books_by_category(Nullable<int> cId)
         {
@@ -225,6 +225,40 @@ namespace BookStore.Models
                 new ObjectParameter("CId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_all_books_by_category_Result>("usp_all_books_by_category", cIdParameter);
+        }
+    
+        public virtual int usp_insert_shipping_address(Nullable<int> uId, string street, string city, string state, string pincode)
+        {
+            var uIdParameter = uId.HasValue ?
+                new ObjectParameter("UId", uId) :
+                new ObjectParameter("UId", typeof(int));
+    
+            var streetParameter = street != null ?
+                new ObjectParameter("Street", street) :
+                new ObjectParameter("Street", typeof(string));
+    
+            var cityParameter = city != null ?
+                new ObjectParameter("City", city) :
+                new ObjectParameter("City", typeof(string));
+    
+            var stateParameter = state != null ?
+                new ObjectParameter("State", state) :
+                new ObjectParameter("State", typeof(string));
+    
+            var pincodeParameter = pincode != null ?
+                new ObjectParameter("Pincode", pincode) :
+                new ObjectParameter("Pincode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_insert_shipping_address", uIdParameter, streetParameter, cityParameter, stateParameter, pincodeParameter);
+        }
+    
+        public virtual ObjectResult<usp_valid_coupons_Result> usp_valid_coupons(Nullable<int> uId)
+        {
+            var uIdParameter = uId.HasValue ?
+                new ObjectParameter("UId", uId) :
+                new ObjectParameter("UId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_valid_coupons_Result>("usp_valid_coupons", uIdParameter);
         }
     }
 }

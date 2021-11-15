@@ -118,6 +118,7 @@
     <NavigationProperty Name="OrderInvoiceDetails" Relationship="Self.FK__OrderInvoic__UId__5441852A" FromRole="User_Credentials" ToRole="OrderInvoiceDetails" />
     <NavigationProperty Name="User_Account_Info" Relationship="Self.FK__User_Accoun__UId__4222D4EF" FromRole="User_Credentials" ToRole="User_Account_Info" />
     <NavigationProperty Name="Wishlists" Relationship="Self.FK__Wishlist__UId__49C3F6B7" FromRole="User_Credentials" ToRole="Wishlist" />
+    <NavigationProperty Name="ShippingAddresses" Relationship="BookStoreDBModel.FK__ShippingAdd__UId__71D1E811" FromRole="User_Credentials" ToRole="ShippingAddress" />
   </EntityType>
   <EntityType Name="Wishlist">
     <Key>
@@ -374,6 +375,21 @@
     <FunctionImport Name="usp_all_books_by_category" ReturnType="Collection(BookStoreDBModel.usp_all_books_by_category_Result)">
       <Parameter Name="CId" Mode="In" Type="Int32" />
     </FunctionImport>
+    <EntitySet Name="ShippingAddresses" EntityType="BookStoreDBModel.ShippingAddress" />
+    <AssociationSet Name="FK__ShippingAdd__UId__71D1E811" Association="BookStoreDBModel.FK__ShippingAdd__UId__71D1E811">
+      <End Role="User_Credentials" EntitySet="User_Credentials" />
+      <End Role="ShippingAddress" EntitySet="ShippingAddresses" />
+    </AssociationSet>
+    <FunctionImport Name="usp_insert_shipping_address">
+      <Parameter Name="UId" Mode="In" Type="Int32" />
+      <Parameter Name="Street" Mode="In" Type="String" />
+      <Parameter Name="City" Mode="In" Type="String" />
+      <Parameter Name="State" Mode="In" Type="String" />
+      <Parameter Name="Pincode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_valid_coupons" ReturnType="Collection(BookStoreDBModel.usp_valid_coupons_Result)">
+      <Parameter Name="UId" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="usp_books_by_category_Result">
     <Property Type="String" Name="BDescription" Nullable="false" MaxLength="1000" />
@@ -488,5 +504,34 @@
     <Property Type="String" Name="BTitle" Nullable="false" MaxLength="500" />
     <Property Type="DateTime" Name="BYEAR" Nullable="false" />
     <Property Type="String" Name="CName" Nullable="false" MaxLength="50" />
+  </ComplexType>
+  <EntityType Name="ShippingAddress">
+    <Key>
+      <PropertyRef Name="ShId" />
+    </Key>
+    <Property Name="ShId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UId" Type="Int32" />
+    <Property Name="Street" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="State" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Pincode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User_Credentials" Relationship="BookStoreDBModel.FK__ShippingAdd__UId__71D1E811" FromRole="ShippingAddress" ToRole="User_Credentials" />
+  </EntityType>
+  <Association Name="FK__ShippingAdd__UId__71D1E811">
+    <End Type="BookStoreDBModel.User_Credentials" Role="User_Credentials" Multiplicity="0..1" />
+    <End Type="BookStoreDBModel.ShippingAddress" Role="ShippingAddress" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_Credentials">
+        <PropertyRef Name="UId" />
+      </Principal>
+      <Dependent Role="ShippingAddress">
+        <PropertyRef Name="UId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="usp_valid_coupons_Result">
+    <Property Type="String" Name="CouponId" Nullable="false" MaxLength="10" />
+    <Property Type="Decimal" Name="Discount" Nullable="false" Precision="18" Scale="0" />
+    <Property Type="Boolean" Name="Status" Nullable="false" />
   </ComplexType>
 </Schema>

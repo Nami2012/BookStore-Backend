@@ -281,5 +281,27 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <EntitySetMapping Name="ShippingAddresses">
+      <EntityTypeMapping TypeName="BookStoreDBModel.ShippingAddress">
+        <MappingFragment StoreEntitySet="ShippingAddress">
+          <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Street" ColumnName="Street" />
+          <ScalarProperty Name="UId" ColumnName="UId" />
+          <ScalarProperty Name="ShId" ColumnName="ShId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="usp_insert_shipping_address" FunctionName="BookStoreDBModel.Store.usp_insert_shipping_address" />
+    <FunctionImportMapping FunctionImportName="usp_valid_coupons" FunctionName="BookStoreDBModel.Store.usp_valid_coupons">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BookStoreDBModel.usp_valid_coupons_Result">
+          <ScalarProperty Name="CouponId" ColumnName="CouponId" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>
