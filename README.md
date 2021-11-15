@@ -2,7 +2,7 @@
 
 A collection of REST APIs built using C# .NET used to simulate a bookstore.
 
-# dependencies
+# Dependencies
 * Entity Framework => version 6.1.3 \
 * Microsoft.AspNet.WebApi.Cors => version 5.2.7  \
 * Microsoft.Owin.Host.SystemWeb => version 4.2.0 \
