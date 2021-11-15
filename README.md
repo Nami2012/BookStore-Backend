@@ -3,11 +3,11 @@
 A collection of REST APIs built using C# .NET used to simulate a bookstore.
 
 # Dependencies
-* Entity Framework => version 6.1.3 \
-* Microsoft.AspNet.WebApi.Cors => version 5.2.7  \
-* Microsoft.Owin.Host.SystemWeb => version 4.2.0 \
-* Microsoft.Owin.Security.OAuth => Version 4.2.0 \
-* Microsoft.Owin.Cors => version 4.2.0 \
+* Entity Framework => version 6.1.3
+* Microsoft.AspNet.WebApi.Cors => version 5.2.7  
+* Microsoft.Owin.Host.SystemWeb => version 4.2.0 
+* Microsoft.Owin.Security.OAuth => Version 4.2.0 
+* Microsoft.Owin.Cors => version 4.2.0 
 * Newtonsoft.json => version 13.0.1
 
 # Running the application locally
